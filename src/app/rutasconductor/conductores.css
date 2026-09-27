@@ -1,0 +1,75 @@
+/* Agrega esto a tu CSS para que las tarjetas se vean como en la foto */
+.conductores-main {
+  background-color: #f0f2f8; /* El fondo gris claro de la imagen */
+  padding: 40px 20px;
+  min-height: 100vh;
+}
+
+.panel-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;/* Dos columnas iguales */
+    gap: 24px;
+    align-items: start;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.card-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  color: #0d0f1a;
+}
+
+/* Estilos para los botones de tipo (Barrio/Universidad) */
+.ruta-tipo-btns {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.ruta-tipo-btn {
+  flex: 1;
+  background: #f8f9ff;
+  border: 1px solid #e2e8f0;
+  padding: 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.ruta-tipo-btn.selected {
+  border-color: #3b3fe8;
+  background: #f0f1ff;
+}
+
+/* Estilo de la lista de viajes (derecha) */
+.trip-item {
+  border: 1px solid #eef0f7;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fcfcff;
+}
+
+.card {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.trips-card {
+    position: sticky;
+    top: 20px;
+}
