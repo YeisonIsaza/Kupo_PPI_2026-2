@@ -9,7 +9,7 @@ const iconSvg = (
 const cards = [
   { titulo: 'Conecta con tu sector', descripcion: 'Encuentra compañeros de viaje que viven cerca de ti y van a la misma universidad.', color: '#7c5cbf' },
   { titulo: 'Grupos de WhatsApp', descripcion: 'Únete a grupos organizados por ruta para coordinar horarios y compartir novedades.', color: '#7c5cbf' },
-  { titulo: 'Eventos y networking', descripcion: 'Participa en encuentros de la comunidad FastDrive y amplía tu red de contactos universitarios.', color: '#7c5cbf' },
+  { titulo: 'Eventos y networking', descripcion: 'Participa en encuentros de la comunidad Kupo y amplía tu red de contactos universitarios.', color: '#7c5cbf' },
   { titulo: 'Apoyo entre estudiantes', descripcion: 'Comparte tips, materiales y experiencias con otros estudiantes de tu ruta.', color: '#7c5cbf' },
 ];
 

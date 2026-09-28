@@ -10,7 +10,7 @@ const testimonios = [
         universidad: 'Universidad de Antioquia',
         avatar: 'C',
         tiempo: 'hace 2 días',
-        texto: 'Llevo 3 meses como conductor en FastDrive y ya he ayudado a más de 40 estudiantes a llegar a tiempo. Los aportes me ayudan a cubrir la gasolina y de paso hago amigos en cada ruta. 100% recomendado.',
+        texto: 'Llevo 3 meses como conductor en Kupo y ya he ayudado a más de 40 estudiantes a llegar a tiempo. Los aportes me ayudan a cubrir la gasolina y de paso hago amigos en cada ruta. 100% recomendado.',
         likes: 24,
         ruta: 'Aranjuez → UdeA',
         rating: 5
@@ -22,7 +22,7 @@ const testimonios = [
         universidad: 'Universidad Nacional',
         avatar: 'S',
         tiempo: 'hace 5 días',
-        texto: 'Antes gastaba casi $15.000 en transporte cada día. Con FastDrive bajo a $3.500 y llego más rápido. El conductor siempre puntual y el chat para coordinar es súper fácil.',
+        texto: 'Antes gastaba casi $15.000 en transporte cada día. Con Kupo bajo a $3.500 y llego más rápido. El conductor siempre puntual y el chat para coordinar es súper fácil.',
         likes: 31,
         ruta: 'Laureles → UNAL',
         rating: 5
@@ -70,7 +70,7 @@ const testimonios = [
         universidad: 'Universidad de Antioquia',
         avatar: 'V',
         tiempo: 'hace 6 días',
-        texto: 'Gracias a FastDrive conocí a tres compañeras que van a la misma carrera. Ahora estudiamos juntas en el carro. Esto no es solo transporte, es comunidad.',
+        texto: 'Gracias a Kupo conocí a tres compañeras que van a la misma carrera. Ahora estudiamos juntas en el carro. Esto no es solo transporte, es comunidad.',
         likes: 56,
         ruta: 'Itagüí → UdeA',
         rating: 5
@@ -111,7 +111,7 @@ export default function RedSocialPage() {
                         fontFamily: "'Bebas Neue', sans-serif",
                         fontSize: '1.6rem', color: '#fff', letterSpacing: '2px'
                     }}>
-                        FastDrive
+                        Kupo
                     </span>
                     <span style={{
                         fontSize: '0.72rem', fontWeight: 800,
@@ -501,7 +501,7 @@ export default function RedSocialPage() {
                     fontSize: '1.4rem', color: '#fff',
                     letterSpacing: '3px', marginBottom: '8px'
                 }}>
-                    FastDrive
+                    Kupo
                 </div>
                 <p style={{ color: '#6b7094', fontSize: '0.82rem', margin: 0 }}>
                     Conectando estudiantes de Medellín · 2025

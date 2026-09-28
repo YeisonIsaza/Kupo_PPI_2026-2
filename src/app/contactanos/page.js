@@ -69,7 +69,7 @@ export default function ContactanosPage() {
                 </div>
                 <div className="info-item">
                   <div className="info-icon"><i className="bi bi-envelope-fill"></i></div>
-                  <div><strong>Email</strong><span>contacto@fastdrive.co</span></div>
+                  <div><strong>Email</strong><span>contacto@kupo.co</span></div>
                 </div>
                 <div className="info-item">
                   <div className="info-icon"><i className="bi bi-telephone-fill"></i></div>
