@@ -7,8 +7,8 @@ import Footer from '../components/Footer';
 
 
 const textos = {
-  conductor: 'En Fast Drive conectamos a estudiantes de Medellín para que el transporte no sea un obstáculo en tu carrera. Ofrece tus rutas, genera ingresos y ayuda a otros estudiantes a llegar a tiempo.',
-  pasajero:  'En Fast Drive conectamos a estudiantes de Medellín para que el transporte no sea un obstáculo en tu carrera. Encuentra rutas seguras desde tu sector hasta las principales universidades.',
+  conductor: 'En Kupo conectamos a estudiantes de Medellín para que el transporte no sea un obstáculo en tu carrera. Ofrece tus rutas, genera ingresos y ayuda a otros estudiantes a llegar a tiempo.',
+  pasajero:  'En Kupo conectamos a estudiantes de Medellín para que el transporte no sea un obstáculo en tu carrera. Encuentra rutas seguras desde tu sector hasta las principales universidades.',
 };
 
 export default function HomePage() {
@@ -38,7 +38,7 @@ export default function HomePage() {
             <h1 className="hero-title">
               TU TRANSPORTE<br />
               <span>FÁCIL Y RÁPIDO,</span><br />
-              CON FASTDRIVE!
+              CON KUPO!
             </h1>
             <div className="hero-tabs">
               <button
@@ -59,7 +59,7 @@ export default function HomePage() {
           </div>
           <div className="hero-right">
             <div className="hero-car">
-              <Image src="/img/car.png" alt="Auto FastDrive" width={580} height={400} priority />
+              <Image src="/img/car.png" alt="Auto Kupo" width={580} height={400} priority />
             </div>
           </div>
         </div>
@@ -68,7 +68,7 @@ export default function HomePage() {
       {/* Why Section */}
       <section className="why-section">
         <div className="why-container">
-          <h2 className="why-title reveal">¿POR QUÉ <span>FASTDRIVE</span>?</h2>
+          <h2 className="why-title reveal">¿POR QUÉ <span>KUPO</span>?</h2>
           <div className="features-grid">
             {[
               { href: '/seguridad',   icon: 'bi-shield-fill',     title: 'Seguridad',   desc: 'Viaja con conductores verificados y rutas conocidas.' },
