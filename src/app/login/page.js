@@ -175,7 +175,7 @@ export default function LoginPage() {
           <div className="panel-content">
             <div className="role-badge"><i className="bi bi-steering2"></i> Conductor</div>
             <div className="panel-label"><i className="bi bi-car-front-fill"></i> ACCESO</div>
-            <h2 className="panel-title">CONDUCTOR<br />FASTDRIVE</h2>
+            <h2 className="panel-title">CONDUCTOR<br />KUPO</h2>
             <p className="panel-subtitle">Maneja tu agenda y gestiona tus rutas</p>
 
             <div className="form-group">
@@ -229,7 +229,7 @@ export default function LoginPage() {
           <div className="panel-content">
             <div className="role-badge"><i className="bi bi-mortarboard-fill"></i> Estudiante</div>
             <div className="panel-label"><i className="bi bi-backpack-fill"></i> ACCESO</div>
-            <h2 className="panel-title">ESTUDIANTE<br />FASTDRIVE</h2>
+            <h2 className="panel-title">ESTUDIANTE<br />KUPO</h2>
             <p className="panel-subtitle">Reserva tus viajes y llega a tiempo a clase</p>
 
             <div className="form-group">

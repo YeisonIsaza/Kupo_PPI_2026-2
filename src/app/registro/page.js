@@ -188,7 +188,7 @@ export default function RegistroPage() {
               <circle cx="16.5" cy="14.5" r="1.5" fill="currentColor"/>
             </svg>
           </div>
-          <div className="fd-logo">FastDrive</div>
+          <div className="fd-logo">Kupo</div>
           <div className="fd-tagline">Tu enlace universitario seguro</div>
 
           {/* Indicador de pasos */}
