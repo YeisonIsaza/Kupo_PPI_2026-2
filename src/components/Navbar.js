@@ -5,7 +5,7 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-inner">
-        <Link href="/" className="navbar-brand">FASTDRIVE</Link>
+        <Link href="/" className="navbar-brand">KUPO</Link>
         <ul className="nav-links">
           <li><Link href="/" className="nav-link active">Inicio</Link></li>
           <li><Link href="/redsocial" className="nav-link">Nuestra Red social</Link></li>

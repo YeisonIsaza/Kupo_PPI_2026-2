@@ -58,7 +58,7 @@ export default function UserNavbar({ nombre, idRol, onCerrarSesion }) {
                     fontSize: '1.6rem',               // ← antes 1.1rem
                     letterSpacing: '2px'
                 }}>
-                    FastDrive
+                    Kupo
                 </span>
             </div>
 

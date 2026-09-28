@@ -16,7 +16,7 @@ const nunito = Nunito({
 });
 
 export const metadata = {
-  title: 'FastDrive',
+  title: 'Kupo',
   description: 'Transporte estudiantil universitario en Medellín',
 };
 

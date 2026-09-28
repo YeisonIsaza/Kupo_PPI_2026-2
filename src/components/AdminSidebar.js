@@ -26,7 +26,7 @@ export default function AdminSidebar() {
             position: 'fixed', height: '100vh', zIndex: 100
         }}>
             <div style={{ marginBottom: '30px', textAlign: 'center', color: 'white' }}>
-                <h2 style={{ fontSize: '1.2rem', margin: 0 }}>FastDrive</h2>
+                <h2 style={{ fontSize: '1.2rem', margin: 0 }}>Kupo</h2>
                 <p style={{ fontSize: '0.75rem', margin: '4px 0 0', opacity: 0.7 }}>Panel Administrador</p>
             </div>
 
