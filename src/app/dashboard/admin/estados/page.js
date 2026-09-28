@@ -101,7 +101,7 @@ export default function EstadosAdminPage() {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
               <div>
                 <h2 style={{ color: "#2c3e50", margin: 0 }}>Gestión de Estados</h2>
-                <p style={{ color: "#7f8c8d", margin: "5px 0 0 0" }}>Controla los estados lógicos de la plataforma FastDrive</p>
+                <p style={{ color: "#7f8c8d", margin: "5px 0 0 0" }}>Controla los estados lógicos de la plataforma Kupo</p>
               </div>
             {puedeCrear && (
               <button onClick={() => abrirModal()} style={{ backgroundColor: "#2ecc71", color: "white", border: "none", padding: "10px 15px", borderRadius: "5px", cursor: "pointer", fontWeight: "bold" }}>

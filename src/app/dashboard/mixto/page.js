@@ -64,7 +64,7 @@ export default function DashboardMixto() {
             <div style={{ textAlign: 'center', marginBottom: '48px', position: 'relative', zIndex: 1 }}>
                 <img
                     src="/img/FastDrive.png"
-                    alt="FastDrive"
+                    alt="Kupo"
                     style={{ height: '52px', marginBottom: '16px', display: 'block', margin: '0 auto 16px' }}
                 />
                 <div style={{
@@ -72,7 +72,7 @@ export default function DashboardMixto() {
                     fontSize: '1.4rem', color: '#fff',
                     letterSpacing: '4px', marginBottom: '10px'
                 }}>
-                    FASTDRIVE
+                    KUPO
                 </div>
                 <div style={{
                     display: 'inline-flex', alignItems: 'center', gap: '6px',
@@ -94,7 +94,7 @@ export default function DashboardMixto() {
                     margin: '0 0 10px', lineHeight: 1.05
                 }}>
                     ¿CÓMO QUIERES USAR<br />
-                    <span style={{ color: '#818cf8' }}>FASTDRIVE HOY?</span>
+                    <span style={{ color: '#818cf8' }}>KUPO HOY?</span>
                 </h2>
                 <p style={{
                     color: 'rgba(255,255,255,0.5)',
