@@ -20,7 +20,7 @@ export const metadata = {
   description: 'Transporte estudiantil universitario en Medellín',
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: any) {
   return (
     <html lang="es">
       <body className={`${bebasNeue.variable} ${nunito.variable}`}>
