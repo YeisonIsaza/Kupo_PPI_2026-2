@@ -4,12 +4,12 @@ import AdminSidebar from '@/presentation/components/AdminSidebar';
 import useAdminAuth from '@/core/hooks/useAdminAuth';
 import SinPermiso from '@/presentation/components/SinPermiso';
 
-export default function SolicitudesAdminPage() {
+export default function SolicitudesAdminPage(): React.JSX.Element | null {
     const { nombre, listo, acceso, puedeCrear, puedeActualizar, puedeEliminar } = useAdminAuth();
-    const [solicitudes, setSolicitudes] = useState([]);
-    const [cargando, setCargando] = useState(true);
-    const [mensaje, setMensaje] = useState('');
-    const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
+    const [solicitudes, setSolicitudes] = useState<any[]>([]);
+    const [cargando, setCargando] = useState<boolean>(true);
+    const [mensaje, setMensaje] = useState<string>('');
+    const [usuarioSeleccionado, setUsuarioSeleccionado] = useState<any>(null);
 
     useEffect(() => { cargarSolicitudes(); }, []);
 
@@ -28,7 +28,7 @@ export default function SolicitudesAdminPage() {
         }
     }
 
-    async function procesarSolicitud(id, accion) {
+    async function procesarSolicitud(id: any, accion: any) {
         try {
             const res = await fetch(`/api/admin/solicitudes/${id}`, {
                 method: 'PATCH',
