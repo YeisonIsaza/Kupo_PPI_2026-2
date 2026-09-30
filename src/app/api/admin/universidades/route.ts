@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { Universidad } from "@/entities/Universidad";
+import { getDataSource } from '@/core/database/db';
+import { Universidad } from '@/core/models/Universidad';
 
 export async function GET() {
     try {
