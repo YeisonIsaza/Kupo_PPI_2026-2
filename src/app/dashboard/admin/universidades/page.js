@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
-import AdminSidebar from '@/components/AdminSidebar';
-import useAdminAuth from '@/lib/useAdminAuth';
-import SinPermiso from '@/components/SinPermiso';
+import AdminSidebar from '@/presentation/components/AdminSidebar';
+import useAdminAuth from '@/core/hooks/useAdminAuth';
+import SinPermiso from '@/presentation/components/SinPermiso';
 
 export default function UniversidadesAdminPage() {
     const { nombre, listo, acceso, puedeCrear, puedeActualizar, puedeEliminar } = useAdminAuth();
