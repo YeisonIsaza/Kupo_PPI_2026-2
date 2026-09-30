@@ -1,11 +1,11 @@
 'use client';
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
-import UserNavbar from '@/components/UserNavbar';
-import useAuth from '@/lib/useAuth';
-import usePermisos from '@/lib/usePermisos';       // ← NUEVO
-import SinPermiso from '@/components/SinPermiso';  // ← NUEVO
-import Estrellas from '@/components/Estrellas';
+import UserNavbar from '@/presentation/components/UserNavbar';
+import useAuth from '@/core/hooks/useAuth';
+import usePermisos from '@/core/hooks/usePermisos';       // ← NUEVO
+import SinPermiso from '@/presentation/components/SinPermiso';  // ← NUEVO
+import Estrellas from '@/presentation/components/Estrellas';
 
 function CalificacionesPasajeroContent() {
     const { nombre, idRol, listo, cerrarSesion } = useAuth([3, 4]);
