@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { RutaConductor } from "@/entities/RutaConductor";
-import { Viaje } from "@/entities/Viaje";
-import { Vehiculo } from "@/entities/Vehiculo";
-import { Estado } from "@/entities/Estado";
-import { Parada } from "@/entities/Parada";
-import { Reserva } from "@/entities/Reserva";
+import { getDataSource } from '@/core/database/db';
+import { RutaConductor } from '@/core/models/RutaConductor';
+import { Viaje } from '@/core/models/Viaje';
+import { Vehiculo } from '@/core/models/Vehiculo';
+import { Estado } from '@/core/models/Estado';
+import { Parada } from '@/core/models/Parada';
+import { Reserva } from '@/core/models/Reserva';
 
 export async function PATCH(
     request: Request,
