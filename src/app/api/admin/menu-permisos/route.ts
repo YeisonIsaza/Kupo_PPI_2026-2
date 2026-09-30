@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { MenuPermiso } from "@/entities/Menu_permiso";
-import { Menu } from "@/entities/Menu";
-import { Perfil } from "@/entities/Perfil";
-import { Usuario } from "@/entities/Usuario";
+import { getDataSource } from '@/core/database/db';
+import { MenuPermiso } from '@/core/models/Menu_permiso';
+import { Menu } from '@/core/models/Menu';
+import { Perfil } from '@/core/models/Perfil';
+import { Usuario } from '@/core/models/Usuario';
 
 export async function GET(request: Request) {
     try {
