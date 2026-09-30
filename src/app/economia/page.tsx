@@ -13,7 +13,7 @@ const cards = [
   { titulo: 'Ahorro mensual real', descripcion: 'Con planes semanales y mensuales, puedes ahorrar significativamente en tu presupuesto de transporte.', color: '#f0a500' },
 ];
 
-export default function EconomiaPage() {
+export default function EconomiaPage(): React.JSX.Element | null {
   return (
     <PaginaAbajo
       titulo="Economía"
