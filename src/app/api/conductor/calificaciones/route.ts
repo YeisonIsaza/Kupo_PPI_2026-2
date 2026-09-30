@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { Reserva } from "@/entities/Reserva";
-import { CalificacionEstudiante } from "@/entities/CalificacionEstudiante";
-import { Viaje } from "@/entities/Viaje";
+import { getDataSource } from '@/core/database/db';
+import { Reserva } from '@/core/models/Reserva';
+import { CalificacionEstudiante } from '@/core/models/CalificacionEstudiante';
+import { Viaje } from '@/core/models/Viaje';
 
 export async function GET(request: Request) {
     try {
