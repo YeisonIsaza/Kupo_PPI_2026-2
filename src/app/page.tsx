@@ -6,12 +6,12 @@ import Navbar from '../presentation/components/Navbar';
 import Footer from '../presentation/components/Footer';
 
 
-const textos = {
+const textos: Record<string, string> = {
   conductor: 'En Kupo conectamos a estudiantes de Medellín para que el transporte no sea un obstáculo en tu carrera. Ofrece tus rutas, genera ingresos y ayuda a otros estudiantes a llegar a tiempo.',
   pasajero:  'En Kupo conectamos a estudiantes de Medellín para que el transporte no sea un obstáculo en tu carrera. Encuentra rutas seguras desde tu sector hasta las principales universidades.',
 };
 
-export default function HomePage() {
+export default function HomePage(): React.JSX.Element | null {
   const [tab, setTab] = useState('conductor');
 
   useEffect(() => {
