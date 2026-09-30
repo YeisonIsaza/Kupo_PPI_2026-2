@@ -1,4 +1,4 @@
-export default function Footer() {
+export default function Footer(): React.JSX.Element | null {
   return (
     <footer>
       <div className="brand">KUPO</div>
