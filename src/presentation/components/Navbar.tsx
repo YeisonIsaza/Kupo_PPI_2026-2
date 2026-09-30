@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 
-export default function Navbar() {
+export default function Navbar(): React.JSX.Element | null {
   return (
     <nav className="navbar">
       <div className="navbar-inner">
