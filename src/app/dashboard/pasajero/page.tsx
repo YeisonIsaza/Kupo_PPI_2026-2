@@ -5,28 +5,32 @@ import UserNavbar from '@/presentation/components/UserNavbar';
 import useAuth from '@/core/hooks/useAuth';
 import Estrellas from '@/presentation/components/Estrellas';
 
-export default function DashboardPasajero() {
+export default function DashboardPasajero(): React.JSX.Element | null {
     const { nombre, idRol, listo, cerrarSesion } = useAuth([3, 4]);
     const router = useRouter();
-    const fotoRef = useRef(null);
+    const fotoRef = useRef<HTMLInputElement | null>(null);
 
-    const [perfil, setPerfil] = useState(null);
-    const [calificacion, setCalificacion] = useState(null);
-    const [perfilAbierto, setPerfilAbierto] = useState(false);
-    const [editando, setEditando] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [msg, setMsg] = useState('');
-    const [fotoPreview, setFotoPreview] = useState(null);
-    const [fotoPerfil, setFotoPerfil] = useState(null);
-    const [ultimoViajeFinalizado, setUltimoViajeFinalizado] = useState(null);
-    const [universidades, setUniversidades] = useState([]);
-    const [todasUniversidades, setTodasUniversidades] = useState([]);
-    const [modalUni, setModalUni] = useState(false);
-    const [nitUniNueva, setNitUniNueva] = useState('');
-    const [correoInstitucional, setCorreoInstitucional] = useState('');
-    const [certificadoFile, setCertificadoFile] = useState(null);
-    const certRef = useRef(null);
-    const [form, setForm] = useState({
+    const [perfil, setPerfil] = useState<any>(null);
+    const [calificacion, setCalificacion] = useState<any>(null);
+    const [perfilAbierto, setPerfilAbierto] = useState<boolean>(false);
+    const [editando, setEditando] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [msg, setMsg] = useState<string>('');
+    const [fotoPreview, setFotoPreview] = useState<any>(null);
+    const [fotoPerfil, setFotoPerfil] = useState<any>(null);
+    const [ultimoViajeFinalizado, setUltimoViajeFinalizado] = useState<any>(null);
+    const [universidades, setUniversidades] = useState<any[]>([]);
+    const [todasUniversidades, setTodasUniversidades] = useState<any[]>([]);
+    const [modalUni, setModalUni] = useState<boolean>(false);
+    const [nitUniNueva, setNitUniNueva] = useState<string>('');
+    const [correoInstitucional, setCorreoInstitucional] = useState<string>('');
+    const [certificadoFile, setCertificadoFile] = useState<any>(null);
+    const certRef = useRef<any>(null);
+    const [form, setForm] = useState<{
+        nombre_user: string; primer_apellido: string; segundo_apellido: string;
+        celular: string; nuevaContrasena: string;
+        [key: string]: string;
+    }>({
         nombre_user: '', primer_apellido: '', segundo_apellido: '',
         celular: '', nuevaContrasena: ''
     });
@@ -84,7 +88,7 @@ export default function DashboardPasajero() {
         } catch { console.error('Error'); }
     }
 
-    async function agregarUniversidad(e) {
+    async function agregarUniversidad(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (!nitUniNueva || !correoInstitucional) return;
         try {
@@ -120,14 +124,14 @@ export default function DashboardPasajero() {
         } catch { console.error('Error cargando viaje finalizado'); }
     }
 
-    function handleFotoChange(e) {
-        const file = e.target.files[0];
+    function handleFotoChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const file = e.target.files?.[0];
         if (!file) return;
         setFotoPerfil(file);
         setFotoPreview(URL.createObjectURL(file));
     }
 
-    function fileToBase64(file) {
+    function fileToBase64(file: any) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = () => resolve(reader.result);
@@ -136,7 +140,7 @@ export default function DashboardPasajero() {
         });
     }
 
-    async function guardarCambios(e) {
+    async function guardarCambios(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         setLoading(true);
         setMsg('');
@@ -162,7 +166,7 @@ export default function DashboardPasajero() {
         finally { setLoading(false); }
     }
 
-    function formatFecha(fecha) {
+    function formatFecha(fecha: any) {
         if (!fecha) return '—';
         return new Date(fecha).toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' });
     }
@@ -734,7 +738,7 @@ export default function DashboardPasajero() {
                                     Certificado de matrícula (PDF o imagen)
                                 </label>
                                 <input ref={certRef} type="file" accept=".pdf,image/*"
-                                    onChange={e => setCertificadoFile(e.target.files[0])}
+                                    onChange={e => setCertificadoFile(e.target.files?.[0])}
                                     style={{ width: '100%', fontSize: '0.85rem' }} />
                                 {certificadoFile && (
                                     <p style={{ color: '#16a34a', fontSize: '0.78rem', margin: '6px 0 0', fontWeight: 600 }}>
