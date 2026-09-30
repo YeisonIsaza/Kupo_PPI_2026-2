@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { Vehiculo } from "@/entities/Vehiculo";
+import { getDataSource } from '@/core/database/db';
+import { Vehiculo } from '@/core/models/Vehiculo';
 
 export async function GET(request: Request) {
     try {
