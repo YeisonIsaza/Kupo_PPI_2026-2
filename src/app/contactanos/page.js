@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
-import UserNavbar from '@/components/UserNavbar';
-import useAuth from '@/lib/useAuth';
+import UserNavbar from '@/presentation/components/UserNavbar';
+import useAuth from '@/core/hooks/useAuth';
 
 const LABELS = ['Muy malo', 'Malo', 'Regular', 'Bueno', '¡Excelente!'];
 const MAX_CHARS = 400;
