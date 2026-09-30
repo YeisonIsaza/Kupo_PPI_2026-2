@@ -2,12 +2,33 @@
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
-export default function useAdminAuth() {
+interface Permiso {
+  leer: boolean;
+  crear: boolean;
+  actualizar: boolean;
+  eliminar: boolean;
+}
+
+interface PermisosMap {
+  [ruta: string]: Permiso;
+}
+
+interface UseAdminAuthReturn {
+  nombre: string;
+  listo: boolean;
+  acceso: boolean;
+  cerrarSesion: () => void;
+  puedeCrear: boolean;
+  puedeActualizar: boolean;
+  puedeEliminar: boolean;
+}
+
+export default function useAdminAuth(): UseAdminAuthReturn {
     const router   = useRouter();
     const pathname = usePathname();
-    const [nombre,   setNombre]   = useState('');
-    const [listo,    setListo]    = useState(false);
-    const [permisos, setPermisos] = useState(null);
+    const [nombre,   setNombre]   = useState<string>('');
+    const [listo,    setListo]    = useState<boolean>(false);
+    const [permisos, setPermisos] = useState<PermisosMap | null>(null);
 
     useEffect(() => {
         const userId   = localStorage.getItem('userId');
@@ -21,24 +42,23 @@ export default function useAdminAuth() {
 
         fetch(`/api/admin/menu-permisos?userId=${userId}`)
             .then(r => r.json())
-            .then(data => {
+            .then((data: PermisosMap) => {
                 setPermisos(data);
-                setNombre(userName || 'Admin');
+                setNombre(userName ?? 'Admin');
                 setListo(true);
             })
             .catch(() => {
                 setPermisos({});
-                setNombre(userName || 'Admin');
+                setNombre(userName ?? 'Admin');
                 setListo(true);
             });
     }, [pathname]);
 
-    function cerrarSesion() {
+    function cerrarSesion(): void {
         localStorage.clear();
         router.push('/login');
     }
 
-    // Mientras carga permisos
     if (permisos === null) {
         return {
             nombre, listo: false, acceso: true, cerrarSesion,
@@ -46,10 +66,8 @@ export default function useAdminAuth() {
         };
     }
 
-    // Permisos reales de la página actual
     const permisoPagina = permisos[pathname];
 
-    // Si no hay permiso configurado → permitir todo
     if (!permisoPagina) {
         return {
             nombre, listo, acceso: true, cerrarSesion,
@@ -60,7 +78,7 @@ export default function useAdminAuth() {
     return {
         nombre,
         listo,
-        acceso:          permisoPagina.leer,       // ← leer controla el acceso completo
+        acceso:          permisoPagina.leer,
         cerrarSesion,
         puedeCrear:      permisoPagina.crear,
         puedeActualizar: permisoPagina.actualizar,
