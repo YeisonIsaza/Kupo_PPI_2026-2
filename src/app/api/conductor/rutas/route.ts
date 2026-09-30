@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { RutaConductor } from "@/entities/RutaConductor";
-import { Estado } from "@/entities/Estado";
-import { Conductor } from "@/entities/Conductor";
-import { Universidad } from "@/entities/Universidad";
+import { getDataSource } from '@/core/database/db';
+import { RutaConductor } from '@/core/models/RutaConductor';
+import { Estado } from '@/core/models/Estado';
+import { Conductor } from '@/core/models/Conductor';
+import { Universidad } from '@/core/models/Universidad';
 
 export async function GET(request: Request) {
     try {
