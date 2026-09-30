@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { Menu } from "@/entities/Menu";
+import { getDataSource } from '@/core/database/db';
+import { Menu } from '@/core/models/Menu';
 
 export async function GET() {
     try {
