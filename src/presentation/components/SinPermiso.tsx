@@ -1,6 +1,6 @@
 import { useRouter } from 'next/navigation';
 
-export default function SinPermiso() {
+export default function SinPermiso(): React.JSX.Element | null {
     const router = useRouter();
     return (
         <div style={{
