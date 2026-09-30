@@ -1,10 +1,10 @@
 'use client';
 import { useState, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import UserNavbar from '@/components/UserNavbar';
-import useAuth from '@/lib/useAuth';
-import usePermisos from '@/lib/usePermisos';        // ← NUEVO
-import SinPermiso from '@/components/SinPermiso';   // ← NUEVO
+import UserNavbar from '@/presentation/components/UserNavbar';
+import useAuth from '@/core/hooks/useAuth';
+import usePermisos from '@/core/hooks/usePermisos';        // ← NUEVO
+import SinPermiso from '@/presentation/components/SinPermiso';   // ← NUEVO
 
 function ViajeContent() {
     const { nombre, idRol, listo, cerrarSesion } = useAuth([2, 4]);
