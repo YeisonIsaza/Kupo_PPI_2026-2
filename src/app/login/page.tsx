@@ -4,24 +4,24 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation'; // Importación para redirección
 import Navbar from '../../presentation/components/Navbar';
 
-export default function LoginPage() {
+export default function LoginPage(): React.JSX.Element | null {
   // --- REFERENCIAS PARA ANIMACIONES Y DOM ---
-  const wrapperRef    = useRef(null);
-  const conductorRef  = useRef(null);
-  const estudianteRef = useRef(null);
-  const dividerRef    = useRef(null);
-  const badgeRef      = useRef(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const conductorRef = useRef<any>(null);
+  const estudianteRef = useRef<any>(null);
+  const dividerRef = useRef<HTMLDivElement | null>(null);
+  const badgeRef = useRef<any>(null);
 
   const targetPctRef  = useRef(50);
   const currentPctRef = useRef(50);
-  const rafRef        = useRef(null);
+  const rafRef = useRef<any>(null);
   const isLockedRef   = useRef(false);
 
   // --- ESTADOS DE LA INTERFAZ Y DATOS ---
   const router = useRouter();
   const [badgeIcon, setBadgeIcon] = useState('bi-arrow-left-right');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   // --- LÓGICA DE AUTENTICACIÓN (NUEVA) ---
   async function handleLogin() {
@@ -68,9 +68,9 @@ export default function LoginPage() {
   }
 
   // --- LÓGICA VISUAL Y ANIMACIONES (TU CÓDIGO ORIGINAL) ---
-  function lerp(a, b, t) { return a + (b - a) * t; }
+  function lerp(a: any, b: any, t: any) { return a + (b - a) * t; }
 
-  function applyDivider(pct) {
+  function applyDivider(pct: any) {
     pct = Math.max(20, Math.min(80, pct));
     const right = 100 - pct;
     if (conductorRef.current)  conductorRef.current.style.width  = pct + '%';
@@ -90,30 +90,31 @@ export default function LoginPage() {
     rafRef.current = requestAnimationFrame(animate);
   }
 
-  function setActive(role) {
+  function setActive(role: any) {
     isLockedRef.current = true;
     const w = wrapperRef.current;
+    if (!w) return;
     w.classList.remove('show-conductor', 'show-estudiante');
     if (role === 'conductor') {
       w.classList.add('show-conductor');
       targetPctRef.current = 65;
-      conductorRef.current.querySelector('.panel-content').style.opacity  = '1';
-      estudianteRef.current.querySelector('.panel-content').style.opacity = '0.15';
+      if (conductorRef.current) conductorRef.current.querySelector('.panel-content').style.opacity  = '1';
+      if (estudianteRef.current) estudianteRef.current.querySelector('.panel-content').style.opacity = '0.15';
     } else {
       w.classList.add('show-estudiante');
       targetPctRef.current = 35;
-      conductorRef.current.querySelector('.panel-content').style.opacity  = '0.15';
-      estudianteRef.current.querySelector('.panel-content').style.opacity = '1';
+      if (conductorRef.current) conductorRef.current.querySelector('.panel-content').style.opacity  = '0.15';
+      if (estudianteRef.current) estudianteRef.current.querySelector('.panel-content').style.opacity = '1';
     }
   }
 
   function unlock() {
     isLockedRef.current = false;
     const w = wrapperRef.current;
-    w.classList.remove('show-conductor', 'show-estudiante');
+    if (w) w.classList.remove('show-conductor', 'show-estudiante');
     targetPctRef.current = 50;
-    conductorRef.current.querySelector('.panel-content').style.opacity  = '1';
-    estudianteRef.current.querySelector('.panel-content').style.opacity = '1';
+    if (conductorRef.current) conductorRef.current.querySelector('.panel-content').style.opacity  = '1';
+    if (estudianteRef.current) estudianteRef.current.querySelector('.panel-content').style.opacity = '1';
   }
 
   useEffect(() => {
@@ -122,12 +123,13 @@ export default function LoginPage() {
     const conductor  = conductorRef.current;
     const estudiante = estudianteRef.current;
     const wrapper    = wrapperRef.current;
+    if (!conductor || !estudiante || !wrapper) return;
 
     [conductor, estudiante].forEach(panel => {
       const glow = document.createElement('div');
       glow.className = 'panel-glow';
       panel.appendChild(glow);
-      panel.addEventListener('mousemove', e => {
+      panel.addEventListener('mousemove', (e: MouseEvent) => {
         const rect = panel.getBoundingClientRect();
         glow.style.left    = (e.clientX - rect.left) + 'px';
         glow.style.top     = (e.clientY - rect.top)  + 'px';
@@ -142,8 +144,8 @@ export default function LoginPage() {
     estudiante.addEventListener('click', onClickEstudiante);
 
     let touchStartX = 0;
-    wrapper.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-    wrapper.addEventListener('touchend', e => {
+    wrapper.addEventListener('touchstart', (e: TouchEvent) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    wrapper.addEventListener('touchend', (e: TouchEvent) => {
       const dx = e.changedTouches[0].clientX - touchStartX;
       if (Math.abs(dx) > 50) setActive(dx < 0 ? 'estudiante' : 'conductor');
     }, { passive: true });
@@ -185,7 +187,7 @@ export default function LoginPage() {
                 className="form-control-custom"
                 placeholder="Correo electrónico"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setEmail(e.target.value)}
               />
             </div>
             <div className="form-group">
@@ -195,7 +197,7 @@ export default function LoginPage() {
                 className="form-control-custom"
                 placeholder="Contraseña"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setPassword(e.target.value)}
               />
             </div>
 
@@ -239,7 +241,7 @@ export default function LoginPage() {
                 className="form-control-custom"
                 placeholder="Correo universitario"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setEmail(e.target.value)}
               />
             </div>
             <div className="form-group">
@@ -249,7 +251,7 @@ export default function LoginPage() {
                 className="form-control-custom"
                 placeholder="Contraseña"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setPassword(e.target.value)}
               />
             </div>
 
