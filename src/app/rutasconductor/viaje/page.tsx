@@ -12,29 +12,29 @@ function ViajeContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const viajeId = searchParams.get('viajeId');
-    const mapRef = useRef(null);
-    const mapInstanceRef = useRef(null);
+    const mapRef = useRef<HTMLDivElement | null>(null);
+    const mapInstanceRef = useRef<HTMLDivElement | null>(null);
 
-    const [viaje, setViaje] = useState(null);
-    const [cargandoViaje, setCargandoViaje] = useState(true); // ← renombrado para no chocar con cargandoPermisos
-    const [reservas, setReservas] = useState([]);
-    const [toast, setToast] = useState('');
-    const [toastVisible, setToastVisible] = useState(false);
-    const toastTimer = useRef(null);
+    const [viaje, setViaje] = useState<any>(null);
+    const [cargandoViaje, setCargandoViaje] = useState<boolean>(true); // ← renombrado para no chocar con cargandoPermisos
+    const [reservas, setReservas] = useState<any[]>([]);
+    const [toast, setToast] = useState<string>('');
+    const [toastVisible, setToastVisible] = useState<boolean>(false);
+    const toastTimer = useRef<any>(null);
 
     useEffect(() => {
         if (listo) cargarViaje();
     }, [listo]);
 
     useEffect(() => {
-        if (viaje && window.google) inicializarMapa();
+        if (viaje && (window as any).google) inicializarMapa();
     }, [viaje]);
 
     useEffect(() => {
         if (viaje) cargarReservas();
     }, [viaje]);
 
-    function showToast(msg) {
+    function showToast(msg: any) {
         setToast(msg);
         setToastVisible(true);
         clearTimeout(toastTimer.current);
@@ -50,7 +50,7 @@ function ViajeContent() {
         } catch { console.error('Error cargando reservas'); }
     }
 
-    async function gestionarReserva(reservaId, accion) {
+    async function gestionarReserva(reservaId: any, accion: any) {
         try {
             const res = await fetch(`/api/conductor/viaje/${viaje.id_vj}/reservas`, {
                 method: 'PATCH',
@@ -80,39 +80,39 @@ function ViajeContent() {
         if (!ruta) return;
         const origen  = { lat: Number(ruta.punto_origen_latitud_rc),  lng: Number(ruta.punto_origen_longitud_rc) };
         const destino = { lat: Number(ruta.punto_destino_latitud_rc), lng: Number(ruta.punto_destino_longitud_rc) };
-        const mapa = new window.google.maps.Map(mapRef.current, { center: origen, zoom: 13 });
+        const mapa = new (window as any).google.maps.Map(mapRef.current, { center: origen, zoom: 13 });
         mapInstanceRef.current = mapa;
-        new window.google.maps.Marker({
+        new (window as any).google.maps.Marker({
             position: origen, map: mapa,
             label: { text: 'A', color: 'white' },
-            icon: { path: window.google.maps.SymbolPath.CIRCLE, scale: 12, fillColor: '#4f46e5', fillOpacity: 1, strokeWeight: 2, strokeColor: 'white' }
+            icon: { path: (window as any).google.maps.SymbolPath.CIRCLE, scale: 12, fillColor: '#4f46e5', fillOpacity: 1, strokeWeight: 2, strokeColor: 'white' }
         });
-        new window.google.maps.Marker({
+        new (window as any).google.maps.Marker({
             position: destino, map: mapa,
             label: { text: 'B', color: 'white' },
-            icon: { path: window.google.maps.SymbolPath.CIRCLE, scale: 12, fillColor: '#22c55e', fillOpacity: 1, strokeWeight: 2, strokeColor: 'white' }
+            icon: { path: (window as any).google.maps.SymbolPath.CIRCLE, scale: 12, fillColor: '#22c55e', fillOpacity: 1, strokeWeight: 2, strokeColor: 'white' }
         });
-        ruta.paradas?.forEach(p => {
-            new window.google.maps.Marker({
+        ruta.paradas?.forEach((p: any) => {
+            new (window as any).google.maps.Marker({
                 position: origen, map: mapa,
                 label: { text: String(p.orden_pds), color: 'white' },
-                icon: { path: window.google.maps.SymbolPath.CIRCLE, scale: 10, fillColor: '#f59e0b', fillOpacity: 1, strokeWeight: 2, strokeColor: 'white' }
+                icon: { path: (window as any).google.maps.SymbolPath.CIRCLE, scale: 10, fillColor: '#f59e0b', fillOpacity: 1, strokeWeight: 2, strokeColor: 'white' }
             });
         });
-        const directionsService  = new window.google.maps.DirectionsService();
-        const directionsRenderer = new window.google.maps.DirectionsRenderer({
+        const directionsService  = new (window as any).google.maps.DirectionsService();
+        const directionsRenderer = new (window as any).google.maps.DirectionsRenderer({
             map: mapa, suppressMarkers: true,
             polylineOptions: { strokeColor: '#4f46e5', strokeWeight: 4, strokeOpacity: 0.8 }
         });
         directionsService.route({
             origin: origen, destination: destino,
-            travelMode: window.google.maps.TravelMode.DRIVING,
-        }, (result, status) => {
+            travelMode: (window as any).google.maps.TravelMode.DRIVING,
+        }, (result: any, status: any) => {
             if (status === 'OK') directionsRenderer.setDirections(result);
         });
     }
 
-    async function cambiarEstado(nuevoEstado) {
+    async function cambiarEstado(nuevoEstado: any) {
         try {
             const idViaje = viaje?.id_vj || viajeId;
             const res = await fetch(`/api/conductor/viaje/${idViaje}`, {
@@ -124,7 +124,7 @@ function ViajeContent() {
         } catch { console.error('Error cambiando estado'); }
     }
 
-    function formatHora(h) {
+    function formatHora(h: any) {
         if (!h) return '';
         try {
             const d = new Date(h);
@@ -168,13 +168,14 @@ function ViajeContent() {
     );
 
     const ruta = viaje.rutaConductor;
-    const estadoColor = {
+    const estadoColorMap: Record<string, { bg: string; color: string }> = {
         'Disponible':  { bg: '#dcfce7', color: '#16a34a' },
         'Lleno':       { bg: '#fef3c7', color: '#92400e' },
         'En Progreso': { bg: '#dbeafe', color: '#1d4ed8' },
         'Finalizado':  { bg: '#f1f5f9', color: '#64748b' },
         'Cancelado':   { bg: '#fee2e2', color: '#dc2626' },
-    }[viaje.estado?.nombre_estado] || { bg: '#f1f5f9', color: '#64748b' };
+    };
+    const estadoColor = estadoColorMap[String(viaje.estado?.nombre_estado)] || { bg: '#f1f5f9', color: '#64748b' };
 
     return (
         <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
@@ -209,7 +210,7 @@ function ViajeContent() {
                         {ruta?.paradas?.length === 0 ? (
                             <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Sin paradas definidas</p>
                         ) : (
-                            ruta?.paradas?.sort((a, b) => a.orden_pds - b.orden_pds).map(p => (
+                            ruta?.paradas?.sort((a: any, b: any) => a.orden_pds - b.orden_pds).map((p: any) => (
                                 <div key={p.id_pds} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
                                     <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: '#f59e0b', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '0.8rem', flexShrink: 0 }}>
                                         {p.orden_pds}
@@ -319,7 +320,7 @@ function ViajeContent() {
     );
 }
 
-export default function ViajePage() {
+export default function ViajePage(): React.JSX.Element | null {
     return (
         <Suspense fallback={<div>Cargando...</div>}>
             <ViajeContent />
