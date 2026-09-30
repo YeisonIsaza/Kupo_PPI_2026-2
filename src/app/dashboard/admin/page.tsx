@@ -2,7 +2,7 @@
 import AdminSidebar from '@/presentation/components/AdminSidebar';
 import useAdminAuth from '@/core/hooks/useAdminAuth';
 
-export default function DashboardAdmin() {
+export default function DashboardAdmin(): React.JSX.Element | null {
     const { nombre, listo } = useAdminAuth();
     if (!listo) return null;
 
