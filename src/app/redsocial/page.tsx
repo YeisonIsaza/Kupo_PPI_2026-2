@@ -84,15 +84,15 @@ const stats = [
     { numero: '8',     label: 'Universidades' },
 ];
 
-export default function RedSocialPage() {
+export default function RedSocialPage(): React.JSX.Element | null {
     const [filtro, setFiltro] = useState('todos');
-    const [likeDados, setLikeDados] = useState({});
+    const [likeDados, setLikeDados] = useState<Record<string | number, boolean>>({});
 
     const testimoniosFiltrados = filtro === 'todos'
         ? testimonios
         : testimonios.filter(t => t.tipo === filtro);
 
-    function toggleLike(id) {
+    function toggleLike(id: number | string) {
         setLikeDados(prev => ({ ...prev, [id]: !prev[id] }));
     }
 
