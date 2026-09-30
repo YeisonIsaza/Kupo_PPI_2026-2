@@ -4,18 +4,18 @@ import AdminSidebar from '@/presentation/components/AdminSidebar';
 import useAdminAuth from '@/core/hooks/useAdminAuth';
 import SinPermiso from '@/presentation/components/SinPermiso';
 
-export default function MenusAdminPage() {
+export default function MenusAdminPage(): React.JSX.Element | null {
   const { nombre, listo, acceso, puedeCrear, puedeActualizar, puedeEliminar } = useAdminAuth();
-  const [menus, setMenus] = useState([]);
-  const [cargando, setCargando] = useState(true);
-  const [modalAbierto, setModalAbierto] = useState(false);
-  const [editando, setEditando] = useState(false);
+  const [menus, setMenus] = useState<any[]>([]);
+  const [cargando, setCargando] = useState<boolean>(true);
+  const [modalAbierto, setModalAbierto] = useState<boolean>(false);
+  const [editando, setEditando] = useState<boolean>(false);
 
   // Form States
-  const [codigoMenu, setCodigoMenu] = useState("");
-  const [nombreMenu, setNombreMenu] = useState("");
-  const [urlMenu, setUrlMenu] = useState("");
-  const [codigoPadre, setCodigoPadre] = useState("");
+  const [codigoMenu, setCodigoMenu] = useState<string>("");
+  const [nombreMenu, setNombreMenu] = useState<string>("");
+  const [urlMenu, setUrlMenu] = useState<string>("");
+  const [codigoPadre, setCodigoPadre] = useState<string>("");
 
   const cargarMenus = async () => {
     try {
@@ -32,7 +32,7 @@ export default function MenusAdminPage() {
 
   useEffect(() => { cargarMenus(); }, []);
 
-  const abrirModal = (m = null) => {
+  const abrirModal = (m: Record<string, any> | null = null) => {
     if (m) {
       setEditando(true);
       setCodigoMenu(m.codigo_menu);
@@ -49,7 +49,7 @@ export default function MenusAdminPage() {
     setModalAbierto(true);
   };
 
-  const manejarGuardar = async (e) => {
+  const manejarGuardar = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const url = editando ? `/api/admin/menus/${codigoMenu}` : "/api/admin/menus";
     const metodo = editando ? "PUT" : "POST";
@@ -78,7 +78,7 @@ export default function MenusAdminPage() {
     }
   };
 
-  const manejarEliminar = async (id) => {
+  const manejarEliminar = async (id: number | string) => {
     if (!confirm("¿Deseas eliminar este menú estructural?")) return;
     try {
       const res = await fetch(`/api/admin/menus/${id}`, { method: "DELETE" });
@@ -145,7 +145,7 @@ export default function MenusAdminPage() {
                           {m.menuPadre.nombre_menu}
                         </span>
                       ) : (
-                        <span style={{ color: "#95a5a6", fontSize: "13px", italic: "true" }}>Raíz Principal</span>
+                        <span style={{ color: "#95a5a6", fontSize: "13px", fontStyle: "italic" }}>Raíz Principal</span>
                       )}
                     </td>
                     <td style={{ padding: "12px", textAlign: "center" }}>
@@ -169,19 +169,19 @@ export default function MenusAdminPage() {
                 <form onSubmit={manejarGuardar}>
                   <div style={{ marginBottom: "12px" }}>
                     <label style={{ display: "block", marginBottom: "5px", fontWeight: "500" }}>Código Menú:</label>
-                    <input type="text" value={codigoMenu} onChange={(e) => setCodigoMenu(e.target.value)} disabled={editando} placeholder="Ej: MNU_ADMIN_ROLES" required style={{ width: "93%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc", backgroundColor: editando ? "#f5f5f5" : "white" }} />
+                    <input type="text" value={codigoMenu} onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setCodigoMenu(e.target.value)} disabled={editando} placeholder="Ej: MNU_ADMIN_ROLES" required style={{ width: "93%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc", backgroundColor: editando ? "#f5f5f5" : "white" }} />
                   </div>
                   <div style={{ marginBottom: "12px" }}>
                     <label style={{ display: "block", marginBottom: "5px", fontWeight: "500" }}>Nombre del Menú:</label>
-                    <input type="text" value={nombreMenu} onChange={(e) => setNombreMenu(e.target.value)} placeholder="Ej: GESTIONAR ROLES" required style={{ width: "93%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }} />
+                    <input type="text" value={nombreMenu} onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setNombreMenu(e.target.value)} placeholder="Ej: GESTIONAR ROLES" required style={{ width: "93%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }} />
                   </div>
                   <div style={{ marginBottom: "12px" }}>
                     <label style={{ display: "block", marginBottom: "5px", fontWeight: "500" }}>Ruta de redirección (URL):</label>
-                    <input type="text" value={urlMenu} onChange={(e) => setUrlMenu(e.target.value)} placeholder="Ej: /dashboard/admin/roles" required style={{ width: "93%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }} />
+                    <input type="text" value={urlMenu} onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setUrlMenu(e.target.value)} placeholder="Ej: /dashboard/admin/roles" required style={{ width: "93%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }} />
                   </div>
                   <div style={{ marginBottom: "20px" }}>
                     <label style={{ display: "block", marginBottom: "5px", fontWeight: "500" }}>Menú Superior (Padre):</label>
-                    <select value={codigoPadre} onChange={(e) => setCodigoPadre(e.target.value)} style={{ width: "98%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}>
+                    <select value={codigoPadre} onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setCodigoPadre(e.target.value)} style={{ width: "98%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}>
                       <option value="">-- Ninguno (Es menú raíz) --</option>
                       {menus
                         .filter(m => !editando || m.codigo_menu !== codigoMenu) // Previene bucles cíclicos
