@@ -1,4 +1,4 @@
-import PaginaAbajo from '../../@/components/PaginaAbajo';
+import PaginaAbajo from '@/presentation/components/PaginaAbajo';
 
 const iconSvg = (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="40" height="40">
