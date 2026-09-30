@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation'; // Importación para redirección
-import Navbar from '../../components/Navbar';
+import Navbar from '../../presentation/components/Navbar';
 
 export default function LoginPage() {
   // --- REFERENCIAS PARA ANIMACIONES Y DOM ---
