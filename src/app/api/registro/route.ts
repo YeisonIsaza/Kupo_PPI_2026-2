@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { Usuario } from "@/entities/Usuario";
-import { Perfil } from "@/entities/Perfil";
-import { Estado } from "@/entities/Estado";
-import { Universidad } from "@/entities/Universidad";
-import { UniversidadEstudiante } from "@/entities/UniversidadEstudiante";
+import { getDataSource } from '@/core/database/db';
+import { Usuario } from '@/core/models/Usuario';
+import { Perfil } from '@/core/models/Perfil';
+import { Estado } from '@/core/models/Estado';
+import { Universidad } from '@/core/models/Universidad';
+import { UniversidadEstudiante } from '@/core/models/UniversidadEstudiante';
 import * as bcrypt from "bcryptjs";
 
 export async function POST(request: Request) {
