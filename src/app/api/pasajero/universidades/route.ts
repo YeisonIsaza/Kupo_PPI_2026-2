@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { UniversidadEstudiante } from "@/entities/UniversidadEstudiante";
-import { Universidad } from "@/entities/Universidad";
-import { Estado } from "@/entities/Estado";
+import { getDataSource } from '@/core/database/db';
+import { UniversidadEstudiante } from '@/core/models/UniversidadEstudiante';
+import { Universidad } from '@/core/models/Universidad';
+import { Estado } from '@/core/models/Estado';
 import { writeFile, mkdir } from "fs/promises";
 import { existsSync } from "fs";
 import path from "path";
