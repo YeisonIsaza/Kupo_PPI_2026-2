@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { Viaje } from "@/entities/Viaje";
-import { Estado } from "@/entities/Estado";
+import { getDataSource } from '@/core/database/db';
+import { Viaje } from '@/core/models/Viaje';
+import { Estado } from '@/core/models/Estado';
 
 export async function PATCH(
     request: Request,
