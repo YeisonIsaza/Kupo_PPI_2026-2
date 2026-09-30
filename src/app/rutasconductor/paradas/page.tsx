@@ -13,18 +13,18 @@ function ParadasContent() {
     const router = useRouter();
     const idRuta = searchParams.get('rutaId');
 
-    const [paradas, setParadas] = useState([]);
-    const [cargando, setCargando] = useState(true);
-    const [modalAbierto, setModalAbierto] = useState(false);
-    const [toast, setToast] = useState('');
-    const [toastVisible, setToastVisible] = useState(false);
-    const [nombre_parada, setNombreParada] = useState('');
-    const [orden, setOrden] = useState('');
-    const [horaEstimada, setHoraEstimada] = useState('');
-    const [esUniversidad, setEsUniversidad] = useState(false);
+    const [paradas, setParadas] = useState<any[]>([]);
+    const [cargando, setCargando] = useState<boolean>(true);
+    const [modalAbierto, setModalAbierto] = useState<boolean>(false);
+    const [toast, setToast] = useState<string>('');
+    const [toastVisible, setToastVisible] = useState<boolean>(false);
+    const [nombre_parada, setNombreParada] = useState<string>('');
+    const [orden, setOrden] = useState<string>('');
+    const [horaEstimada, setHoraEstimada] = useState<string>('');
+    const [esUniversidad, setEsUniversidad] = useState<boolean>(false);
     const [costoAdicional, setCostoAdicional] = useState('0');
-    const [nitUniParada, setNitUniParada] = useState('');
-    const [universidades, setUniversidades] = useState([]);
+    const [nitUniParada, setNitUniParada] = useState<string>('');
+    const [universidades, setUniversidades] = useState<any[]>([]);
 
     useEffect(() => {
         if (listo) {
@@ -33,7 +33,7 @@ function ParadasContent() {
         }
     }, [listo, idRuta]);
 
-    function showToast(msg) {
+    function showToast(msg: any) {
         setToast(msg);
         setToastVisible(true);
         setTimeout(() => setToastVisible(false), 3000);
@@ -57,7 +57,7 @@ function ParadasContent() {
         } catch { console.error('Error cargando universidades'); }
     }
 
-    async function agregarParada(e) {
+    async function agregarParada(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (!nombre_parada || !orden) {
             showToast('⚠️ Nombre y orden son obligatorios');
@@ -88,7 +88,7 @@ function ParadasContent() {
         } catch { showToast('❌ Error de conexión'); }
     }
 
-    async function eliminarParada(id) {
+    async function eliminarParada(id: number | string) {
         if (!confirm('¿Eliminar esta parada?')) return;
         try {
             const res = await fetch(`/api/conductor/rutas/${idRuta}/paradas/${id}`, { method: 'DELETE' });
@@ -106,7 +106,7 @@ function ParadasContent() {
         setNitUniParada('');
     }
 
-    function formatHora(h) {
+    function formatHora(h: any) {
         if (!h) return '';
         try {
             const d = new Date(h);
@@ -303,7 +303,7 @@ function ParadasContent() {
     );
 }
 
-export default function ParadasPage() {
+export default function ParadasPage(): React.JSX.Element | null {
     return (
         <Suspense fallback={<div>Cargando...</div>}>
             <ParadasContent />
