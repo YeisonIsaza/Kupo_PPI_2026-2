@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { Usuario } from "@/entities/Usuario";
+import { getDataSource } from '@/core/database/db';
+import { Usuario } from '@/core/models/Usuario';
 import * as bcrypt from "bcryptjs";
 import { writeFile, mkdir } from "fs/promises";
 import { existsSync } from "fs";
