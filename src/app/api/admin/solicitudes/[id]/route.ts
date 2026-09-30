@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { Usuario } from "@/entities/Usuario";
-import { Estado } from "@/entities/Estado";
+import { getDataSource } from '@/core/database/db';
+import { Usuario } from '@/core/models/Usuario';
+import { Estado } from '@/core/models/Estado';
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
