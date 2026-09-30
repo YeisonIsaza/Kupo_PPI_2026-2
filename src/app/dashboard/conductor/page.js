@@ -1,9 +1,9 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import UserNavbar from '@/components/UserNavbar';
-import useAuth from '@/lib/useAuth';
-import Estrellas from '@/components/Estrellas';
+import UserNavbar from '@/presentation/components/UserNavbar';
+import useAuth from '@/core/hooks/useAuth';
+import Estrellas from '@/presentation/components/Estrellas';
 
 export default function DashboardConductor() {
     const { nombre, idRol, listo, cerrarSesion } = useAuth([2, 4]);
