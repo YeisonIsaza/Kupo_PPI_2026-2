@@ -2,21 +2,29 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-// Qué sección corresponde a cada modo
-const SECCION_POR_MODO = {
-    conductor: [2, 4],  // páginas que aceptan rol 2 y 4
-    pasajero:  [3, 4],  // páginas que aceptan rol 3 y 4
+type RolesPermitidos = number[];
+
+interface UseAuthReturn {
+  nombre: string;
+  idRol: number | null;
+  listo: boolean;
+  cerrarSesion: () => void;
+}
+
+const SECCION_POR_MODO: Record<string, number[]> = {
+    conductor: [2, 4],
+    pasajero:  [3, 4],
 };
 
-export default function useAuth(rolesPermitidos = []) {
+export default function useAuth(rolesPermitidos: RolesPermitidos = []): UseAuthReturn {
     const router = useRouter();
-    const [nombre, setNombre] = useState('');
-    const [idRol, setIdRol]   = useState(null);
-    const [listo, setListo]   = useState(false);
+    const [nombre, setNombre] = useState<string>('');
+    const [idRol, setIdRol]   = useState<number | null>(null);
+    const [listo, setListo]   = useState<boolean>(false);
 
     useEffect(() => {
         const userId   = localStorage.getItem('userId');
-        const userRol  = parseInt(localStorage.getItem('userRol'));
+        const userRol  = parseInt(localStorage.getItem('userRol') ?? '0');
         const userName = localStorage.getItem('userName');
 
         if (!userId) {
@@ -29,11 +37,9 @@ export default function useAuth(rolesPermitidos = []) {
             return;
         }
 
-        // Validación extra para rol mixto (4)
         if (userRol === 4) {
             const modoMixto = localStorage.getItem('modoMixto');
             if (!modoMixto) {
-                // Solo redirigir si NO estamos ya en /dashboard/mixto
                 if (!window.location.pathname.includes('/dashboard/mixto')) {
                     router.push('/dashboard/mixto');
                 }
@@ -46,12 +52,12 @@ export default function useAuth(rolesPermitidos = []) {
             }
         }
 
-        setNombre(userName || 'Usuario');
+        setNombre(userName ?? 'Usuario');
         setIdRol(userRol);
         setListo(true);
     }, [router]);
 
-    function cerrarSesion() {
+    function cerrarSesion(): void {
         localStorage.clear();
         router.push('/login');
     }
