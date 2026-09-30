@@ -2,10 +2,10 @@
 //ejemplo: /api/admin/menu-permisos/1/2
 //donde 1 es el codigo_menu y 2 es el codigo_perfil
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { MenuPermiso } from "@/entities/Menu_permiso";
-import { Menu } from "@/entities/Menu";
-import { Perfil } from "@/entities/Perfil";
+import { getDataSource } from '@/core/database/db';
+import { MenuPermiso } from '@/core/models/Menu_permiso';
+import { Menu } from '@/core/models/Menu';
+import { Perfil } from '@/core/models/Perfil';
 
 export async function PUT(request: Request, { params }: { params: Promise<{ menu: string, perfil: string }> }) {
     try {
