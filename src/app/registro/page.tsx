@@ -3,43 +3,43 @@ import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-export default function RegistroPage() {
+export default function RegistroPage(): React.JSX.Element | null {
   const router = useRouter();
   const [paso, setPaso] = useState(1);
-  const [userId, setUserId] = useState(null);
-  const [idRolGuardado, setIdRolGuardado] = useState(null);
+  const [userId, setUserId] = useState<any>(null);
+  const [idRolGuardado, setIdRolGuardado] = useState<any>(null);
 
   // --- PASO 1: Datos personales ---
   const [rol, setRol] = useState('pasajero');
-  const [nombre, setNombre] = useState('');
-  const [primerApellido, setPrimerApellido] = useState('');
-  const [segundoApellido, setSegundoApellido] = useState('');
-  const [documento, setDocumento] = useState('');
-  const [celular, setCelular] = useState('');
-  const [fechaNac, setFechaNac] = useState('');
-  const [emailInst, setEmailInst] = useState('');
-  const [emailPers, setEmailPers] = useState('');
-  const [pass, setPass] = useState('');
+  const [nombre, setNombre] = useState<string>('');
+  const [primerApellido, setPrimerApellido] = useState<string>('');
+  const [segundoApellido, setSegundoApellido] = useState<string>('');
+  const [documento, setDocumento] = useState<string>('');
+  const [celular, setCelular] = useState<string>('');
+  const [fechaNac, setFechaNac] = useState<string>('');
+  const [emailInst, setEmailInst] = useState<string>('');
+  const [emailPers, setEmailPers] = useState<string>('');
+  const [pass, setPass] = useState<string>('');
   const [nitUni, setNitUni] = useState(' 890.980.040-8');
 
   // --- PASO 2: Foto y certificado ---
-  const [fotoPerfil, setFotoPerfil] = useState(null);
-  const [fotoPreview, setFotoPreview] = useState(null);
-  const [certificado, setCertificado] = useState(null);
-  const [certNombre, setCertNombre] = useState('');
-  const fotoRef = useRef(null);
-  const certRef = useRef(null);
+  const [fotoPerfil, setFotoPerfil] = useState<any>(null);
+  const [fotoPreview, setFotoPreview] = useState<any>(null);
+  const [certificado, setCertificado] = useState<any>(null);
+  const [certNombre, setCertNombre] = useState<string>('');
+  const fotoRef = useRef<HTMLInputElement | null>(null);
+  const certRef = useRef<any>(null);
 
   const [msg, setMsg] = useState({ tipo: '', texto: '' });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  function selectRol(r) {
+  function selectRol(r: any) {
     setRol(r);
     setMsg({ tipo: '', texto: '' });
   }
 
   // Convertir archivo a base64
-  function fileToBase64(file) {
+  function fileToBase64(file: any) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => resolve(reader.result);
@@ -48,8 +48,8 @@ export default function RegistroPage() {
     });
   }
 
-  function handleFotoChange(e) {
-    const file = e.target.files[0];
+  function handleFotoChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
     if (!file) return;
     if (!file.type.startsWith('image/')) {
       setMsg({ tipo: 'error', texto: 'La foto debe ser una imagen.' });
@@ -59,8 +59,8 @@ export default function RegistroPage() {
     setFotoPreview(URL.createObjectURL(file));
   }
 
-  function handleCertChange(e) {
-    const file = e.target.files[0];
+  function handleCertChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
     if (!file) return;
     const tiposPermitidos = ['image/jpeg', 'image/png', 'application/pdf'];
     if (!tiposPermitidos.includes(file.type)) {
@@ -130,7 +130,7 @@ export default function RegistroPage() {
   }
 
   // PASO 2: Subir foto y certificado
-  async function doDocumentos(e) {
+  async function doDocumentos(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!certificado) {
