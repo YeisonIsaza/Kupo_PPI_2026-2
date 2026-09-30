@@ -4,15 +4,20 @@ import AdminSidebar from '@/presentation/components/AdminSidebar';
 import useAdminAuth from '@/core/hooks/useAdminAuth';
 import SinPermiso from '@/presentation/components/SinPermiso';
 
-export default function PermisosAdminPage() {
+export default function PermisosAdminPage(): React.JSX.Element | null {
     const { nombre, listo, acceso, puedeCrear, puedeActualizar, puedeEliminar } = useAdminAuth();
-    const [permisos, setPermisos] = useState([]);
-    const [menus, setMenus] = useState([]);
-    const [perfiles, setPerfiles] = useState([]);
-    const [cargando, setCargando] = useState(true);
-    const [modalAbierto, setModalAbierto] = useState(false);
-    const [editando, setEditando] = useState(null);
-    const [form, setForm] = useState({
+    const [permisos, setPermisos] = useState<any[]>([]);
+    const [menus, setMenus] = useState<any[]>([]);
+    const [perfiles, setPerfiles] = useState<any[]>([]);
+    const [cargando, setCargando] = useState<boolean>(true);
+    const [modalAbierto, setModalAbierto] = useState<boolean>(false);
+    const [editando, setEditando] = useState<any>(null);
+    const [form, setForm] = useState<{
+        codigo_menu: string; codigo_perfil: string;
+        puede_crear: string; puede_leer: string;
+        puede_actualizar: string; puede_eliminar: string;
+        [key: string]: string;
+    }>({
         codigo_menu: '', codigo_perfil: '',
         puede_crear: 'N', puede_leer: 'S',
         puede_actualizar: 'N', puede_eliminar: 'N'
@@ -35,7 +40,7 @@ export default function PermisosAdminPage() {
         finally { setCargando(false); }
     }
 
-    async function guardar(e) {
+    async function guardar(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const url = editando
             ? `/api/admin/menu-permisos/${editando.codigo_menu}/${editando.codigo_perfil}`
@@ -52,7 +57,7 @@ export default function PermisosAdminPage() {
         } catch { alert('Error de conexión'); }
     }
 
-    async function eliminar(codigoMenu, codigoPerfil) {
+    async function eliminar(codigoMenu: any, codigoPerfil: any) {
         if (!confirm('¿Eliminar este permiso?')) return;
         try {
             const res = await fetch(`/api/admin/menu-permisos/${codigoMenu}/${codigoPerfil}`, { method: 'DELETE' });
@@ -61,7 +66,7 @@ export default function PermisosAdminPage() {
         } catch { alert('Error de conexión'); }
     }
 
-    const badge = (val) => (
+    const badge = (val: any) => (
         <span style={{
             padding: '2px 10px', borderRadius: '99px', fontWeight: 700, fontSize: '0.75rem',
             background: val === 'S' ? '#dcfce7' : '#fee2e2',
