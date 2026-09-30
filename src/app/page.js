@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import Navbar from '../presentation/components/Navbar';
+import Footer from '../presentation/components/Footer';
 
 
 const textos = {
