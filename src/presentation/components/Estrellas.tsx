@@ -1,8 +1,9 @@
-export default function Estrellas({ promedio, total, size = '1rem' }) {
+interface EstrellasProps { promedio: number | string | null; total: number; size?: string; }
+export default function Estrellas({ promedio, total, size = '1rem' }: EstrellasProps): React.JSX.Element | null {
     if (!promedio) return (
         <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Sin calificaciones</span>
     );
-    const n = parseFloat(promedio);
+    const n = Number(promedio);
     const llenas = Math.floor(n);
     const media  = n - llenas >= 0.5 ? 1 : 0;
     const vacias = 5 - llenas - media;
