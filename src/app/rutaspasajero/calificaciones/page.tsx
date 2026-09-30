@@ -12,21 +12,21 @@ function CalificacionesPasajeroContent() {
     const { puedeLeer, puedeCrear, cargando: cargandoPermisos } = usePermisos(); // ← NUEVO
     const router = useRouter();
 
-    const [viajesFinalizados, setViajesFinalizados] = useState([]);
-    const [cargando, setCargando] = useState(true);
-    const [modalAbierto, setModalAbierto] = useState(false);
-    const [viajeSeleccionado, setViajeSeleccionado] = useState(null);
-    const [puntuacion, setPuntuacion] = useState(0);
-    const [comentario, setComentario] = useState('');
-    const [hover, setHover] = useState(0);
-    const [toast, setToast] = useState('');
-    const [toastVisible, setToastVisible] = useState(false);
+    const [viajesFinalizados, setViajesFinalizados] = useState<any[]>([]);
+    const [cargando, setCargando] = useState<boolean>(true);
+    const [modalAbierto, setModalAbierto] = useState<boolean>(false);
+    const [viajeSeleccionado, setViajeSeleccionado] = useState<any>(null);
+    const [puntuacion, setPuntuacion] = useState<number>(0);
+    const [comentario, setComentario] = useState<string>('');
+    const [hover, setHover] = useState<number>(0);
+    const [toast, setToast] = useState<string>('');
+    const [toastVisible, setToastVisible] = useState<boolean>(false);
 
     useEffect(() => {
         if (listo) cargarViajesFinalizados();
     }, [listo]);
 
-    function showToast(msg) {
+    function showToast(msg: any) {
         setToast(msg);
         setToastVisible(true);
         setTimeout(() => setToastVisible(false), 3000);
@@ -43,7 +43,7 @@ function CalificacionesPasajeroContent() {
         finally { setCargando(false); }
     }
 
-    function abrirModal(viaje) {
+    function abrirModal(viaje: any) {
         setViajeSeleccionado(viaje);
         setPuntuacion(0);
         setComentario('');
@@ -51,7 +51,7 @@ function CalificacionesPasajeroContent() {
         setModalAbierto(true);
     }
 
-    async function enviarCalificacion(e) {
+    async function enviarCalificacion(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (puntuacion === 0) { showToast('⚠️ Selecciona una puntuación'); return; }
         try {
@@ -200,7 +200,7 @@ function CalificacionesPasajeroContent() {
     );
 }
 
-export default function CalificacionesPasajeroPage() {
+export default function CalificacionesPasajeroPage(): React.JSX.Element | null {
     return (
         <Suspense fallback={<div>Cargando...</div>}>
             <CalificacionesPasajeroContent />
