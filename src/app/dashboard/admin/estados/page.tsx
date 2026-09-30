@@ -6,16 +6,16 @@ import SinPermiso from '@/presentation/components/SinPermiso';
 
 
 
-export default function EstadosAdminPage() {
+export default function EstadosAdminPage(): React.JSX.Element | null {
   const { nombre, listo, acceso, puedeCrear, puedeActualizar, puedeEliminar } = useAdminAuth();
-  const [estados, setEstados] = useState([]);
-  const [cargando, setCargando] = useState(true);
-  const [modalAbierto, setModalAbierto] = useState(false);
-  const [editandoId, setEditandoId] = useState(null);
+  const [estados, setEstados] = useState<any[]>([]);
+  const [cargando, setCargando] = useState<boolean>(true);
+  const [modalAbierto, setModalAbierto] = useState<boolean>(false);
+  const [editandoId, setEditandoId] = useState<any>(null);
   
   // Form States
-  const [nombreEstado, setNombreEstado] = useState("");
-  const [categoria, setCategoria] = useState("");
+  const [nombreEstado, setNombreEstado] = useState<string>("");
+  const [categoria, setCategoria] = useState<string>("");
 
   const cargarEstados = async () => {
     try {
@@ -32,7 +32,7 @@ export default function EstadosAdminPage() {
 
   useEffect(() => { cargarEstados(); }, []);
 
-  const abrirModal = (est = null) => {
+  const abrirModal = (est: Record<string, any> | null = null) => {
     if (est) {
       setEditandoId(est.id_estado);
       setNombreEstado(est.nombre_estado);
@@ -45,7 +45,7 @@ export default function EstadosAdminPage() {
     setModalAbierto(true);
   };
 
-  const manejarGuardar = async (e) => {
+  const manejarGuardar = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const url = editandoId ? `/api/admin/estados/${editandoId}` : "/api/admin/estados";
     const metodo = editandoId ? "PUT" : "POST";
@@ -69,7 +69,7 @@ export default function EstadosAdminPage() {
     }
   };
 
-  const manejarEliminar = async (id) => {
+  const manejarEliminar = async (id: number | string) => {
     if (!confirm("¿Deseas eliminar este estado? Fallará si hay usuarios, viajes o rutas usándolo.")) return;
     try {
       const res = await fetch(`/api/admin/estados/${id}`, { method: "DELETE" });
@@ -151,11 +151,11 @@ export default function EstadosAdminPage() {
                   <form onSubmit={manejarGuardar}>
                     <div style={{ marginBottom: "12px" }}>
                       <label style={{ display: "block", marginBottom: "5px", fontWeight: "500" }}>Nombre del Estado:</label>
-                      <input type="text" value={nombreEstado} onChange={(e) => setNombreEstado(e.target.value)} placeholder="Ej: PENDIENTE, ACTIVO, CANCELADO" required style={{ width: "93%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }} />
+                      <input type="text" value={nombreEstado} onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setNombreEstado(e.target.value)} placeholder="Ej: PENDIENTE, ACTIVO, CANCELADO" required style={{ width: "93%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }} />
                     </div>
                     <div style={{ marginBottom: "20px" }}>
                       <label style={{ display: "block", marginBottom: "5px", fontWeight: "500" }}>Categoría:</label>
-                      <input type="text" value={categoria} onChange={(e) => setCategoria(e.target.value)} placeholder="Ej: VERIFICACION, CUENTA, VIAJE" required style={{ width: "93%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }} />
+                      <input type="text" value={categoria} onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setCategoria(e.target.value)} placeholder="Ej: VERIFICACION, CUENTA, VIAJE" required style={{ width: "93%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }} />
                     </div>
                     <div style={{ display: "flex", justifyContent: "end", gap: "10px" }}>
                       <button type="button" onClick={() => setModalAbierto(false)} style={{ backgroundColor: "#95a5a6", color: "white", border: "none", padding: "8px 15px", borderRadius: "4px", cursor: "pointer" }}>Cancelar</button>
