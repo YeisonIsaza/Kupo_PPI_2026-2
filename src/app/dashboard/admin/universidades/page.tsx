@@ -4,12 +4,12 @@ import AdminSidebar from '@/presentation/components/AdminSidebar';
 import useAdminAuth from '@/core/hooks/useAdminAuth';
 import SinPermiso from '@/presentation/components/SinPermiso';
 
-export default function UniversidadesAdminPage() {
+export default function UniversidadesAdminPage(): React.JSX.Element | null {
     const { nombre, listo, acceso, puedeCrear, puedeActualizar, puedeEliminar } = useAdminAuth();
-    const [unis, setUnis] = useState([]);
-    const [cargando, setCargando] = useState(true);
-    const [modalAbierto, setModalAbierto] = useState(false);
-    const [editando, setEditando] = useState(false);
+    const [unis, setUnis] = useState<any[]>([]);
+    const [cargando, setCargando] = useState<boolean>(true);
+    const [modalAbierto, setModalAbierto] = useState<boolean>(false);
+    const [editando, setEditando] = useState<boolean>(false);
     const [form, setForm] = useState({
         nit_uni: '', nombre_uni: '', dominio_correo_uni: '',
         direccion_latitud_uni: '', direccion_longitud_uni: ''
@@ -30,7 +30,7 @@ export default function UniversidadesAdminPage() {
         }
     }
 
-    function abrirModal(uni = null) {
+    function abrirModal(uni: Record<string, any> | null = null) {
         if (uni) {
             setEditando(true);
             setForm({
@@ -47,7 +47,7 @@ export default function UniversidadesAdminPage() {
         setModalAbierto(true);
     }
 
-    async function manejarGuardar(e) {
+    async function manejarGuardar(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const url = editando ? `/api/admin/universidades/${encodeURIComponent(form.nit_uni)}` : "/api/admin/universidades";
         const metodo = editando ? "PUT" : "POST";
@@ -66,7 +66,7 @@ export default function UniversidadesAdminPage() {
         } catch { alert("Error de conexión"); }
     }
 
-    async function manejarEliminar(id) {
+    async function manejarEliminar(id: number | string) {
         if (!confirm("¿Eliminar esta universidad?")) return;
         try {
             const res = await fetch(`/api/admin/universidades/${encodeURIComponent(id)}`, { method: "DELETE" });
