@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { CalificacionConductor } from "@/entities/CalificacionConductor";
+import { getDataSource } from '@/core/database/db';
+import { CalificacionConductor } from '@/core/models/CalificacionConductor';
 
 export async function POST(request: Request) {
     try {
