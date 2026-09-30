@@ -6,17 +6,17 @@ import useAuth from '@/core/hooks/useAuth';
 const LABELS = ['Muy malo', 'Malo', 'Regular', 'Bueno', '¡Excelente!'];
 const MAX_CHARS = 400;
 
-export default function ContactanosPage() {
+export default function ContactanosPage(): React.JSX.Element | null {
   const { nombre, idRol, listo, cerrarSesion } = useAuth([2, 3, 4]);
-  const [nombreForm, setNombreForm] = useState('');
-  const [correo, setCorreo] = useState('');
-  const [mensaje, setMensaje] = useState('');
-  const [rating, setRating] = useState(0);
-  const [hovered, setHovered] = useState(0);
-  const [submitted, setSubmitted] = useState(false);
-  const [borderError, setBorderError] = useState(false);
+  const [nombreForm, setNombreForm] = useState<string>('');
+  const [correo, setCorreo] = useState<string>('');
+  const [mensaje, setMensaje] = useState<string>('');
+  const [rating, setRating] = useState<number>(0);
+  const [hovered, setHovered] = useState<number>(0);
+  const [submitted, setSubmitted] = useState<boolean>(false);
+  const [borderError, setBorderError] = useState<boolean>(false);
 
-  function handleMensaje(e) {
+  function handleMensaje(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     if (e.target.value.length <= MAX_CHARS) setMensaje(e.target.value);
   }
 
