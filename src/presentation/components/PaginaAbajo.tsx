@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
-export default function PaginaAbajo({ titulo, descripcion, iconColor, iconShadow, iconSvg, cards }) {
+interface PaginaAbajoProps { titulo: string; descripcion: string; iconColor: string; iconShadow: string; iconSvg: React.ReactNode; cards: any[]; }
+export default function PaginaAbajo({ titulo, descripcion, iconColor, iconShadow, iconSvg, cards }: PaginaAbajoProps): React.JSX.Element | null {
 
   useEffect(() => {
     const elements = document.querySelectorAll('.card-abajo');
