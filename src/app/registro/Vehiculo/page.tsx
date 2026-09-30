@@ -8,22 +8,22 @@ function PerfilVehiculoForm() {
   const userId = searchParams.get('userId');
 
   // --- Vehículo ---
-  const [placa, setPlaca] = useState('');
-  const [marca, setMarca] = useState('');
-  const [modeloNombre, setModeloNombre] = useState('');
+  const [placa, setPlaca] = useState<string>('');
+  const [marca, setMarca] = useState<string>('');
+  const [modeloNombre, setModeloNombre] = useState<string>('');
   const [anno, setAnno] = useState('2024');
-  const [color, setColor] = useState('');
-  const [soat, setSoat] = useState('');
+  const [color, setColor] = useState<string>('');
+  const [soat, setSoat] = useState<string>('');
   const [cupos, setCupos] = useState('4');
 
   // --- Licencia (nuevos) ---
-  const [numeroLicencia, setNumeroLicencia] = useState('');
-  const [fechaVencLicencia, setFechaVencLicencia] = useState('');
+  const [numeroLicencia, setNumeroLicencia] = useState<string>('');
+  const [fechaVencLicencia, setFechaVencLicencia] = useState<string>('');
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [msg, setMsg] = useState({ tipo: '', texto: '' });
 
-  async function handlePerfilSubmit(e) {
+  async function handlePerfilSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     setMsg({ tipo: '', texto: '' });
@@ -169,7 +169,7 @@ function PerfilVehiculoForm() {
   );
 }
 
-export default function PerfilPage() {
+export default function PerfilPage(): React.JSX.Element | null {
   return (
     <Suspense fallback={<div>Cargando...</div>}>
       <PerfilVehiculoForm />
