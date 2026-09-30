@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { Reserva } from "@/entities/Reserva";
-import { Viaje } from "@/entities/Viaje";
-import { Estado } from "@/entities/Estado";
+import { getDataSource } from '@/core/database/db';
+import { Reserva } from '@/core/models/Reserva';
+import { Viaje } from '@/core/models/Viaje';
+import { Estado } from '@/core/models/Estado';
 
 export async function POST(request: Request) {
     try {
