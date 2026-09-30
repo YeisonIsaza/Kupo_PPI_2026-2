@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { Parada } from "@/entities/Parada";
+import { getDataSource } from '@/core/database/db';
+import { Parada } from '@/core/models/Parada';
 
 export async function DELETE(
     request: Request,
