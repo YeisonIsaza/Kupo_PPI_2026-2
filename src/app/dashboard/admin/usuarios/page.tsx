@@ -4,21 +4,21 @@ import AdminSidebar from '@/presentation/components/AdminSidebar';
 import useAdminAuth from '@/core/hooks/useAdminAuth';
 import SinPermiso from '@/presentation/components/SinPermiso';
 
-export default function UsuariosAdminPage() {
+export default function UsuariosAdminPage(): React.JSX.Element | null {
     const { nombre, listo, acceso, puedeCrear, puedeActualizar, puedeEliminar } = useAdminAuth();
     const [tab, setTab] = useState('usuarios'); // 'usuarios' | 'universidades'
 
     // Solicitudes usuarios
-    const [solicitudes, setSolicitudes] = useState([]);
-    const [cargando, setCargando] = useState(true);
-    const [mensaje, setMensaje] = useState('');
-    const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
+    const [solicitudes, setSolicitudes] = useState<any[]>([]);
+    const [cargando, setCargando] = useState<boolean>(true);
+    const [mensaje, setMensaje] = useState<string>('');
+    const [usuarioSeleccionado, setUsuarioSeleccionado] = useState<any>(null);
 
     // Solicitudes universidades
-    const [solicitudesUni, setSolicitudesUni] = useState([]);
-    const [cargandoUni, setCargandoUni] = useState(true);
-    const [mensajeUni, setMensajeUni] = useState('');
-    const [uniSeleccionada, setUniSeleccionada] = useState(null);
+    const [solicitudesUni, setSolicitudesUni] = useState<any[]>([]);
+    const [cargandoUni, setCargandoUni] = useState<boolean>(true);
+    const [mensajeUni, setMensajeUni] = useState<string>('');
+    const [uniSeleccionada, setUniSeleccionada] = useState<any>(null);
 
     useEffect(() => {
         cargarSolicitudes();
@@ -45,7 +45,7 @@ export default function UsuariosAdminPage() {
         finally { setCargandoUni(false); }
     }
 
-    async function procesarSolicitud(id, accion) {
+    async function procesarSolicitud(id: any, accion: any) {
         try {
             const res = await fetch(`/api/admin/solicitudes/${id}`, {
                 method: 'PATCH',
@@ -63,7 +63,7 @@ export default function UsuariosAdminPage() {
         } catch { alert("Error de conexión."); }
     }
 
-    async function procesarSolicitudUni(nitUni, idUser, accion) {
+    async function procesarSolicitudUni(nitUni: any, idUser: any, accion: any) {
         try {
             const res = await fetch(`/api/admin/solicitudes/universidades`, {
                 method: 'PATCH',
