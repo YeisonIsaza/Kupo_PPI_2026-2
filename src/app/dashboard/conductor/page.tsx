@@ -5,20 +5,24 @@ import UserNavbar from '@/presentation/components/UserNavbar';
 import useAuth from '@/core/hooks/useAuth';
 import Estrellas from '@/presentation/components/Estrellas';
 
-export default function DashboardConductor() {
+export default function DashboardConductor(): React.JSX.Element | null {
     const { nombre, idRol, listo, cerrarSesion } = useAuth([2, 4]);
     const router = useRouter();
-    const fotoRef = useRef(null);
-    const [calificacion, setCalificacion] = useState(null);
-    const [ultimoViajeFinalizado, setUltimoViajeFinalizado] = useState(null);
-    const [perfil, setPerfil] = useState(null);
-    const [editando, setEditando] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [msg, setMsg] = useState('');
-    const [fotoPreview, setFotoPreview] = useState(null);
-    const [fotoPerfil, setFotoPerfil] = useState(null);
-    const [perfilAbierto, setPerfilAbierto] = useState(false);
-    const [form, setForm] = useState({
+    const fotoRef = useRef<HTMLInputElement | null>(null);
+    const [calificacion, setCalificacion] = useState<any>(null);
+    const [ultimoViajeFinalizado, setUltimoViajeFinalizado] = useState<any>(null);
+    const [perfil, setPerfil] = useState<any>(null);
+    const [editando, setEditando] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [msg, setMsg] = useState<string>('');
+    const [fotoPreview, setFotoPreview] = useState<any>(null);
+    const [fotoPerfil, setFotoPerfil] = useState<any>(null);
+    const [perfilAbierto, setPerfilAbierto] = useState<boolean>(false);
+    const [form, setForm] = useState<{
+        nombre_user: string; primer_apellido: string; segundo_apellido: string;
+        celular: string; nuevaContrasena: string;
+        [key: string]: string;
+    }>({
         nombre_user: '', primer_apellido: '', segundo_apellido: '',
         celular: '', nuevaContrasena: ''
     });
@@ -62,14 +66,14 @@ export default function DashboardConductor() {
         } catch { console.error('Error cargando perfil'); }
     }
 
-    function handleFotoChange(e) {
-        const file = e.target.files[0];
+    function handleFotoChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const file = e.target.files?.[0];
         if (!file) return;
         setFotoPerfil(file);
         setFotoPreview(URL.createObjectURL(file));
     }
 
-    function fileToBase64(file) {
+    function fileToBase64(file: any) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = () => resolve(reader.result);
@@ -78,7 +82,7 @@ export default function DashboardConductor() {
         });
     }
 
-    async function guardarCambios(e) {
+    async function guardarCambios(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         setLoading(true);
         setMsg('');
@@ -105,7 +109,7 @@ export default function DashboardConductor() {
         finally { setLoading(false); }
     }
 
-    function formatFecha(fecha) {
+    function formatFecha(fecha: any) {
         if (!fecha) return '—';
         return new Date(fecha).toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' });
     }
