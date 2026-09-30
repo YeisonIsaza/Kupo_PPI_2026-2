@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { Usuario } from "@/entities/Usuario";
-import { Perfil } from "@/entities/Perfil";
-import { Estado } from "@/entities/Estado";
+import { getDataSource } from '@/core/database/db';
+import { Usuario } from '@/core/models/Usuario';
+import { Perfil } from '@/core/models/Perfil';
+import { Estado } from '@/core/models/Estado';
 import * as bcrypt from "bcryptjs";
 
 export async function GET() {
