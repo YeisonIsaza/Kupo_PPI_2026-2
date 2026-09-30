@@ -13,7 +13,7 @@ const cards = [
   { titulo: 'Calificaciones y reseñas', descripcion: 'Sistema de calificación transparente para que siempre viajes con los mejores conductores.', color: '#2ecc8a' },
 ];
 
-export default function SeguridadPage() {
+export default function SeguridadPage(): React.JSX.Element | null {
   return (
     <PaginaAbajo
       titulo="Seguridad"
