@@ -13,7 +13,7 @@ const cards = [
   { titulo: 'Apoyo entre estudiantes', descripcion: 'Comparte tips, materiales y experiencias con otros estudiantes de tu ruta.', color: '#7c5cbf' },
 ];
 
-export default function ComunidadPage() {
+export default function ComunidadPage(): React.JSX.Element | null {
   return (
     <PaginaAbajo
       titulo="Comunidad"
