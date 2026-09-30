@@ -4,14 +4,14 @@ import AdminSidebar from '@/presentation/components/AdminSidebar';
 import useAdminAuth from '@/core/hooks/useAdminAuth';
 import SinPermiso from '@/presentation/components/SinPermiso'; // ← NUEVO
 
-export default function AdministradoresAdminPage() {
+export default function AdministradoresAdminPage(): React.JSX.Element | null {
     // ← QUITADA la línea duplicada, solo una desestructuración
     const { nombre, listo, acceso, puedeCrear, puedeActualizar, puedeEliminar } = useAdminAuth();
-    const [lista, setLista] = useState([]);
-    const [estadosCuenta, setEstadosCuenta] = useState([]);
-    const [cargando, setCargando] = useState(true);
-    const [modalAbierto, setModalAbierto] = useState(false);
-    const [editandoId, setEditandoId] = useState(null);
+    const [lista, setLista] = useState<any[]>([]);
+    const [estadosCuenta, setEstadosCuenta] = useState<any[]>([]);
+    const [cargando, setCargando] = useState<boolean>(true);
+    const [modalAbierto, setModalAbierto] = useState<boolean>(false);
+    const [editandoId, setEditandoId] = useState<any>(null);
     const [form, setForm] = useState({
         nombre: '', primer_apellido: '', segundo_apellido: '',
         documento: '', celular: '', fecha_nacimiento: '',
@@ -38,7 +38,7 @@ export default function AdministradoresAdminPage() {
         finally { setCargando(false); }
     }
 
-    async function guardar(e) {
+    async function guardar(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const url = editandoId
             ? `/api/admin/administradores/${editandoId}`
@@ -55,7 +55,7 @@ export default function AdministradoresAdminPage() {
         } catch { alert('Error de conexión'); }
     }
 
-    async function eliminar(id) {
+    async function eliminar(id: number | string) {
         if (!confirm('¿Eliminar este administrador?')) return;
         try {
             const res = await fetch(`/api/admin/administradores/${id}`, { method: 'DELETE' });
@@ -143,7 +143,7 @@ export default function AdministradoresAdminPage() {
                                                 {puedeActualizar && (
                                                     <button onClick={() => {
                                                         setEditandoId(item.id_user);
-                                                        setForm({ nombre: item.nombre, primer_apellido: item.primer_apellido, segundo_apellido: '', documento: item.documento, celular: item.celular, fecha_nacimiento: '', correo: item.correo, password: '', id_estado: '' });
+                                                        setForm({ nombre: item.nombre, primer_apellido: item.primer_apellido, segundo_apellido: '', documento: item.documento, celular: item.celular, fecha_nacimiento: '', correo: item.correo, password: '', id_estado: '', codigo_perfil: '1' });
                                                         setModalAbierto(true);
                                                     }}
                                                         style={{ background: '#e0e7ff', border: 'none', color: '#4f46e5', padding: '6px 12px', borderRadius: '6px', cursor: 'pointer', marginRight: '8px' }}>
