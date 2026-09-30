@@ -6,20 +6,24 @@ import useAuth from '@/core/hooks/useAuth';
 import usePermisos from '@/core/hooks/usePermisos';
 import SinPermiso from '@/presentation/components/SinPermiso';
 
-export default function VehiculoPage() {
+export default function VehiculoPage(): React.JSX.Element | null {
     const { nombre, idRol, listo, cerrarSesion } = useAuth([2, 4]);
     const { puedeLeer, puedeActualizar, cargando: cargandoPermisos } = usePermisos();
     const router = useRouter();
-    const fotoVehRef = useRef(null);
+    const fotoVehRef = useRef<HTMLInputElement | null>(null);
 
-    const [vehiculo, setVehiculo] = useState(null);
-    const [cargando, setCargando] = useState(true);
-    const [editando, setEditando] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [msg, setMsg] = useState('');
-    const [fotoVehPreview, setFotoVehPreview] = useState(null);
-    const [fotoVehFile, setFotoVehFile] = useState(null);
-    const [form, setForm] = useState({
+    const [vehiculo, setVehiculo] = useState<any>(null);
+    const [cargando, setCargando] = useState<boolean>(true);
+    const [editando, setEditando] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [msg, setMsg] = useState<string>('');
+    const [fotoVehPreview, setFotoVehPreview] = useState<any>(null);
+    const [fotoVehFile, setFotoVehFile] = useState<any>(null);
+    const [form, setForm] = useState<{
+        marca_veh: string; modelo_veh: string; color_veh: string;
+        anno_creacion_veh: string; numero_soat_veh: string; total_cupos_veh: string;
+        [key: string]: string;
+    }>({
         marca_veh: '', modelo_veh: '', color_veh: '',
         anno_creacion_veh: '', numero_soat_veh: '', total_cupos_veh: ''
     });
@@ -50,14 +54,14 @@ export default function VehiculoPage() {
         finally { setCargando(false); }
     }
 
-    function handleFotoVehChange(e) {
-        const file = e.target.files[0];
+    function handleFotoVehChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const file = e.target.files?.[0];
         if (!file) return;
         setFotoVehFile(file);
         setFotoVehPreview(URL.createObjectURL(file));
     }
 
-    function fileToBase64(file) {
+    function fileToBase64(file: any) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = () => resolve(reader.result);
@@ -66,7 +70,7 @@ export default function VehiculoPage() {
         });
     }
 
-    async function guardarCambios(e) {
+    async function guardarCambios(e?: any) {
         e?.preventDefault();
         setLoading(true);
         setMsg('');
@@ -240,12 +244,12 @@ export default function VehiculoPage() {
                                     gap: '14px'
                                 }}>
                                     {[
-                                        { label: 'PLACA',   value: vehiculo.placa_veh,                    /*icon: '🪪'*/ },
-                                        { label: 'COLOR',   value: vehiculo.color_veh,                    /*icon: '🎨' */},
-                                        { label: 'AÑO',     value: vehiculo.anno_creacion_veh,            /*icon: '📅' */},
-                                        { label: 'CUPOS',   value: `${vehiculo.total_cupos_veh} cupos`,   /*icon: '💺' */},
-                                        { label: 'SOAT',    value: vehiculo.numero_soat_veh,              /*icon: '🛡️' */},
-                                        { label: 'MODELO',  value: vehiculo.modelo_veh,                   /*icon: '🏷️'*/  },
+                                        { label: 'PLACA',   value: vehiculo.placa_veh,                    icon: '🪪' },
+                                        { label: 'COLOR',   value: vehiculo.color_veh,                    icon: '🎨' },
+                                        { label: 'AÑO',     value: vehiculo.anno_creacion_veh,            icon: '📅' },
+                                        { label: 'CUPOS',   value: `${vehiculo.total_cupos_veh} cupos`,   icon: '💺' },
+                                        { label: 'SOAT',    value: vehiculo.numero_soat_veh,              icon: '🛡️' },
+                                        { label: 'MODELO',  value: vehiculo.modelo_veh,                   icon: '🏷️'  },
                                     ].map(item => (
                                         <div key={item.label} style={{
                                             background: '#f5f6fb',
