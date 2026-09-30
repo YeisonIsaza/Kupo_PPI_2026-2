@@ -4,13 +4,13 @@ import AdminSidebar from '@/presentation/components/AdminSidebar';
 import useAdminAuth from '@/core/hooks/useAdminAuth';
 import SinPermiso from '@/presentation/components/SinPermiso';
 
-export default function PerfilesAdminPage() {
+export default function PerfilesAdminPage(): React.JSX.Element | null {
     const { nombre, listo, acceso, puedeCrear, puedeActualizar, puedeEliminar } = useAdminAuth();
-    const [lista, setLista] = useState([]);
-    const [roles, setRoles] = useState([]);
-    const [cargando, setCargando] = useState(true);
-    const [modalAbierto, setModalAbierto] = useState(false);
-    const [editandoId, setEditandoId] = useState(null);
+    const [lista, setLista] = useState<any[]>([]);
+    const [roles, setRoles] = useState<any[]>([]);
+    const [cargando, setCargando] = useState<boolean>(true);
+    const [modalAbierto, setModalAbierto] = useState<boolean>(false);
+    const [editandoId, setEditandoId] = useState<any>(null);
     const [form, setForm] = useState({ nombre_perfil: '', id_rol: '' });
 
     useEffect(() => { cargarDatos(); }, []);
@@ -28,7 +28,7 @@ export default function PerfilesAdminPage() {
         finally { setCargando(false); }
     }
 
-    async function guardar(e) {
+    async function guardar(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const url = editandoId ? `/api/admin/perfiles/${editandoId}` : '/api/admin/perfiles';
         const method = editandoId ? 'PUT' : 'POST';
@@ -43,7 +43,7 @@ export default function PerfilesAdminPage() {
         } catch { alert('Error de conexión'); }
     }
 
-    async function eliminar(id) {
+    async function eliminar(id: number | string) {
         if (!confirm('¿Eliminar este perfil?')) return;
         try {
             const res = await fetch(`/api/admin/perfiles/${id}`, { method: 'DELETE' });
