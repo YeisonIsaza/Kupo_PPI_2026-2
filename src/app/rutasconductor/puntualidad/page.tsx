@@ -13,7 +13,7 @@ const cards = [
   { titulo: 'Rutas optimizadas', descripcion: 'Nuestras rutas están diseñadas para minimizar el tiempo de viaje, evitando zonas de alto tráfico.', color: '#3bbfef' },
 ];
 
-export default function PuntualidadPage() {
+export default function PuntualidadPage(): React.JSX.Element | null {
   return (
     <PaginaAbajo
       titulo="Puntualidad"
