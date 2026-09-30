@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { Perfil } from "@/entities/Perfil";
-import { Rol } from "@/entities/Rol";
+import { getDataSource } from '@/core/database/db';
+import { Perfil } from '@/core/models/Perfil';
+import { Rol } from '@/core/models/Rol';
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
