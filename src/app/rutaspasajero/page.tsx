@@ -5,7 +5,7 @@ import useAuth from '@/core/hooks/useAuth';
 import usePermisos from '@/core/hooks/usePermisos';       // ← NUEVO
 import SinPermiso from '@/presentation/components/SinPermiso';  // ← NUEVO
 
-function formatHora(h) {
+function formatHora(h: any) {
     if (!h) return '';
     try {
         const d = new Date(h);
@@ -18,7 +18,7 @@ function formatHora(h) {
     } catch { return h; }
 }
 
-function Estrellas({ promedio, total }) {
+function Estrellas({ promedio, total }: any) {
     if (!promedio) return <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Sin calificaciones</span>;
     const n = parseFloat(promedio);
     return (
@@ -30,23 +30,23 @@ function Estrellas({ promedio, total }) {
     );
 }
 
-export default function PasajerosPage() {
+export default function PasajerosPage(): React.JSX.Element | null {
     const { nombre, idRol, listo, cerrarSesion } = useAuth([3, 4]);
     const { puedeLeer, puedeCrear, cargando: cargandoPermisos } = usePermisos(); // ← NUEVO
-    const toastTimer = useRef(null);
+    const toastTimer = useRef<any>(null);
 
-    const [viajes, setViajes] = useState([]);
-    const [visibleTrips, setVisibleTrips] = useState([]);
-    const [cargando, setCargando] = useState(true);
+    const [viajes, setViajes] = useState<any[]>([]);
+    const [visibleTrips, setVisibleTrips] = useState<any[]>([]);
+    const [cargando, setCargando] = useState<boolean>(true);
     const [filter, setFilter] = useState('todos');
-    const [busqueda, setBusqueda] = useState('');
-    const [modalOpen, setModalOpen] = useState(false);
-    const [activeTrip, setActiveTrip] = useState(null);
-    const [paradaSeleccionada, setParadaSeleccionada] = useState('');
-    const [reservando, setReservando] = useState(false);
-    const [misReservas, setMisReservas] = useState([]);
-    const [toast, setToast] = useState('');
-    const [toastVisible, setToastVisible] = useState(false);
+    const [busqueda, setBusqueda] = useState<string>('');
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
+    const [activeTrip, setActiveTrip] = useState<any>(null);
+    const [paradaSeleccionada, setParadaSeleccionada] = useState<string>('');
+    const [reservando, setReservando] = useState<boolean>(false);
+    const [misReservas, setMisReservas] = useState<any[]>([]);
+    const [toast, setToast] = useState<string>('');
+    const [toastVisible, setToastVisible] = useState<boolean>(false);
 
     useEffect(() => {
         if (listo) {
@@ -55,7 +55,7 @@ export default function PasajerosPage() {
         }
     }, [listo]);
 
-    function showToast(msg) {
+    function showToast(msg: any) {
         setToast(msg);
         setToastVisible(true);
         clearTimeout(toastTimer.current);
@@ -83,14 +83,14 @@ export default function PasajerosPage() {
         } catch { console.error('Error cargando reservas'); }
     }
 
-    function yaReservado(viajeId) {
+    function yaReservado(viajeId: any) {
         return misReservas.some(r =>
             r.viaje?.id_vj === viajeId &&
             r.estado?.nombre_estado !== 'Cancelada'
         );
     }
 
-    function aplicarFiltros(lista, fil, busq) {
+    function aplicarFiltros(lista: any, fil: any, busq: any) {
         let resultado = [...lista];
         if (busq) {
             const q = busq.toLowerCase();
@@ -114,18 +114,18 @@ export default function PasajerosPage() {
         return resultado;
     }
 
-    function handleFilter(fil) {
+    function handleFilter(fil: any) {
         setFilter(fil);
         setVisibleTrips(aplicarFiltros(viajes, fil, busqueda));
     }
 
-    function handleBusqueda(e) {
+    function handleBusqueda(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
         const q = e.target.value;
         setBusqueda(q);
         setVisibleTrips(aplicarFiltros(viajes, filter, q));
     }
 
-    function openModal(viaje) {
+    function openModal(viaje: any) {
         setActiveTrip(viaje);
         setParadaSeleccionada('');
         setModalOpen(true);
@@ -282,7 +282,7 @@ export default function PasajerosPage() {
                                                     {v.paradas?.length > 0 && (
                                                         <div style={{ marginBottom: '12px', fontSize: '0.78rem', color: '#64748b' }}>
                                                             📍 {v.paradas.length} parada{v.paradas.length !== 1 ? 's' : ''}:
-                                                            {v.paradas.slice(0, 2).map(p => (
+                                                            {v.paradas.slice(0, 2).map((p: any) => (
                                                                 <span key={p.id_pds} style={{ marginLeft: '4px', background: '#f1f5f9', padding: '1px 6px', borderRadius: '4px' }}>
                                                                     {p.nombre}
                                                                 </span>
@@ -342,7 +342,7 @@ export default function PasajerosPage() {
                                 <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Este viaje no tiene paradas definidas</p>
                             ) : (
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                    {activeTrip.paradas?.map(p => (
+                                    {activeTrip.paradas?.map((p: any) => (
                                         <div key={p.id_pds}
                                             onClick={() => setParadaSeleccionada(String(p.id_pds))}
                                             style={{
