@@ -9,35 +9,35 @@ import usePermisos from '@/core/hooks/usePermisos';
 import SinPermiso from '@/presentation/components/SinPermiso';
 
 
-function formatHora(h) {
+function formatHora(h: any) {
     if (!h) return '';
     const [hh, mm] = h.toString().split(':');
     const hour = parseInt(hh);
     return `${hour > 12 ? hour - 12 : hour || 12}:${mm} ${hour >= 12 ? 'PM' : 'AM'}`;
 }
 
-export default function ConductoresPage() {
+export default function ConductoresPage(): React.JSX.Element | null {
   const { nombre, idRol, listo, cerrarSesion } = useAuth([2, 4]);
   const { puedeLeer, puedeCrear, puedeEliminar, cargando } = usePermisos();
   //console.log('puedeLeer:', puedeLeer, 'puedeCrear:', puedeCrear, 'cargandoPermisos:', cargando); 
   const router = useRouter();
 
-  const [trips, setTrips] = useState([]);
-  const [universidades, setUniversidades] = useState([]);
-  const [toast, setToast] = useState('');
-  const [toastVisible, setToastVisible] = useState(false);
-  const toastTimer = useRef(null);
-  const [nitUni, setNitUni] = useState('');
-  const [hora, setHora] = useState('');
-  const [aporte, setAporte] = useState('');
+  const [trips, setTrips] = useState<any[]>([]);
+  const [universidades, setUniversidades] = useState<any[]>([]);
+  const [toast, setToast] = useState<string>('');
+  const [toastVisible, setToastVisible] = useState<boolean>(false);
+  const toastTimer = useRef<any>(null);
+  const [nitUni, setNitUni] = useState<string>('');
+  const [hora, setHora] = useState<string>('');
+  const [aporte, setAporte] = useState<string>('');
   const [cupos, setCupos] = useState('4');
-  const [origenLat, setOrigenLat] = useState(null);
-  const [origenLng, setOrigenLng] = useState(null);
-  const [destinoLat, setDestinoLat] = useState(null);
-  const [destinoLng, setDestinoLng] = useState(null);
-  const [origenNombre, setOrigenNombre] = useState('');
-  const [destinoNombre, setDestinoNombre] = useState('');
-  const [diaSemana, setDiaSemana] = useState('');
+  const [origenLat, setOrigenLat] = useState<any>(null);
+  const [origenLng, setOrigenLng] = useState<any>(null);
+  const [destinoLat, setDestinoLat] = useState<any>(null);
+  const [destinoLng, setDestinoLng] = useState<any>(null);
+  const [origenNombre, setOrigenNombre] = useState<string>('');
+  const [destinoNombre, setDestinoNombre] = useState<string>('');
+  const [diaSemana, setDiaSemana] = useState<string>('');
   
 
   useEffect(() => {
@@ -63,7 +63,7 @@ export default function ConductoresPage() {
     } catch (error) { console.error(error); }
   }
 
-  function showToast(msg) {
+  function showToast(msg: any) {
     setToast(msg);
     setToastVisible(true);
     clearTimeout(toastTimer.current);
@@ -116,7 +116,7 @@ export default function ConductoresPage() {
     } catch { showToast(' Error de conexión'); }
   }
 
-  async function eliminarViaje(id) {
+  async function eliminarViaje(id: number | string) {
     try {
       const res = await fetch(`/api/conductor/rutas/${id}`, { method: 'DELETE' });
       if (res.ok) { cargarRutas(); showToast('🗑️ Ruta eliminada'); }
@@ -124,7 +124,7 @@ export default function ConductoresPage() {
     } catch { showToast(' Error de conexión'); }
   }
 
-  async function toggleRuta(id, estadoActual) {
+  async function toggleRuta(id: any, estadoActual: any) {
       const accion = estadoActual === 'Activa' ? 'desactivar' : 'activar';
       try {
           const res = await fetch(`/api/conductor/rutas/${id}`, {
@@ -174,13 +174,13 @@ export default function ConductoresPage() {
               onOrigenChange={({ lat, lng, direccion, nitUni: nit }) => {
                 setOrigenLat(lat);
                 setOrigenLng(lng);
-                setOrigenNombre(direccion);
+                setOrigenNombre(direccion || '');
                 if (nit) setNitUni(nit);
               }}
               onDestinoChange={({ lat, lng, direccion, nitUni: nit }) => {
                 setDestinoLat(lat);
                 setDestinoLng(lng);
-                setDestinoNombre(direccion);
+                setDestinoNombre(direccion || '');
                 if (nit) setNitUni(nit);
               }}
             />
