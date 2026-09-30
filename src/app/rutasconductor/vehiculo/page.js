@@ -1,10 +1,10 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import UserNavbar from '@/components/UserNavbar';
-import useAuth from '@/lib/useAuth';
-import usePermisos from '@/lib/usePermisos';
-import SinPermiso from '@/components/SinPermiso';
+import UserNavbar from '@/presentation/components/UserNavbar';
+import useAuth from '@/core/hooks/useAuth';
+import usePermisos from '@/core/hooks/usePermisos';
+import SinPermiso from '@/presentation/components/SinPermiso';
 
 export default function VehiculoPage() {
     const { nombre, idRol, listo, cerrarSesion } = useAuth([2, 4]);
