@@ -4,13 +4,13 @@ import AdminSidebar from '@/presentation/components/AdminSidebar';
 import useAdminAuth from '@/core/hooks/useAdminAuth';
 import SinPermiso from '@/presentation/components/SinPermiso';
 
-export default function RolesAdminPage() {
+export default function RolesAdminPage(): React.JSX.Element | null {
   const { nombre, listo, acceso, puedeCrear, puedeActualizar, puedeEliminar } = useAdminAuth();
-  const [roles, setRoles] = useState([]);
-  const [cargando, setCargando] = useState(true);
-  const [modalAbierto, setModalAbierto] = useState(false);
-  const [editandoId, setEditandoId] = useState(null); // null = Crear, número = Editar
-  const [nombreRol, setNombreRol] = useState("");
+  const [roles, setRoles] = useState<any[]>([]);
+  const [cargando, setCargando] = useState<boolean>(true);
+  const [modalAbierto, setModalAbierto] = useState<boolean>(false);
+  const [editandoId, setEditandoId] = useState<any>(null); // null = Crear, número = Editar
+  const [nombreRol, setNombreRol] = useState<string>("");
 
   const cargarRoles = async () => {
     try {
@@ -30,7 +30,7 @@ export default function RolesAdminPage() {
   }, []);
 
 
-  const abrirModal = (rol = null) => {
+  const abrirModal = (rol: Record<string, any> | null = null) => {
     if (rol) {
       setEditandoId(rol.id_rol); // Si pasamos un rol, estamos editando
       setNombreRol(rol.nombre_rol);
@@ -41,7 +41,7 @@ export default function RolesAdminPage() {
     setModalAbierto(true);
   };
 
-  const manejarGuardar = async (e) => {
+  const manejarGuardar = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     const url = editandoId ? `/api/admin/roles/${editandoId}` : "/api/admin/roles";
@@ -67,7 +67,7 @@ export default function RolesAdminPage() {
   };
 
 
-  const manejarEliminar = async (id) => {
+  const manejarEliminar = async (id: number | string) => {
     if (!confirm("¿Seguro que deseas eliminar este rol? Al ser una tabla fuerte podría fallar si ya está asignado a un perfil.")) return;
 
     try {
@@ -169,7 +169,7 @@ export default function RolesAdminPage() {
                           <input 
                             type="text" 
                             value={nombreRol}
-                            onChange={(e) => setNombreRol(e.target.value)}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setNombreRol(e.target.value)}
                             placeholder="Ej: PASAJERO, CONDUCTOR"
                             required
                             style={{ width: "93%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
