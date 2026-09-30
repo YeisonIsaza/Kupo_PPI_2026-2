@@ -3,21 +3,26 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import UserNavbar from '@/presentation/components/UserNavbar';
 import useAuth from '@/core/hooks/useAuth';
+import Estrellas from '@/presentation/components/Estrellas';
 
-export default function PerfilConductorPage() {
+export default function PerfilConductorPage(): React.JSX.Element | null {
     const { nombre, idRol, listo, cerrarSesion } = useAuth([2, 4]);
     const router = useRouter();
-    const fotoRef = useRef(null);
+    const fotoRef = useRef<HTMLInputElement | null>(null);
 
-    const [perfil, setPerfil] = useState(null);
-    const [cargando, setCargando] = useState(true);
-    const [editando, setEditando] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [msg, setMsg] = useState('');
-    const [fotoPreview, setFotoPreview] = useState(null);
-    const [fotoPerfil, setFotoPerfil] = useState(null);
+    const [perfil, setPerfil] = useState<any>(null);
+    const [cargando, setCargando] = useState<boolean>(true);
+    const [editando, setEditando] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [msg, setMsg] = useState<string>('');
+    const [fotoPreview, setFotoPreview] = useState<any>(null);
+    const [fotoPerfil, setFotoPerfil] = useState<any>(null);
 
-    const [form, setForm] = useState({
+    const [form, setForm] = useState<{
+        nombre_user: string; primer_apellido: string; segundo_apellido: string;
+        celular: string; nuevaContrasena: string;
+        [key: string]: string;
+    }>({
         nombre_user: '', primer_apellido: '', segundo_apellido: '',
         celular: '', nuevaContrasena: ''
     });
@@ -45,14 +50,14 @@ export default function PerfilConductorPage() {
         finally { setCargando(false); }
     }
 
-    function handleFotoChange(e) {
-        const file = e.target.files[0];
+    function handleFotoChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const file = e.target.files?.[0];
         if (!file) return;
         setFotoPerfil(file);
         setFotoPreview(URL.createObjectURL(file));
     }
 
-    function fileToBase64(file) {
+    function fileToBase64(file: any) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = () => resolve(reader.result);
@@ -61,7 +66,7 @@ export default function PerfilConductorPage() {
         });
     }
 
-    async function guardarCambios(e) {
+    async function guardarCambios(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         setLoading(true);
         setMsg('');
@@ -90,7 +95,7 @@ export default function PerfilConductorPage() {
         finally { setLoading(false); }
     }
 
-    function formatFecha(fecha) {
+    function formatFecha(fecha: any) {
         if (!fecha) return '—';
         const d = new Date(fecha);
         return d.toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -147,9 +152,9 @@ export default function PerfilConductorPage() {
                                 </h2>
 
                                 {/* Mostrar calificación solo para conductores */}
-                                {calificacion && (
+                                {perfil?.calificacion && (
                                     <div style={{ marginTop: '4px' }}>
-                                        <Estrellas promedio={calificacion.promedio} total={calificacion.total} />
+                                        <Estrellas promedio={perfil.calificacion.promedio} total={perfil.calificacion.total} />
                                     </div>
                                 )}
 
