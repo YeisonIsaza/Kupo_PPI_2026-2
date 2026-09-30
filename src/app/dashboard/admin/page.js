@@ -1,6 +1,6 @@
 'use client';
-import AdminSidebar from '@/components/AdminSidebar';
-import useAdminAuth from '@/lib/useAdminAuth';
+import AdminSidebar from '@/presentation/components/AdminSidebar';
+import useAdminAuth from '@/core/hooks/useAdminAuth';
 
 export default function DashboardAdmin() {
     const { nombre, listo } = useAdminAuth();
