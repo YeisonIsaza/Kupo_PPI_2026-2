@@ -1,9 +1,9 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
-import UserNavbar from '@/components/UserNavbar';
-import useAuth from '@/lib/useAuth';
-import usePermisos from '@/lib/usePermisos';       // ← NUEVO
-import SinPermiso from '@/components/SinPermiso';  // ← NUEVO
+import UserNavbar from '@/presentation/components/UserNavbar';
+import useAuth from '@/core/hooks/useAuth';
+import usePermisos from '@/core/hooks/usePermisos';       // ← NUEVO
+import SinPermiso from '@/presentation/components/SinPermiso';  // ← NUEVO
 
 function formatHora(h) {
     if (!h) return '';
