@@ -2,7 +2,8 @@
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default function UserNavbar({ nombre, idRol, onCerrarSesion }) {
+interface UserNavbarProps { nombre: string; idRol: number | null; onCerrarSesion: () => void; }
+export default function UserNavbar({ nombre, idRol, onCerrarSesion }: UserNavbarProps): React.JSX.Element | null {
     const router = useRouter();
 
     const menuConductor = [
@@ -73,8 +74,8 @@ export default function UserNavbar({ nombre, idRol, onCerrarSesion }) {
                         letterSpacing: '0.5px',
                         transition: 'color 0.2s'
                     }}
-                    onMouseEnter={e => e.target.style.color = '#fff'}
-                    onMouseLeave={e => e.target.style.color = '#a5b4fc'}
+                    onMouseEnter={e => e.currentTarget.style.color = '#fff'}
+                    onMouseLeave={e => e.currentTarget.style.color = '#a5b4fc'}
                     >
                         {item.label}
                     </Link>
