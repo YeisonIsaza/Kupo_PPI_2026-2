@@ -1,8 +1,8 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import UserNavbar from '@/components/UserNavbar';
-import useAuth from '@/lib/useAuth';
+import UserNavbar from '@/presentation/components/UserNavbar';
+import useAuth from '@/core/hooks/useAuth';
 
 export default function PerfilConductorPage() {
     const { nombre, idRol, listo, cerrarSesion } = useAuth([2, 4]);
