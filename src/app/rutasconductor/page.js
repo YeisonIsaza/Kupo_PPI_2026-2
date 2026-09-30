@@ -1,12 +1,12 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
-import UserNavbar from '@/components/UserNavbar';
-import useAuth from '@/lib/useAuth';
-import MapaPicker from '@/components/MapaPicker';
+import UserNavbar from '@/presentation/components/UserNavbar';
+import useAuth from '@/core/hooks/useAuth';
+import MapaPicker from '@/presentation/components/MapaPicker';
 import './conductores.css';
 import { useRouter } from 'next/navigation';
-import usePermisos from '@/lib/usePermisos';
-import SinPermiso from '@/components/SinPermiso';
+import usePermisos from '@/core/hooks/usePermisos';
+import SinPermiso from '@/presentation/components/SinPermiso';
 
 
 function formatHora(h) {
