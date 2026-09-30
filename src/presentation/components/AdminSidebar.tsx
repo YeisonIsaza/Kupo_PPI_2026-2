@@ -1,21 +1,25 @@
 'use client';
 import { useRouter, usePathname } from 'next/navigation';
 
-const menuItems = [
-    { id: 'inicio',          label: 'Inicio',         url: '/dashboard/admin'                },
-    { id: 'roles',           label: 'Roles',           url: '/dashboard/admin/roles'          }, 
-    { id: 'estados',         label: 'Estados',         url: '/dashboard/admin/estados'        }, 
-    { id: 'perfiles',        label: 'Perfiles',        url: '/dashboard/admin/perfiles'       },
-    { id: 'menus',           label: 'Menús',           url: '/dashboard/admin/menus'          }, 
-    { id: 'universidades',   label: 'Universidades',   url: '/dashboard/admin/universidades'  }, 
-    { id: 'permisos',        label: 'Permisos Menú',  url: '/dashboard/admin/permisos'       },
-    { id: 'usuarios',        label: 'Solicitudes',     url: '/dashboard/admin/usuarios'    },
-    { id: 'administradores', label: 'Administradores', url: '/dashboard/admin/administradores'},
-    //validar si no da solicitudes,poner la de usuarios
+interface MenuItem {
+  id: string;
+  label: string;
+  url: string;
+}
+
+const menuItems: MenuItem[] = [
+    { id: 'inicio',          label: 'Inicio',          url: '/dashboard/admin'                },
+    { id: 'roles',           label: 'Roles',            url: '/dashboard/admin/roles'          },
+    { id: 'estados',         label: 'Estados',          url: '/dashboard/admin/estados'        },
+    { id: 'perfiles',        label: 'Perfiles',         url: '/dashboard/admin/perfiles'       },
+    { id: 'menus',           label: 'Menús',            url: '/dashboard/admin/menus'          },
+    { id: 'universidades',   label: 'Universidades',    url: '/dashboard/admin/universidades'  },
+    { id: 'permisos',        label: 'Permisos Menú',   url: '/dashboard/admin/permisos'       },
+    { id: 'usuarios',        label: 'Solicitudes',      url: '/dashboard/admin/usuarios'       },
+    { id: 'administradores', label: 'Administradores',  url: '/dashboard/admin/administradores'},
 ];
 
-
-export default function AdminSidebar() {
+export default function AdminSidebar(): React.JSX.Element | null {
     const router   = useRouter();
     const pathname = usePathname();
 
