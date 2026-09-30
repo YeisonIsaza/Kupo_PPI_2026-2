@@ -2,14 +2,14 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function DashboardMixto() {
+export default function DashboardMixto(): React.JSX.Element | null {
     const router = useRouter();
-    const [nombre, setNombre] = useState('');
-    const [listo, setListo] = useState(false);
+    const [nombre, setNombre] = useState<string>('');
+    const [listo, setListo] = useState<boolean>(false);
 
     useEffect(() => {
         const userId   = localStorage.getItem('userId');
-        const userRol  = parseInt(localStorage.getItem('userRol'));
+        const userRol  = parseInt(localStorage.getItem('userRol') || "0");
         const userName = localStorage.getItem('userName');
 
         if (!userId) { router.push('/login'); return; }
@@ -23,7 +23,7 @@ export default function DashboardMixto() {
         setListo(true);
     }, []);
 
-    function elegirModo(modo) {
+    function elegirModo(modo: any) {
         localStorage.setItem('modoMixto', modo);
         router.push(modo === 'conductor' ? '/dashboard/conductor' : '/dashboard/pasajero');
     }
