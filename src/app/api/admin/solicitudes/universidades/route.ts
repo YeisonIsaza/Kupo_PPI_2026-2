@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { UniversidadEstudiante } from "@/entities/UniversidadEstudiante";
-import { Estado } from "@/entities/Estado";
+import { getDataSource } from '@/core/database/db';
+import { UniversidadEstudiante } from '@/core/models/UniversidadEstudiante';
+import { Estado } from '@/core/models/Estado';
 
 export async function GET() {
     try {
