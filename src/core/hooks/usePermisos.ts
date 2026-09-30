@@ -2,10 +2,30 @@
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
-export default function usePermisos() {
+interface Permiso {
+  leer: boolean;
+  crear: boolean;
+  actualizar: boolean;
+  eliminar: boolean;
+}
+
+interface PermisosMap {
+  [ruta: string]: Permiso;
+}
+
+interface UsePermisosReturn {
+  permisos: PermisosMap | null;
+  cargando: boolean;
+  puedeLeer: boolean;
+  puedeCrear: boolean;
+  puedeActualizar: boolean;
+  puedeEliminar: boolean;
+}
+
+export default function usePermisos(): UsePermisosReturn {
     const pathname = usePathname();
-    const [permisos, setPermisos] = useState(null);
-    const [cargando, setCargando] = useState(true);
+    const [permisos, setPermisos] = useState<PermisosMap | null>(null);
+    const [cargando, setCargando] = useState<boolean>(true);
 
     useEffect(() => {
         const userId = localStorage.getItem('userId');
@@ -13,7 +33,7 @@ export default function usePermisos() {
 
         fetch(`/api/admin/menu-permisos?userId=${userId}`)
             .then(r => r.json())
-            .then(data => {
+            .then((data: PermisosMap) => {
                 setPermisos(data);
                 setCargando(false);
             })
@@ -21,7 +41,7 @@ export default function usePermisos() {
                 setPermisos({});
                 setCargando(false);
             });
-    }, []); // ← solo se ejecuta una vez al montar
+    }, []);
 
     if (cargando || permisos === null) {
         return {
