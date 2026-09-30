@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { Estado } from "@/entities/Estado";
+import { getDataSource } from '@/core/database/db';
+import { Estado } from '@/core/models/Estado';
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
