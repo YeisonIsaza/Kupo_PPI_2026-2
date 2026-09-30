@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { Viaje } from "@/entities/Viaje";
+import { getDataSource } from '@/core/database/db';
+import { Viaje } from '@/core/models/Viaje';
 import { In } from "typeorm";
 
 export async function GET(request: Request) {
