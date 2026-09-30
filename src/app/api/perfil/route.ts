@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { getDataSource } from "@/lib/db";
-import { Vehiculo } from "@/entities/Vehiculo";
-import { Conductor } from "@/entities/Conductor";
-import { Usuario } from "@/entities/Usuario";
-import { Estado } from "@/entities/Estado";
+import { getDataSource } from '@/core/database/db';
+import { Vehiculo } from '@/core/models/Vehiculo';
+import { Conductor } from '@/core/models/Conductor';
+import { Usuario } from '@/core/models/Usuario';
+import { Estado } from '@/core/models/Estado';
 
 export async function POST(request: Request) {
     try {
