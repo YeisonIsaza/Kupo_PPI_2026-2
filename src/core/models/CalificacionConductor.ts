@@ -3,35 +3,35 @@ import { Viaje } from "./Viaje";
 import { Usuario } from "./Usuario";
 import { Conductor } from "./Conductor";
 
-@Entity("CALIFICACION_CONDUCTOR")
+@Entity("calificacion_conductor")
 @Check("CK_PUNT_C", `"PUNTUACION_CALCON" BETWEEN 1 AND 5`)
 export class CalificacionConductor {
 
-    @PrimaryGeneratedColumn({ type: "number", name: "ID_CALCON" })
+    @PrimaryGeneratedColumn({ type: "int", name: "id_calcon" })
     id_calcon!: number;
 
-    @Column({ type: "number", precision: 2, nullable: false, name: "PUNTUACION_CALCON" })
+    @Column({ type: "int", nullable: false, name: "puntuacion_calcon" })
     puntuacion_calcon!: number;
 
-    @Column({ type: "varchar2", length: 120, nullable: true, name: "COMENTARIO_CALCON" })
+    @Column({ type: "varchar", length: 120, nullable: true, name: "comentario_calcon" })
     comentario_calcon!: string;
 
-    @CreateDateColumn({ type: "date", default: () => "SYSDATE", name: "FECHA_CALCON" })
+    @CreateDateColumn({ type: "date", default: () => "CURRENT_TIMESTAMP", name: "fecha_calcon" })
     fecha_calcon!: Date;
 
     // --- LLAVES FORÁNEAS ---
 
     @ManyToOne(() => Viaje, { nullable: false })
-    @JoinColumn({ name: "ID_VJ" })
+    @JoinColumn({ name: "id_vj" })
     viaje!: Viaje;
 
     // Relación para el Emisor (Usuario)
     @ManyToOne(() => Usuario, { nullable: false })
-    @JoinColumn({ name: "ID_USER_EMISOR" })
+    @JoinColumn({ name: "id_user_emisor" })
     usuarioEmisor!: Usuario;
 
     // Relación para el Receptor (Conductor - fíjate que apunta a la tabla Conductor)
     @ManyToOne(() => Conductor, { nullable: false })
-    @JoinColumn({ name: "ID_USER_RECEPTOR" })
+    @JoinColumn({ name: "id_user_receptor" })
     conductorReceptor!: Conductor;
 }
