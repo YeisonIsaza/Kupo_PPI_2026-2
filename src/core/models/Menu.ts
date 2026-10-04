@@ -1,19 +1,19 @@
 import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn } from "typeorm";
 
-@Entity("MENU")
+@Entity("menu")
 export class Menu {
 
-    @PrimaryColumn({ type: "varchar2", length: 5, name: "CODIGO_MENU" })
+    @PrimaryColumn({ type: "varchar", length: 5, name: "codigo_menu" })
     codigo_menu!: string;
 
-    @Column({ type: "varchar2", length: 200, nullable: false, name: "URL_MENU" })
+    @Column({ type: "varchar", length: 200, nullable: false, name: "url_menu" })
     url_menu!: string;
 
-    @Column({ type: "varchar2", length: 30, nullable: false, name: "NOMBRE_MENU" })
+    @Column({ type: "varchar", length: 30, nullable: false, name: "nombre_menu" })
     nombre_menu!: string;
 
     // --- RELACIÓN REFLEXIVA (MENU PADRE) ---
     @ManyToOne(() => Menu)
-    @JoinColumn({ name: "MENU_PADRE_CODIGO" }) // Apunta a la PK de esta misma tabla
+    @JoinColumn({ name: "menu_padre_codigo" }) // Apunta a la PK de esta misma tabla
     menuPadre!: Menu;
 }
