@@ -2,44 +2,44 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, Unique, 
 import { Usuario } from "./Usuario";
 import { Estado } from "./Estado";
 
-@Entity("VEHICULO")
+@Entity("vehiculo")
 @Unique("UK_PLACA", ["placa_veh"])
 @Check("CK_CUPOS", `"TOTAL_CUPOS_VEH" >= 1`) // Restricción para asegurar que haya al menos 1 cupo
 export class Vehiculo {
 
-    @PrimaryGeneratedColumn({ type: "number", name: "ID_VEH" })
+    @PrimaryGeneratedColumn({ type: "int", name: "id_veh" })
     id_veh!: number;
 
-    @Column({ type: "varchar2", length: 10, nullable: false, name: "PLACA_VEH" })
+    @Column({ type: "varchar", length: 10, nullable: false, name: "placa_veh" })
     placa_veh!: string;
 
-    @Column({ type: "varchar2", length: 50, nullable: true, name: "MARCA_VEH" })
+    @Column({ type: "varchar", length: 50, nullable: true, name: "marca_veh" })
     marca_veh!: string;
 
-    @Column({ type: "varchar2", length: 50, nullable: true, name: "MODELO_VEH" })
+    @Column({ type: "varchar", length: 50, nullable: true, name: "modelo_veh" })
     modelo_veh!: string;
 
-    @Column({ type: "varchar2", length: 30, nullable: true, name: "COLOR_VEH" })
+    @Column({ type: "varchar", length: 30, nullable: true, name: "color_veh" })
     color_veh!: string;
 
-    @Column({ type: "number", precision: 4, nullable: true, name: "ANNO_CREACION_VEH" })
+    @Column({ type: "int", nullable: true, name: "anno_creacion_veh" })
     anno_creacion_veh!: number;
 
-    @Column({ type: "varchar2", length: 20, nullable: true, name: "NUMERO_SOAT_VEH" })
+    @Column({ type: "varchar", length: 20, nullable: true, name: "numero_soat_veh" })
     numero_soat_veh!: string;
 
-    @Column({ type: "number", precision: 1, nullable: false, name: "TOTAL_CUPOS_VEH" })
+    @Column({ type: "int", nullable: false, name: "total_cupos_veh" })
     total_cupos_veh!: number;
 
     // --- LLAVES FORÁNEAS (RELACIONES) ---
 
     // Relación obligatoria por: CONSTRAINT NN_USER_VEH CHECK (ID_USER IS NOT NULL)
     @ManyToOne(() => Usuario, { nullable: false })
-    @JoinColumn({ name: "ID_USER" })
+    @JoinColumn({ name: "id_user" })
     usuario!: Usuario;
 
     // Relación obligatoria por: CONSTRAINT NN_ESTADO_VEH CHECK (ID_ESTADO IS NOT NULL)
     @ManyToOne(() => Estado, { nullable: false })
-    @JoinColumn({ name: "ID_ESTADO" })
+    @JoinColumn({ name: "id_estado" })
     estado!: Estado;
 }
