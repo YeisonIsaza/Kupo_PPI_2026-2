@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getDataSource } from '@/core/database/db';
+import { supabase } from '@/core/lib/supabase';
 import { RutaConductor } from '@/core/models/RutaConductor';
 import { Viaje } from '@/core/models/Viaje';
 import { Vehiculo } from '@/core/models/Vehiculo';
@@ -75,10 +76,11 @@ export async function PATCH(
             // Guardar hora_salida_vj con query nativa
             // ✅ Pon esto
                 if (ruta.hora_salida_rc) {
-                    await ds.query(
-                        `UPDATE VIAJE SET HORA_SALIDA_VJ = TO_DATE('1970-01-01 ' || :1, 'YYYY-MM-DD HH24:MI') WHERE ID_VJ = :2`,
-                        [ruta.hora_salida_rc, viajeGuardado.id_vj]
-                    );
+                    const { error } = await supabase
+                        .from('viaje')
+                        .update({ hora_salida_vj: `1970-01-01 ${ruta.hora_salida_rc}:00` })
+                        .eq('id_vj', viajeGuardado.id_vj);
+                    if (error) throw error;
                 }
 
             return NextResponse.json({ message: "Ruta activada y viaje creado", viajeId: viajeGuardado.id_vj }, { status: 200 });
@@ -129,10 +131,11 @@ export async function DELETE(
         await viajeRepo.delete({ rutaConductor: { id_rc: Number(id) } });
 
         // 4. Borrar paradas
-        await ds.query(
-            `DELETE FROM PARADA WHERE ID_RC = :1`,
-            [Number(id)]
-        );
+        const { error: errParada } = await supabase
+            .from('parada')
+            .delete()
+            .eq('id_rc', Number(id));
+        if (errParada) throw errParada;
 
         // 5. Borrar ruta
         await rutaRepo.remove(ruta);
