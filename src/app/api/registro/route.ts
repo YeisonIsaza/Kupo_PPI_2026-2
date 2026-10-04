@@ -120,13 +120,17 @@ export async function POST(request: Request) {
         }, { status: 201 });
 
     } catch (error: any) {
-        console.error("❌ Error:", error);
+        console.error("❌ Error completo:", error);
         let mensajeError = "Error al registrar";
-        if (error.errorNum === 1) {
-            if (error.message?.includes('UK_CORREO_USER')) mensajeError = "El correo ya está registrado.";
-            else if (error.message?.includes('UK_DOC_USER')) mensajeError = "El documento ya está registrado.";
-            else if (error.message?.includes('UK_CELULAR_USER')) mensajeError = "El celular ya está registrado.";
+        
+        // Postgres código para Unique Violation es '23505'
+        if (error.code === '23505' || error.errorNum === 1) {
+            if (error.detail?.includes('correo') || error.message?.includes('UK_CORREO_USER')) mensajeError = "El correo ya está registrado.";
+            else if (error.detail?.includes('documento') || error.message?.includes('UK_DOC_USER')) mensajeError = "El documento ya está registrado.";
+            else if (error.detail?.includes('celular') || error.message?.includes('UK_CELULAR_USER')) mensajeError = "El celular ya está registrado.";
         }
-        return NextResponse.json({ error: mensajeError }, { status: 500 });
+        
+        // Retornamos el error detallado para saber exactamente qué está fallando
+        return NextResponse.json({ error: mensajeError, details: error.message }, { status: 500 });
     }
 }
