@@ -27,23 +27,12 @@ import { Vehiculo }               from '../models/Vehiculo';
 import { Viaje }                  from '../models/Viaje';
 
 const options: DataSourceOptions & SeederOptions = {
-    type: "oracle",
-    host: "localhost",
-    port: 1521,
-    username: "us_fastdrive1",
-    password: "123",
-    sid: "xe",
-    synchronize: false,
+    type: "postgres",
+    url: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }, // Requerido por Supabase
+    synchronize: true, // Esto creará todas las tablas en Supabase automáticamente basado en tus modelos
     logging: true,
     //logging: false,
-
-     extra: {
-        poolMin: 2,        // conexiones mínimas siempre abiertas
-        poolMax: 10,       // máximo de conexiones simultáneas
-        poolIncrement: 1,  // cuántas abre cuando necesita más
-        poolTimeout: 60,   // segundos antes de cerrar una conexión inactiva
-    },
-
 
     entities: [
         CalificacionConductor,
@@ -86,7 +75,7 @@ export async function getDataSource() {
             }
             await AppDataSource.initialize();
             initialized = true;
-            console.log("¡Conexión con Oracle establecida!");
+            console.log("¡Conexión con Supabase (PostgreSQL) establecida!");
         } catch (error: any) {
             if (error.message?.includes("already established")) {
                 initialized = true;
