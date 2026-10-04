@@ -2,34 +2,34 @@ import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn } from "typeorm";
 import { Menu } from "./Menu";
 import { Perfil } from "./Perfil";
 
-@Entity("MENU_PERMISO")
+@Entity("menu_permiso")
 export class MenuPermiso {
 
-    @PrimaryColumn({ type: "varchar2", length: 5, name: "CODIGO_MENU" })
+    @PrimaryColumn({ type: "varchar", length: 5, name: "codigo_menu" })
     codigo_menu!: string;
 
-    @PrimaryColumn({ type: "number", name: "CODIGO_PERFIL" })
+    @PrimaryColumn({ type: "int", name: "codigo_perfil" })
     codigo_perfil!: number;
 
     // --- COLUMNAS DE PERMISOS ---
-    @Column({ type: "char", length: 1, nullable: false, default: 'N', name: "PUEDE_CREAR" })
+    @Column({ type: "char", length: 1, nullable: false, default: 'N', name: "puede_crear" })
     puede_crear!: string;
 
-    @Column({ type: "char", length: 1, nullable: false, default: 'N', name: "PUEDE_LEER" })
+    @Column({ type: "char", length: 1, nullable: false, default: 'N', name: "puede_leer" })
     puede_leer!: string;
 
-    @Column({ type: "char", length: 1, nullable: false, default: 'N', name: "PUEDE_ACTUALIZAR" })
+    @Column({ type: "char", length: 1, nullable: false, default: 'N', name: "puede_actualizar" })
     puede_actualizar!: string;
 
-    @Column({ type: "char", length: 1, nullable: false, default: 'N', name: "PUEDE_ELIMINAR" })
+    @Column({ type: "char", length: 1, nullable: false, default: 'N', name: "puede_eliminar" })
     puede_eliminar!: string;
 
     // --- RELACIONES ---
     @ManyToOne(() => Menu)
-    @JoinColumn({ name: "CODIGO_MENU" })
+    @JoinColumn({ name: "codigo_menu" })
     menu!: Menu;
 
     @ManyToOne(() => Perfil)
-    @JoinColumn({ name: "CODIGO_PERFIL" })
+    @JoinColumn({ name: "codigo_perfil" })
     perfil!: Perfil;
 }
