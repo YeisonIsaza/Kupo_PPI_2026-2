@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getDataSource } from '@/core/database/db';
+import { supabase } from '@/core/lib/supabase';
 import { Reserva } from '@/core/models/Reserva';
 import { CalificacionConductor } from '@/core/models/CalificacionConductor';
 
@@ -42,11 +43,21 @@ export async function GET(request: Request) {
             });
 
             // Promedio del conductor
-            const calResult = await ds.query(
-                `SELECT AVG(PUNTUACION_CALCON) as promedio, COUNT(*) as total
-                 FROM CALIFICACION_CONDUCTOR WHERE ID_USER_RECEPTOR = :1`,
-                [conductor?.id_user]
-            );
+            let promedio = null;
+            let totalCal = 0;
+            if (conductor?.id_user) {
+                const { data: calResult, error: calError } = await supabase
+                    .from('calificacion_conductor')
+                    .select('puntuacion_calcon')
+                    .eq('id_user_receptor', Number(conductor.id_user));
+                
+                if (!calError && calResult) {
+                    totalCal = calResult.length;
+                    if (totalCal > 0) {
+                        promedio = (calResult.reduce((acc, curr) => acc + Number(curr.puntuacion_calcon), 0) / totalCal).toFixed(1);
+                    }
+                }
+            }
 
             return {
                 id_vj:               r.viaje?.id_vj,
@@ -55,8 +66,8 @@ export async function GET(request: Request) {
                 conductor_foto:      conductorUsuario?.foto_perf,
                 origen:              r.viaje?.rutaConductor?.origen_nombre,
                 destino:             r.viaje?.rutaConductor?.destino_nombre || r.viaje?.rutaConductor?.universidad?.nombre_uni,
-                promedio_conductor:  calResult[0]?.PROMEDIO ? Number(calResult[0].PROMEDIO).toFixed(1) : null,
-                total_calificaciones: Number(calResult[0]?.TOTAL) || 0,
+                promedio_conductor:  promedio,
+                total_calificaciones: totalCal,
                 calificado:          !!yaCalificado,
             };
         }));
