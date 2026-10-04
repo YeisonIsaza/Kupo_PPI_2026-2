@@ -51,6 +51,6 @@ export async function POST(request: Request) {
 
     } catch (error: any) {
         console.error("DETALLE DEL ERROR:", error);
-        return NextResponse.json({ error: "Fallo en la conexión con Oracle" }, { status: 500 });
+        return NextResponse.json({ error: "Fallo en la conexión con la base de datos" }, { status: 500 });
     }
 }
