@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getDataSource } from '@/core/database/db';
+import { supabase } from '@/core/lib/supabase';
 import { CalificacionConductor } from '@/core/models/CalificacionConductor';
 
 export async function POST(request: Request) {
@@ -48,26 +49,34 @@ export async function GET(request: Request) {
         if (!userId || !tipo) return NextResponse.json({ error: "Faltan parámetros" }, { status: 400 });
 
         const ds = await getDataSource();
-        let resultado;
+        let promedio = null;
+        let total = 0;
 
         if (tipo === 'conductor') {
-            resultado = await ds.query(
-                `SELECT AVG(PUNTUACION_CALCON) as promedio, COUNT(*) as total
-                 FROM CALIFICACION_CONDUCTOR
-                 WHERE ID_USER_RECEPTOR = :1`,
-                [Number(userId)]
-            );
+            const { data, error } = await supabase
+                .from('calificacion_conductor')
+                .select('puntuacion_calcon')
+                .eq('id_user_receptor', Number(userId));
+            
+            if (error) throw error;
+            
+            total = data.length;
+            if (total > 0) {
+                promedio = (data.reduce((acc, curr) => acc + Number(curr.puntuacion_calcon), 0) / total).toFixed(1);
+            }
         } else {
-            resultado = await ds.query(
-                `SELECT AVG(PUNTUACION_CALE) as promedio, COUNT(*) as total
-                 FROM CALIFICACION_ESTUDIANTE
-                 WHERE ID_USER_RECEPTOR = :1`,
-                [Number(userId)]
-            );
-        }
+            const { data, error } = await supabase
+                .from('calificacion_estudiante')
+                .select('puntuacion_cale')
+                .eq('id_user_receptor', Number(userId));
 
-        const promedio = resultado[0]?.PROMEDIO ? Number(resultado[0].PROMEDIO).toFixed(1) : null;
-        const total    = Number(resultado[0]?.TOTAL) || 0;
+            if (error) throw error;
+            
+            total = data.length;
+            if (total > 0) {
+                promedio = (data.reduce((acc, curr) => acc + Number(curr.puntuacion_cale), 0) / total).toFixed(1);
+            }
+        }
 
         return NextResponse.json({ promedio, total }, { status: 200 });
 
