@@ -4,41 +4,41 @@ import { Usuario } from "./Usuario";
 import { Universidad } from "./Universidad";
 import { Estado } from "./Estado";
 
-@Entity("PARADA")
+@Entity("parada")
 @Check("CK_ES_UNI_PDS", `"ES_UNIVERSIDAD_PDS" IN ('SI', 'NO')`) // Asegura que solo acepte 'SI' o 'NO'
 export class Parada {
 
-    @PrimaryGeneratedColumn({ type: "number", name: "ID_PDS" })
+    @PrimaryGeneratedColumn({ type: "int", name: "id_pds" })
     id_pds!: number;
 
-    @Column({ type: "varchar2", length: 200, nullable: false, name: "PUNTO_RECOGIDA_PDS" })
+    @Column({ type: "varchar", length: 200, nullable: false, name: "punto_recogida_pds" })
     punto_recogida_pds!: string;
 
-    @Column({ type: "number", precision: 2, nullable: false, name: "ORDEN_PDS" })
+    @Column({ type: "int", nullable: false, name: "orden_pds" })
     orden_pds!: number;
 
-    @Column({ type: "date", nullable: true, name: "HORA_ESTIMADA_PDS" })
+    @Column({ type: "date", nullable: true, name: "hora_estimada_pds" })
     hora_estimada_pds!: Date;
 
-    @Column({ type: "varchar2", length: 2, nullable: false, name: "ES_UNIVERSIDAD_PDS" })
+    @Column({ type: "varchar", length: 2, nullable: false, name: "es_universidad_pds" })
     es_universidad_pds!: string;
 
     //nuevo campo para costo adicional
-    @Column({ type: "number", precision: 10, scale: 2, nullable: true, name: "COSTO_ADICIONAL_PDS", default: 0 })
+    @Column({ type: "numeric", precision: 10, scale: 2, nullable: true, name: "costo_adicional_pds", default: 0 })
     costo_adicional_pds!: number;
 
     // --- LLAVES FORÁNEAS (RELACIONES) ---
 
     @ManyToOne(() => RutaConductor, { nullable: false })
-    @JoinColumn({ name: "ID_RC" })
+    @JoinColumn({ name: "id_rc" })
     rutaConductor!: RutaConductor;
 
     // Esta relación es opcional en la BD (NIT_UNI no tiene restricción NOT NULL)
     @ManyToOne(() => Universidad, { nullable: true })
-    @JoinColumn({ name: "NIT_UNI" })
+    @JoinColumn({ name: "nit_uni" })
     universidad!: Universidad;
 
     @ManyToOne(() => Estado, { nullable: false })
-    @JoinColumn({ name: "ID_ESTADO" })
+    @JoinColumn({ name: "id_estado" })
     estado!: Estado;
 }
