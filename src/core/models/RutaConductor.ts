@@ -5,44 +5,44 @@ import { Estado } from "./Estado";
 import { OneToMany } from "typeorm";
 
 
-@Entity("RUTA_CONDUCTOR")
+@Entity("ruta_conductor")
 export class RutaConductor {
 
-    @PrimaryGeneratedColumn({ type: "number", name: "ID_RC" })
+    @PrimaryGeneratedColumn({ type: "int", name: "id_rc" })
     id_rc!: number;
 
-   @Column({ type: "varchar2", length: 5, nullable: false, name: "HORA_SALIDA_RC" })
+   @Column({ type: "varchar", length: 5, nullable: false, name: "hora_salida_rc" })
     hora_salida_rc!: string;
 
-    //@Column({ type: "date", nullable: true, name: "HORA_ESTIPULADA_LLEGADA_RC" })
+    //@Column({ type: "date", nullable: true, name: "hora_estipulada_llegada_rc" })
     //hora_estipulada_llegada_rc!: Date;
 
-    @CreateDateColumn({ type: "date", default: () => "SYSDATE", name: "FECHA_PUBLICACION_RC" })
+    @CreateDateColumn({ type: "date", default: () => "CURRENT_TIMESTAMP", name: "fecha_publicacion_rc" })
     fecha_publicacion_rc!: Date;
 
-    @Column({ type: "number", precision: 10, scale: 2, nullable: false, name: "TARIFA_RC" })
+    @Column({ type: "numeric", precision: 10, scale: 2, nullable: false, name: "tarifa_rc" })
     tarifa_rc!: number;
 
     // --- COORDENADAS GEOGRÁFICAS ---
-    @Column({ type: "number", precision: 10, scale: 8, nullable: true, name: "PUNTO_ORIGEN_LATITUD_RC" })
+    @Column({ type: "numeric", precision: 10, scale: 8, nullable: true, name: "punto_origen_latitud_rc" })
     punto_origen_latitud_rc!: number;
 
-    @Column({ type: "number", precision: 10, scale: 8, nullable: true, name: "PUNTO_ORIGEN_LONGITUD_RC" })
+    @Column({ type: "numeric", precision: 10, scale: 8, nullable: true, name: "punto_origen_longitud_rc" })
     punto_origen_longitud_rc!: number;
 
-    @Column({ type: "number", precision: 10, scale: 8, nullable: true, name: "PUNTO_DESTINO_LATITUD_RC" })
+    @Column({ type: "numeric", precision: 10, scale: 8, nullable: true, name: "punto_destino_latitud_rc" })
     punto_destino_latitud_rc!: number;
 
-    @Column({ type: "number", precision: 10, scale: 8, nullable: true, name: "PUNTO_DESTINO_LONGITUD_RC" })
+    @Column({ type: "numeric", precision: 10, scale: 8, nullable: true, name: "punto_destino_longitud_rc" })
     punto_destino_longitud_rc!: number;
 
-    @Column({ type: "varchar2", length: 50, nullable: true, name: "DIAS_SEMANA" })
+    @Column({ type: "varchar", length: 50, nullable: true, name: "dias_semana" })
     dias_semana!: string;
 
-    @Column({ type: "varchar2", length: 300, nullable: true, name: "ORIGEN_NOMBRE" })
+    @Column({ type: "varchar", length: 300, nullable: true, name: "origen_nombre" })
     origen_nombre!: string;
 
-    @Column({ type: "varchar2", length: 300, nullable: true, name: "DESTINO_NOMBRE" })
+    @Column({ type: "varchar", length: 300, nullable: true, name: "destino_nombre" })
     destino_nombre!: string;
 
     @OneToMany(() => {
@@ -54,14 +54,14 @@ export class RutaConductor {
     // --- LLAVES FORÁNEAS (RELACIONES) ---
 
     @ManyToOne(() => Universidad, { nullable: false })
-    @JoinColumn({ name: "NIT_UNI" })
+    @JoinColumn({ name: "nit_uni" })
     universidad!: Universidad;
 
     @ManyToOne(() => Conductor, { nullable: false })
-    @JoinColumn({ name: "ID_USER" })
+    @JoinColumn({ name: "id_user" })
     conductor!: Conductor;
 
     @ManyToOne(() => Estado, { nullable: false })
-    @JoinColumn({ name: "ID_ESTADO" })
+    @JoinColumn({ name: "id_estado" })
     estado!: Estado;
 }
