@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getDataSource } from '@/core/database/db';
+import { supabase } from '@/core/lib/supabase';
 import { Parada } from '@/core/models/Parada';
 import { RutaConductor } from '@/core/models/RutaConductor';
 import { Estado } from '@/core/models/Estado';
@@ -66,10 +67,11 @@ export async function POST(
 
         // Actualizar hora con query nativa para evitar problema de timezone
         if (body.horaEstimada) {
-            await ds.query(
-                `UPDATE PARADA SET HORA_ESTIMADA_PDS = TO_DATE('1970-01-01 ${body.horaEstimada}', 'YYYY-MM-DD HH24:MI') WHERE ID_PDS = :1`,
-                [paradaGuardada.id_pds]
-            );
+            const { error } = await supabase
+                .from('parada')
+                .update({ hora_estimada_pds: `1970-01-01 ${body.horaEstimada}:00` })
+                .eq('id_pds', paradaGuardada.id_pds);
+            if (error) throw error;
         }
 
         return NextResponse.json(paradaGuardada, { status: 201 });
