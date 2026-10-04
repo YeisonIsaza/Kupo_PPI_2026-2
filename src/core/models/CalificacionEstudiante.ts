@@ -2,35 +2,35 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, Jo
 import { Viaje } from "./Viaje";
 import { Usuario } from "./Usuario";
 
-@Entity("CALIFICACION_ESTUDIANTE")
+@Entity("calificacion_estudiante")
 @Check("CK_PUNT_E", `"PUNTUACION_CALE" BETWEEN 1 AND 5`)
 export class CalificacionEstudiante {
 
-    @PrimaryGeneratedColumn({ type: "number", name: "ID_CALE" })
+    @PrimaryGeneratedColumn({ type: "int", name: "id_cale" })
     id_cale!: number;
 
-    @Column({ type: "number", precision: 2, nullable: false, name: "PUNTUACION_CALE" })
+    @Column({ type: "int", nullable: false, name: "puntuacion_cale" })
     puntuacion_cale!: number;
 
-    @Column({ type: "varchar2", length: 120, nullable: true, name: "COMENTARIO_CALE" })
+    @Column({ type: "varchar", length: 120, nullable: true, name: "comentario_cale" })
     comentario_cale!: string;
 
-    @CreateDateColumn({ type: "date", default: () => "SYSDATE", name: "FECHA_CALE" })
+    @CreateDateColumn({ type: "date", default: () => "CURRENT_TIMESTAMP", name: "fecha_cale" })
     fecha_cale!: Date;
 
     // --- LLAVES FORÁNEAS ---
 
     @ManyToOne(() => Viaje, { nullable: false })
-    @JoinColumn({ name: "ID_VJ" })
+    @JoinColumn({ name: "id_vj" })
     viaje!: Viaje;
 
     // Relación para el Emisor (Usuario)
     @ManyToOne(() => Usuario, { nullable: false })
-    @JoinColumn({ name: "ID_USER_EMISOR" })
+    @JoinColumn({ name: "id_user_emisor" })
     usuarioEmisor!: Usuario;
 
     // Relación para el Receptor (Usuario)
     @ManyToOne(() => Usuario, { nullable: false })
-    @JoinColumn({ name: "ID_USER_RECEPTOR" })
+    @JoinColumn({ name: "id_user_receptor" })
     usuarioReceptor!: Usuario;
 }
