@@ -4,30 +4,30 @@ import { Usuario } from "./Usuario";
 import { Estado } from "./Estado";
 import { Parada } from "./Parada";
 
-@Entity("RESERVA")
+@Entity("reserva")
 export class Reserva {
 
-    @PrimaryGeneratedColumn({ type: "number", name: "ID_RES" })
+    @PrimaryGeneratedColumn({ type: "int", name: "id_res" })
     id_res!: number;
 
-    @CreateDateColumn({ type: "date", default: () => "SYSDATE", name: "FECHA_RES" })
+    @CreateDateColumn({ type: "date", default: () => "CURRENT_TIMESTAMP", name: "fecha_res" })
     fecha_res!: Date;
 
     // --- LLAVES FORÁNEAS ---
 
     @ManyToOne(() => Viaje, { nullable: false })
-    @JoinColumn({ name: "ID_VJ" })
+    @JoinColumn({ name: "id_vj" })
     viaje!: Viaje;
 
     @ManyToOne(() => Usuario, { nullable: false })
-    @JoinColumn({ name: "ID_USER" })
+    @JoinColumn({ name: "id_user" })
     usuario!: Usuario;
 
     @ManyToOne(() => Estado, { nullable: false })
-    @JoinColumn({ name: "ID_ESTADO" })
+    @JoinColumn({ name: "id_estado" })
     estado!: Estado;
 
     @ManyToOne(() => Parada, { nullable: false })
-    @JoinColumn({ name: "ID_PDS" })
+    @JoinColumn({ name: "id_pds" })
     parada!: Parada;
 }
