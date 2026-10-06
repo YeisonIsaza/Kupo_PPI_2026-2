@@ -47,9 +47,15 @@ export default function PasajerosPage(): React.JSX.Element | null {
     const [misReservas, setMisReservas] = useState<any[]>([]);
     const [toast, setToast] = useState<string>('');
     const [toastVisible, setToastVisible] = useState<boolean>(false);
+    const [ella, setElla] = useState<{ genero: string | null; modo_ella: boolean; puede_activar: boolean }>({
+        genero: null, modo_ella: false, puede_activar: false
+    });
+    const [cambiandoElla, setCambiandoElla] = useState<boolean>(false);
+    const [ellaListo, setEllaListo] = useState<boolean>(false);
 
     useEffect(() => {
         if (listo) {
+            cargarModoElla();
             cargarViajes();
             cargarMisReservas();
         }
@@ -65,13 +71,47 @@ export default function PasajerosPage(): React.JSX.Element | null {
     async function cargarViajes() {
         setCargando(true);
         try {
-            const res = await fetch('/api/pasajero/viajes');
+            const userId = localStorage.getItem('userId');
+            const res = await fetch(`/api/pasajero/viajes?userId=${userId}`);
             const data = await res.json();
             const lista = Array.isArray(data) ? data : [];
             setViajes(lista);
-            setVisibleTrips(lista);
+            setVisibleTrips(aplicarFiltros(lista, filter, busqueda));
         } catch { console.error('Error cargando viajes'); }
         finally { setCargando(false); }
+    }
+
+    async function cargarModoElla() {
+        try {
+            const userId = localStorage.getItem('userId');
+            const res = await fetch(`/api/pasajero/modo-ella?userId=${userId}`);
+            const data = await res.json();
+            if (res.ok) setElla(data);
+        } catch { console.error('Error cargando Modo Ella'); }
+        finally { setEllaListo(true); }
+    }
+
+    async function actualizarElla(payload: { activar?: boolean; genero?: string }) {
+        setCambiandoElla(true);
+        try {
+            const userId = localStorage.getItem('userId');
+            const res = await fetch('/api/pasajero/modo-ella', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId, ...payload })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                setElla(data);
+                if (payload.activar !== undefined) {
+                    showToast(payload.activar ? '💜 Modo Ella activado: solo viajes con conductoras y pasajeras' : 'Modo Ella desactivado');
+                    await cargarViajes();
+                }
+            } else {
+                showToast(`❌ ${data.error}`);
+            }
+        } catch { showToast('❌ Error de conexión'); }
+        finally { setCambiandoElla(false); }
     }
 
     async function cargarMisReservas() {
@@ -152,6 +192,7 @@ export default function PasajerosPage(): React.JSX.Element | null {
             if (res.ok) {
                 setModalOpen(false);
                 cargarMisReservas();
+                cargarViajes(); // el viaje pudo quedar bloqueado como "solo mujeres"
                 showToast('✅ ¡Reserva solicitada! El conductor debe confirmarla.');
             } else {
                 showToast(`❌ ${data.error}`);
@@ -187,6 +228,66 @@ export default function PasajerosPage(): React.JSX.Element | null {
                             placeholder="🔍 Busca por origen, destino o conductor..."
                             style={{ width: '100%', padding: '10px 14px', borderRadius: '10px', border: '1px solid #e2e8f0', fontSize: '0.85rem', boxSizing: 'border-box', marginBottom: '16px' }}
                         />
+
+                        {/* Modo Ella */}
+                        <div style={{
+                            marginBottom: '16px', padding: '14px', borderRadius: '12px',
+                            background: ella.modo_ella ? 'linear-gradient(135deg, #fdf2f8, #f5f3ff)' : '#f8fafc',
+                            border: `1.5px solid ${ella.modo_ella ? '#d946ef' : '#e2e8f0'}`,
+                            transition: 'all 0.2s'
+                        }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px' }}>
+                                <div>
+                                    <div style={{ fontWeight: 700, fontSize: '0.9rem', color: ella.modo_ella ? '#a21caf' : '#1e293b' }}>💜 Modo Ella</div>
+                                    <div style={{ fontSize: '0.72rem', color: '#64748b', marginTop: '2px' }}>
+                                        Solo conductoras y pasajeras mujeres
+                                    </div>
+                                </div>
+                                {ella.puede_activar && (
+                                    <button
+                                        id="toggle-modo-ella"
+                                        role="switch"
+                                        aria-checked={ella.modo_ella}
+                                        disabled={cambiandoElla}
+                                        onClick={() => actualizarElla({ activar: !ella.modo_ella })}
+                                        style={{
+                                            width: '44px', height: '24px', borderRadius: '99px', border: 'none',
+                                            cursor: cambiandoElla ? 'wait' : 'pointer', position: 'relative', flexShrink: 0,
+                                            background: ella.modo_ella ? '#c026d3' : '#cbd5e1', transition: 'background 0.2s'
+                                        }}>
+                                        <span style={{
+                                            position: 'absolute', top: '3px', left: ella.modo_ella ? '23px' : '3px',
+                                            width: '18px', height: '18px', borderRadius: '50%', background: 'white',
+                                            transition: 'left 0.2s', boxShadow: '0 1px 3px rgba(0,0,0,0.3)'
+                                        }} />
+                                    </button>
+                                )}
+                            </div>
+
+                            {/* Usuarios antiguos sin género registrado: lo definen una sola vez */}
+                            {ellaListo && !ella.genero && (
+                                <div style={{ marginTop: '10px' }}>
+                                    <div style={{ fontSize: '0.72rem', color: '#64748b', marginBottom: '6px' }}>
+                                        Indica tu género para poder usar esta función (no podrá modificarse después):
+                                    </div>
+                                    <div style={{ display: 'flex', gap: '8px' }}>
+                                        <button disabled={cambiandoElla} onClick={() => actualizarElla({ genero: 'female' })}
+                                            style={{ flex: 1, padding: '6px', borderRadius: '8px', border: '1px solid #e9d5ff', background: 'white', cursor: 'pointer', fontSize: '0.75rem', fontWeight: 600, color: '#a21caf' }}>
+                                            Femenino
+                                        </button>
+                                        <button disabled={cambiandoElla} onClick={() => actualizarElla({ genero: 'male' })}
+                                            style={{ flex: 1, padding: '6px', borderRadius: '8px', border: '1px solid #e2e8f0', background: 'white', cursor: 'pointer', fontSize: '0.75rem', fontWeight: 600, color: '#475569' }}>
+                                            Masculino
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                            {ella.genero === 'male' && (
+                                <div style={{ marginTop: '8px', fontSize: '0.72rem', color: '#94a3b8' }}>
+                                    Disponible únicamente para usuarias.
+                                </div>
+                            )}
+                        </div>
                         <div style={{ marginBottom: '8px', fontSize: '0.8rem', fontWeight: 600, color: '#64748b' }}>Filtros</div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                             {[
@@ -266,6 +367,11 @@ export default function PasajerosPage(): React.JSX.Element | null {
                                                         <span style={{ background: '#fef3c7', color: '#92400e', padding: '3px 10px', borderRadius: '99px', fontSize: '0.78rem', fontWeight: 600 }}>
                                                             💺 {v.cupos_totales} cupos
                                                         </span>
+                                                        {v.solo_mujeres && (
+                                                            <span style={{ background: '#fdf4ff', color: '#a21caf', padding: '3px 10px', borderRadius: '99px', fontSize: '0.78rem', fontWeight: 600 }}>
+                                                                💜 Ella
+                                                            </span>
+                                                        )}
                                                     </div>
                                                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px', padding: '10px', background: '#f8fafc', borderRadius: '10px' }}>
                                                         <div style={{ width: '38px', height: '38px', borderRadius: '50%', overflow: 'hidden', background: '#e0e7ff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
