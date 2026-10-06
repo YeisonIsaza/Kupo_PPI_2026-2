@@ -5,7 +5,7 @@ import { Universidad } from "./Universidad";
 import { Estado } from "./Estado";
 
 @Entity("parada")
-@Check("CK_ES_UNI_PDS", `"ES_UNIVERSIDAD_PDS" IN ('SI', 'NO')`) // Asegura que solo acepte 'SI' o 'NO'
+@Check("ck_es_uni_pds", `"es_universidad_pds" IN ('SI', 'NO')`) // Asegura que solo acepte 'SI' o 'NO'
 export class Parada {
 
     @PrimaryGeneratedColumn({ type: "int", name: "id_pds" })
