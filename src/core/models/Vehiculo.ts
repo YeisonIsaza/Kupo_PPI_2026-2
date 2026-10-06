@@ -3,8 +3,8 @@ import { Usuario } from "./Usuario";
 import { Estado } from "./Estado";
 
 @Entity("vehiculo")
-@Unique("UK_PLACA", ["placa_veh"])
-@Check("CK_CUPOS", `"TOTAL_CUPOS_VEH" >= 1`) // Restricción para asegurar que haya al menos 1 cupo
+@Unique("uk_placa", ["placa_veh"])
+@Check("ck_cupos", `"total_cupos_veh" >= 1`) // Restricción para asegurar que haya al menos 1 cupo
 export class Vehiculo {
 
     @PrimaryGeneratedColumn({ type: "int", name: "id_veh" })
