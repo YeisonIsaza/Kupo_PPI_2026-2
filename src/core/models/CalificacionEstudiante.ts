@@ -3,7 +3,7 @@ import { Viaje } from "./Viaje";
 import { Usuario } from "./Usuario";
 
 @Entity("calificacion_estudiante")
-@Check("CK_PUNT_E", `"PUNTUACION_CALE" BETWEEN 1 AND 5`)
+@Check("ck_punt_e", `"puntuacion_cale" BETWEEN 1 AND 5`)
 export class CalificacionEstudiante {
 
     @PrimaryGeneratedColumn({ type: "int", name: "id_cale" })
