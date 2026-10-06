@@ -28,6 +28,7 @@ export async function GET() {
             nombre:         `${u.nombre_user} ${u.primer_apellido} ${u.segundo_apellido}`,
             documento:      u.documento_identidad_user,
             correo:         u.correo_personal_user,
+            correo_institucional: vinculacion?.correo_institucional_une || null,
             celular:        u.celular,
             fecha_registro: u.fecha_registro,
             perfil:         u.perfil?.nombre_perfil,
