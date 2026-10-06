@@ -28,7 +28,7 @@ import { Viaje }                  from '../models/Viaje';
 
 const options: DataSourceOptions & SeederOptions = {
     type: "postgres",
-    url: process.env.DATABASE_URL,
+    url: process.env.DATABASE_URL || process.env.SUPABASE_DATABASE_URL,
     ssl: { rejectUnauthorized: false }, // Requerido por Supabase
     synchronize: true, // Esto creará todas las tablas en Supabase automáticamente basado en tus modelos
     logging: true,
