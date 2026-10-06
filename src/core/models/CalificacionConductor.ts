@@ -4,7 +4,7 @@ import { Usuario } from "./Usuario";
 import { Conductor } from "./Conductor";
 
 @Entity("calificacion_conductor")
-@Check("CK_PUNT_C", `"PUNTUACION_CALCON" BETWEEN 1 AND 5`)
+@Check("ck_punt_c", `"puntuacion_calcon" BETWEEN 1 AND 5`)
 export class CalificacionConductor {
 
     @PrimaryGeneratedColumn({ type: "int", name: "id_calcon" })
