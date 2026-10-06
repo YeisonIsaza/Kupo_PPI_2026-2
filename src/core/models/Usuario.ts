@@ -41,6 +41,14 @@ export class Usuario {
     @Column({ type: "varchar", length: 500, nullable: true, name: "foto_perf" })
     foto_perf!: string; // Los campos BLOB en TypeScript se manejan como Buffer
     // se cambio BLOB por varchar2 para evitar problemas de compatibilidad con Oracle y TypeORM, se guardará la ruta del archivo o un identificador en lugar del contenido binario
+
+    // Género del usuario: 'male' | 'female'. Nullable para usuarios creados antes de esta columna.
+    @Column({ type: "varchar", length: 10, nullable: true, name: "genero_user" })
+    genero_user!: 'male' | 'female' | null;
+
+    // Preferencia "Modo Ella": solo puede estar activa si genero_user = 'female' (se valida en la API)
+    @Column({ type: "boolean", default: false, name: "modo_ella_user" })
+    modo_ella_user!: boolean;
     // --- LLAVES FORÁNEAS (RELACIONES) ---
 
     // Relación obligatoria por: CONSTRAINT NN_PERFIL_USU CHECK (CODIGO_PERFIL IS NOT NULL)
