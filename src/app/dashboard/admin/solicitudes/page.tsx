@@ -89,8 +89,13 @@ export default function SolicitudesAdminPage(): React.JSX.Element | null {
                                 <div>
                                     <h3 style={{ margin: '0 0 4px', color: '#1e293b' }}>{u.nombre}</h3>
                                     <p style={{ margin: '4px 0', color: '#64748b', fontSize: '0.85rem' }}>
-                                        <strong>Correo:</strong> {u.correo}
+                                        <strong>Correo Personal:</strong> {u.correo}
                                     </p>
+                                    {u.correo_institucional && (
+                                        <p style={{ margin: '4px 0', color: '#64748b', fontSize: '0.85rem' }}>
+                                            <strong>Correo Institucional:</strong> {u.correo_institucional}
+                                        </p>
+                                    )}
                                     <p style={{ margin: '4px 0', color: '#64748b', fontSize: '0.85rem' }}>
                                         <strong>Documento:</strong> {u.documento} &nbsp;|&nbsp;
                                         <strong>Celular:</strong> {u.celular}
