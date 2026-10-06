@@ -3,9 +3,9 @@ import { Perfil } from "./Perfil";
 import { Estado } from "./Estado"; // Asumiendo que la clase de la primera tabla se llama Estado
 
 @Entity("usuario")
-@Unique("UK_DOC_USER", ["documento_identidad_user"])
-@Unique("UK_CORREO_USER", ["correo_personal_user"])
-@Unique("UK_CELULAR_USER", ["celular"])
+@Unique("uk_doc_user", ["documento_identidad_user"])
+@Unique("uk_correo_user", ["correo_personal_user"])
+@Unique("uk_celular_user", ["celular"])
 export class Usuario {
 
     @PrimaryGeneratedColumn({ type: "int", name: "id_user" })
