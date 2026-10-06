@@ -10,6 +10,12 @@ import * as bcrypt from "bcryptjs";
 export async function POST(request: Request) {
     try {
         const body = await request.json();
+
+        // Género obligatorio: solo 'male' o 'female'
+        if (body.genero !== 'male' && body.genero !== 'female') {
+            return NextResponse.json({ error: "Debes seleccionar tu género (male o female)" }, { status: 400 });
+        }
+
         const dataSource = await getDataSource();
 
         const perfilRepo  = dataSource.getRepository(Perfil);
@@ -89,6 +95,8 @@ export async function POST(request: Request) {
             fecha_nacimiento_user:    new Date(body.fechaNac),
             correo_personal_user:     body.email,
             contrasena,
+            genero_user:              body.genero,
+            modo_ella_user:           false,
             perfil,
             estadoCuenta,
         });
