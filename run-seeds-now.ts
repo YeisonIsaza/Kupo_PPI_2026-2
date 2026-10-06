@@ -5,6 +5,7 @@ import PerfilSeeder      from './src/core/database/seeds/perfil.seeder';
 import UniversidadSeeder from './src/core/database/seeds/universidad.seeder';
 import MenuSeeder        from './src/core/database/seeds/menu.seeder';
 import MenuPermisoSeeder from './src/core/database/seeds/MenuPermiso.seeder';
+import UsuarioSeeder     from './src/core/database/seeds/usuario.seeder';
 
 async function seed() {
     try {
@@ -19,19 +20,28 @@ async function seed() {
         
         // La forma correcta según typeorm-extension:
         const initSeeder = new InitSeeder();
-        await initSeeder.run(ds, null as any);
+        // @ts-ignore
+        await initSeeder.run(ds);
         
         const perfilSeeder = new PerfilSeeder();
-        await perfilSeeder.run(ds, null as any);
+        // @ts-ignore
+        await perfilSeeder.run(ds);
         
         const uniSeeder = new UniversidadSeeder();
-        await uniSeeder.run(ds, null as any);
+        // @ts-ignore
+        await uniSeeder.run(ds);
         
         const menuSeeder = new MenuSeeder();
-        await menuSeeder.run(ds, null as any);
+        // @ts-ignore
+        await menuSeeder.run(ds);
         
         const menuPermisoSeeder = new MenuPermisoSeeder();
-        await menuPermisoSeeder.run(ds, null as any);
+        // @ts-ignore
+        await menuPermisoSeeder.run(ds);
+
+        const usuarioSeeder = new UsuarioSeeder();
+        // @ts-ignore
+        await usuarioSeeder.run(ds);
 
         console.log('✅ Seeders ejecutados exitosamente!');
         process.exit(0);
