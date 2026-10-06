@@ -15,6 +15,10 @@ export class Viaje {
     @Column({ type: "date", nullable: true, name: "hora_salida_vj" })
     hora_salida_vj!: Date;
 
+    // true = viaje exclusivo para mujeres (Modo Ella). Se activa al reservar una pasajera con Modo Ella.
+    @Column({ type: "boolean", default: false, name: "solo_mujeres_vj" })
+    solo_mujeres_vj!: boolean;
+
     // --- LLAVES FORÁNEAS (RELACIONES) ---
 
     @ManyToOne(() => RutaConductor, { nullable: false })
