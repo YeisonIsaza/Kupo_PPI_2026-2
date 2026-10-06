@@ -17,6 +17,7 @@ export default function RegistroPage(): React.JSX.Element | null {
   const [documento, setDocumento] = useState<string>('');
   const [celular, setCelular] = useState<string>('');
   const [fechaNac, setFechaNac] = useState<string>('');
+  const [genero, setGenero] = useState<string>('');
   const [emailInst, setEmailInst] = useState<string>('');
   const [emailPers, setEmailPers] = useState<string>('');
   const [pass, setPass] = useState<string>('');
@@ -80,7 +81,7 @@ export default function RegistroPage(): React.JSX.Element | null {
 
     const email = rol === 'conductor' ? emailPers : emailInst;
 
-    if (!nombre || !primerApellido || !documento || !celular || !fechaNac || !email || !pass) {
+    if (!nombre || !primerApellido || !documento || !celular || !fechaNac || !genero || !email || !pass) {
       setMsg({ tipo: 'error', texto: 'Por favor completa todos los campos obligatorios.' });
       return;
     }
@@ -97,6 +98,7 @@ export default function RegistroPage(): React.JSX.Element | null {
           documento,
           celular,
           fechaNac,
+          genero,
           email,
           password: pass,
           idRol,
@@ -247,9 +249,19 @@ export default function RegistroPage(): React.JSX.Element | null {
                 </div>
               </div>
 
-              <div className="fd-field">
-                <label className="fd-label">Fecha de Nacimiento</label>
-                <input className="fd-input" type="date" value={fechaNac} onChange={e => setFechaNac(e.target.value)} />
+              <div className="fd-row">
+                <div className="fd-field">
+                  <label className="fd-label">Fecha de Nacimiento</label>
+                  <input className="fd-input" type="date" value={fechaNac} onChange={e => setFechaNac(e.target.value)} />
+                </div>
+                <div className="fd-field">
+                  <label className="fd-label">Género</label>
+                  <select className="fd-input" value={genero} onChange={e => setGenero(e.target.value)}>
+                    <option value="">Selecciona...</option>
+                    <option value="female">Femenino (female)</option>
+                    <option value="male">Masculino (male)</option>
+                  </select>
+                </div>
               </div>
 
               {(rol === 'pasajero' || rol === 'mixto') && (
