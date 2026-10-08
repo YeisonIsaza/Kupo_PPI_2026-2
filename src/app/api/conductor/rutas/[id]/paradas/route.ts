@@ -5,6 +5,7 @@ import { Parada } from '@/core/models/Parada';
 import { RutaConductor } from '@/core/models/RutaConductor';
 import { Estado } from '@/core/models/Estado';
 import { Universidad } from '@/core/models/Universidad';
+import { aLatLng } from '@/core/lib/geo';
 
 export async function GET(
     request: Request,
@@ -52,12 +53,31 @@ export async function POST(
             universidad = await uniRepo.findOne({ where: { nit_uni: body.nitUni } });
         }
 
+        const nombre = String(body.nombre || '').trim();
+        const orden  = Math.max(1, Math.floor(Number(body.orden) || 1));
+        if (!nombre) return NextResponse.json({ error: "El nombre de la parada es obligatorio" }, { status: 400 });
+
+        const coord = aLatLng(body.lat, body.lng);
+        if ((body.lat !== undefined && body.lat !== null && body.lat !== '') && !coord) {
+            return NextResponse.json({ error: "Coordenadas de la parada inválidas" }, { status: 400 });
+        }
+
+        // Si se inserta en una posición ocupada, se corren las siguientes paradas un lugar
+        await paradaRepo
+            .createQueryBuilder()
+            .update(Parada)
+            .set({ orden_pds: () => 'orden_pds + 1' })
+            .where('id_rc = :idRc AND orden_pds >= :orden', { idRc: ruta.id_rc, orden })
+            .execute();
+
         // Crear parada sin hora_estimada primero
         const parada = paradaRepo.create({
-            punto_recogida_pds:  body.nombre,
-            orden_pds:           body.orden,
+            punto_recogida_pds:  nombre.slice(0, 200),
+            orden_pds:           orden,
             es_universidad_pds:  body.esUniversidad ? 'SI' : 'NO',
-            costo_adicional_pds: body.costoAdicional || 0,
+            costo_adicional_pds: Math.max(0, Number(body.costoAdicional) || 0),
+            latitud_pds:         coord ? coord.lat : null,
+            longitud_pds:        coord ? coord.lng : null,
             rutaConductor:       ruta,
             universidad:         universidad || undefined,
             estado:              estadoActivo,

@@ -7,6 +7,72 @@ import { Vehiculo } from '@/core/models/Vehiculo';
 import { Estado } from '@/core/models/Estado';
 import { Parada } from '@/core/models/Parada';
 import { Reserva } from '@/core/models/Reserva';
+import { Usuario } from '@/core/models/Usuario';
+import { esMujer } from '@/core/lib/modoElla';
+import { analizarRuta, parsearPath, rutaGeoDesdeEntidad, serializarPath, simplificarPath } from '@/core/lib/geo';
+
+/** Detalle de la ruta con geometría, paradas y aporte dinámico calculado por parada. */
+export async function GET(
+    request: Request,
+    { params }: { params: Promise<{ id: string }> }
+) {
+    try {
+        const { id } = await params;
+        const ds = await getDataSource();
+        const ruta = await ds.getRepository(RutaConductor).findOne({
+            where: { id_rc: Number(id) },
+            relations: ['estado', 'universidad', 'paradas'],
+        });
+        if (!ruta) return NextResponse.json({ error: "Ruta no encontrada" }, { status: 404 });
+
+        const analisis = analizarRuta(rutaGeoDesdeEntidad(ruta));
+        const { ruta_path_rc, ...resto } = ruta as any;
+
+        return NextResponse.json({
+            ...resto,
+            paradas: analisis.paradas.map(p => {
+                const original = ruta.paradas.find((x: any) => Number(x.id_pds) === p.id);
+                return { ...original, aporte_estimado: p.aporte, tramo_km: p.tramoKm, fraccion: p.fraccion };
+            }),
+            ruta_path: parsearPath(ruta_path_rc),
+            sentido:   analisis.sentido,
+            total_km:  analisis.totalKm,
+        }, { status: 200 });
+    } catch (error: any) {
+        console.error("Error GET ruta:", error);
+        return NextResponse.json({ error: "Error al obtener ruta" }, { status: 500 });
+    }
+}
+
+/** Actualiza el trazado real de la ruta (se recalcula en el mapa al agregar/quitar paradas). */
+export async function PUT(
+    request: Request,
+    { params }: { params: Promise<{ id: string }> }
+) {
+    try {
+        const { id } = await params;
+        const body = await request.json();
+        const path = parsearPath(body.rutaPath);
+        if (!path) return NextResponse.json({ error: "Trazado inválido" }, { status: 400 });
+
+        const ds = await getDataSource();
+        const rutaRepo = ds.getRepository(RutaConductor);
+        const ruta = await rutaRepo.findOne({ where: { id_rc: Number(id) } });
+        if (!ruta) return NextResponse.json({ error: "Ruta no encontrada" }, { status: 404 });
+
+        const distanciaKm = Number(body.distanciaKm);
+        const duracionMin = Number(body.duracionMin);
+        ruta.ruta_path_rc    = serializarPath(simplificarPath(path));
+        ruta.distancia_km_rc = Number.isFinite(distanciaKm) && distanciaKm > 0 ? Number(distanciaKm.toFixed(2)) : ruta.distancia_km_rc;
+        ruta.duracion_min_rc = Number.isFinite(duracionMin) && duracionMin > 0 ? Math.round(duracionMin) : ruta.duracion_min_rc;
+        await rutaRepo.save(ruta);
+
+        return NextResponse.json({ message: "Trazado actualizado" }, { status: 200 });
+    } catch (error: any) {
+        console.error("Error PUT ruta (trazado):", error);
+        return NextResponse.json({ error: "Error al actualizar trazado" }, { status: 500 });
+    }
+}
 
 export async function PATCH(
     request: Request,
@@ -23,7 +89,7 @@ export async function PATCH(
 
         const ruta = await rutaRepo.findOne({
             where: { id_rc: Number(id) },
-            relations: ['estado', 'conductor']
+            relations: ['estado', 'conductor', 'conductor.usuario']
         });
         if (!ruta) return NextResponse.json({ error: "Ruta no encontrada" }, { status: 404 });
 
@@ -64,12 +130,21 @@ export async function PATCH(
             });
             if (!estadoDisponible) return NextResponse.json({ error: "Estado Disponible no encontrado" }, { status: 400 });
 
+            // Verificar si la conductora tiene Modo Ella activo
+            const esConductoraMujer = esMujer(ruta.conductor?.usuario?.genero_user);
+            
+            const rawModoElla = ruta.conductor?.usuario?.modo_ella_user;
+            const isModoElla = rawModoElla === true || rawModoElla === 1 || String(rawModoElla) === '1' || String(rawModoElla) === 'true';
+            
+            const modoEllaActivo = isModoElla && esConductoraMujer;
+
             // Crear el viaje
             const nuevoViaje = viajeRepo.create({
                 fecha_vj:      new Date(),
                 rutaConductor: ruta,
                 vehiculo,
                 estado:        estadoDisponible,
+                solo_mujeres_vj: modoEllaActivo
             });
             const viajeGuardado = await viajeRepo.save(nuevoViaje);
 
