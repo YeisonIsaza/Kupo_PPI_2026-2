@@ -8,9 +8,10 @@ import SinPermiso from '@/presentation/components/SinPermiso';   // ← NUEVO
 
 function ViajeContent() {
     const { nombre, idRol, listo, cerrarSesion } = useAuth([2, 4]);
-    const { puedeLeer, puedeActualizar, cargando: cargandoPermisos } = usePermisos(); // ← NUEVO
+    const { puedeLeer, puedeActualizar, cargando: cargandoPermisos } = usePermisos();
     const searchParams = useSearchParams();
     const router = useRouter();
+    const [isClient, setIsClient] = useState(false);
     const viajeId = searchParams.get('viajeId');
     const mapRef = useRef<HTMLDivElement | null>(null);
     const mapInstanceRef = useRef<HTMLDivElement | null>(null);
@@ -21,10 +22,16 @@ function ViajeContent() {
     const [toast, setToast] = useState<string>('');
     const [toastVisible, setToastVisible] = useState<boolean>(false);
     const toastTimer = useRef<any>(null);
+    const [modoPruebaLocal, setModoPruebaLocal] = useState<boolean>(false);
+    const fallbackPolylineRef = useRef<any>(null);
 
     useEffect(() => {
-        if (listo) cargarViaje();
-    }, [listo]);
+        setIsClient(true);
+    }, []);
+
+    useEffect(() => {
+        if (listo && isClient) cargarViaje();
+    }, [listo, isClient]);
 
     useEffect(() => {
         if (viaje && (window as any).google) inicializarMapa();
@@ -104,11 +111,42 @@ function ViajeContent() {
             map: mapa, suppressMarkers: true,
             polylineOptions: { strokeColor: '#4f46e5', strokeWeight: 4, strokeOpacity: 0.8 }
         });
+        
         directionsService.route({
             origin: origen, destination: destino,
             travelMode: (window as any).google.maps.TravelMode.DRIVING,
-        }, (result: any, status: any) => {
-            if (status === 'OK') directionsRenderer.setDirections(result);
+        })
+        .then((result: any) => {
+            if (fallbackPolylineRef.current) fallbackPolylineRef.current.setMap(null);
+            directionsRenderer.setDirections(result);
+            setModoPruebaLocal(false);
+        })
+        .catch((e: any) => {
+            console.warn("No se pudo trazar la ruta de Google Maps por problemas con la API Key / Facturación:", e);
+            setModoPruebaLocal(true);
+
+            // Fallback: draw straight lines
+            if (fallbackPolylineRef.current) fallbackPolylineRef.current.setMap(null);
+            const path = [origen];
+            ruta.paradas?.forEach((p: any) => path.push({ lat: Number(p.latitud_pds || p.punto_recogida_latitud_pds), lng: Number(p.longitud_pds || p.punto_recogida_longitud_pds) }));
+            path.push(destino);
+
+            // Note: If lat/lng properties differ in paradas object, use safe fallback or ignore intermediate points for simplicity
+            // In API route GET, it brings paradas as they are in DB. Let's just use origin and destination for safety if paradas lat/lng are undefined.
+            const validPath = [origen];
+            if (ruta.paradas && ruta.paradas.length > 0) {
+                // If we don't have accurate coordinates for stops in this exact object shape, just connect origin -> destination directly
+            }
+            validPath.push(destino);
+
+            fallbackPolylineRef.current = new (window as any).google.maps.Polyline({
+                path: validPath,
+                geodesic: true,
+                strokeColor: '#f59e0b', // Naranja para advertencia
+                strokeOpacity: 0.8,
+                strokeWeight: 4,
+                map: mapInstanceRef.current,
+            });
         });
     }
 
@@ -135,6 +173,7 @@ function ViajeContent() {
     }
 
     // ← GUARDS en orden correcto
+    if (!isClient) return null;
     if (!listo || cargandoPermisos) return null;
 
     // ← BLOQUEO si no puede leer
@@ -152,7 +191,7 @@ function ViajeContent() {
         </div>
     );
 
-    if (!viaje) return (
+    if (!viaje || viaje.error) return (
         <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
             <UserNavbar nombre={nombre} idRol={idRol} onCerrarSesion={cerrarSesion} />
             <div style={{ padding: '40px', textAlign: 'center' }}>
@@ -184,7 +223,12 @@ function ViajeContent() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: '24px', padding: '24px', height: 'calc(100vh - 60px)' }}>
 
                 {/* Columna izquierda: Mapa */}
-                <div style={{ background: 'white', borderRadius: '12px', overflow: 'hidden', border: '1px solid #e2e8f0' }}>
+                <div style={{ background: 'white', borderRadius: '12px', overflow: 'hidden', border: '1px solid #e2e8f0', position: 'relative' }}>
+                    {modoPruebaLocal && (
+                        <div style={{ position: 'absolute', top: '70px', left: '50%', transform: 'translateX(-50%)', zIndex: 10, background: '#fef3c7', color: '#b45309', padding: '6px 12px', borderRadius: '8px', fontSize: '0.8rem', fontWeight: 'bold', border: '1px solid #fcd34d', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+                            ⚠️ Modo de prueba local: trazado de ruta directa activado
+                        </div>
+                    )}
                     <div style={{ padding: '16px 20px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div>
                             <h2 style={{ margin: 0, fontSize: '1.1rem', color: '#1e293b' }}>
@@ -207,10 +251,10 @@ function ViajeContent() {
                     {/* Paradas */}
                     <div style={{ background: 'white', borderRadius: '12px', padding: '20px', border: '1px solid #e2e8f0' }}>
                         <h3 style={{ margin: '0 0 12px', color: '#1e293b', fontSize: '1rem' }}>📍 Paradas</h3>
-                        {ruta?.paradas?.length === 0 ? (
+                        {(!ruta?.paradas || ruta.paradas.length === 0) ? (
                             <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Sin paradas definidas</p>
                         ) : (
-                            ruta?.paradas?.sort((a: any, b: any) => a.orden_pds - b.orden_pds).map((p: any) => (
+                            [...ruta.paradas].sort((a: any, b: any) => a.orden_pds - b.orden_pds).map((p: any) => (
                                 <div key={p.id_pds} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
                                     <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: '#f59e0b', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '0.8rem', flexShrink: 0 }}>
                                         {p.orden_pds}
@@ -228,9 +272,14 @@ function ViajeContent() {
 
                     {/* Pasajeros */}
                     <div style={{ background: 'white', borderRadius: '12px', padding: '20px', border: '1px solid #e2e8f0' }}>
-                        <h3 style={{ margin: '0 0 12px', color: '#1e293b', fontSize: '1rem' }}>
-                            👥 Pasajeros ({reservas.length})
-                        </h3>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                            <h3 style={{ margin: 0, color: '#1e293b', fontSize: '1rem' }}>
+                                👥 Pasajeros ({reservas.length})
+                            </h3>
+                            <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#4f46e5', background: '#e0e7ff', padding: '4px 10px', borderRadius: '8px' }}>
+                                {viaje.vehiculo?.total_cupos_veh ? (viaje.vehiculo.total_cupos_veh - reservas.filter(r => r.estado === 'Confirmada').length) : 0} cupos disponibles
+                            </span>
+                        </div>
                         {reservas.length === 0 ? (
                             <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Los pasajeros que reserven aparecerán aquí</p>
                         ) : (
@@ -251,6 +300,11 @@ function ViajeContent() {
                                             <div style={{ flex: 1 }}>
                                                 <div style={{ fontWeight: 600, fontSize: '0.85rem', color: '#1e293b' }}>{r.nombre}</div>
                                                 {r.parada && <div style={{ fontSize: '0.75rem', color: '#64748b' }}>📍 {r.parada}</div>}
+                                                {r.aporte != null && (
+                                                    <div style={{ fontSize: '0.75rem', color: '#16a34a', fontWeight: 700, marginTop: '2px' }}>
+                                                        💵 Aporte: ${Number(r.aporte).toLocaleString('es-CO')} COP
+                                                    </div>
+                                                )}
                                             </div>
                                             <span style={{
                                                 fontSize: '0.7rem', fontWeight: 700, padding: '2px 8px', borderRadius: '99px',
