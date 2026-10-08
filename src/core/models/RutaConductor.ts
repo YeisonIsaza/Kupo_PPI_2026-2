@@ -45,6 +45,17 @@ export class RutaConductor {
     @Column({ type: "varchar", length: 300, nullable: true, name: "destino_nombre" })
     destino_nombre!: string;
 
+    // --- GEOMETRÍA DE LA RUTA (trazado real calculado con Google Directions) ---
+    // JSON con [[lat,lng], ...] simplificado. Se usa para coincidencias por corredor.
+    @Column({ type: "text", nullable: true, name: "ruta_path_rc" })
+    ruta_path_rc!: string | null;
+
+    @Column({ type: "numeric", precision: 8, scale: 2, nullable: true, name: "distancia_km_rc" })
+    distancia_km_rc!: number | null;
+
+    @Column({ type: "int", nullable: true, name: "duracion_min_rc" })
+    duracion_min_rc!: number | null;
+
     @OneToMany(() => {
         const { Parada } = require("./Parada");
         return Parada;

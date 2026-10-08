@@ -27,6 +27,13 @@ export class Parada {
     @Column({ type: "numeric", precision: 10, scale: 2, nullable: true, name: "costo_adicional_pds", default: 0 })
     costo_adicional_pds!: number;
 
+    // --- COORDENADAS DE LA PARADA (opcionales: paradas antiguas pueden no tenerlas) ---
+    @Column({ type: "numeric", precision: 11, scale: 8, nullable: true, name: "latitud_pds" })
+    latitud_pds!: number | null;
+
+    @Column({ type: "numeric", precision: 11, scale: 8, nullable: true, name: "longitud_pds" })
+    longitud_pds!: number | null;
+
     // --- LLAVES FORÁNEAS (RELACIONES) ---
 
     @ManyToOne(() => RutaConductor, { nullable: false })

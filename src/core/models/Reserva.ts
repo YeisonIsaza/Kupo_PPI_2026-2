@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn, Column } from "typeorm";
 import { Viaje } from "./Viaje";
 import { Usuario } from "./Usuario";
 import { Estado } from "./Estado";
@@ -12,6 +12,10 @@ export class Reserva {
 
     @CreateDateColumn({ type: "date", default: () => "CURRENT_TIMESTAMP", name: "fecha_res" })
     fecha_res!: Date;
+
+    // Aporte calculado dinámicamente según la parada (tramo recorrido + costo adicional)
+    @Column({ type: "numeric", precision: 10, scale: 2, nullable: true, name: "aporte_res" })
+    aporte_res!: number | null;
 
     // --- LLAVES FORÁNEAS ---
 
@@ -27,7 +31,7 @@ export class Reserva {
     @JoinColumn({ name: "id_estado" })
     estado!: Estado;
 
-    @ManyToOne(() => Parada, { nullable: false })
+    @ManyToOne(() => Parada, { nullable: true })
     @JoinColumn({ name: "id_pds" })
-    parada!: Parada;
+    parada?: Parada;
 }
