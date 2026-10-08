@@ -16,9 +16,14 @@ export async function GET(request: Request) {
         const usuario = await ds.getRepository(Usuario).findOne({ where: { id_user: Number(userId) } });
         if (!usuario) return NextResponse.json({ error: "Usuario no encontrado" }, { status: 404 });
 
+        const isModoElla = usuario.modo_ella_user === true || 
+                           usuario.modo_ella_user === 1 || 
+                           String(usuario.modo_ella_user) === '1' || 
+                           String(usuario.modo_ella_user) === 'true';
+
         return NextResponse.json({
             genero:         usuario.genero_user ?? null,
-            modo_ella:      !!usuario.modo_ella_user && esMujer(usuario.genero_user),
+            modo_ella:      isModoElla && esMujer(usuario.genero_user),
             puede_activar:  esMujer(usuario.genero_user),
         }, { status: 200 });
 
@@ -69,9 +74,14 @@ export async function PATCH(request: Request) {
             await repo.save(usuario);
         }
 
+        const isModoElla = usuario.modo_ella_user === true || 
+                           usuario.modo_ella_user === 1 || 
+                           String(usuario.modo_ella_user) === '1' || 
+                           String(usuario.modo_ella_user) === 'true';
+
         return NextResponse.json({
             genero:         usuario.genero_user ?? null,
-            modo_ella:      !!usuario.modo_ella_user && esMujer(usuario.genero_user),
+            modo_ella:      isModoElla && esMujer(usuario.genero_user),
             puede_activar:  esMujer(usuario.genero_user),
         }, { status: 200 });
 
