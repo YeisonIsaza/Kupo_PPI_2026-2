@@ -6,6 +6,7 @@ import { Estado } from '@/core/models/Estado';
 import { Usuario } from '@/core/models/Usuario';
 import { In, Not } from "typeorm";
 import { ESTADOS_RESERVA_INACTIVOS, esMujer } from '@/core/lib/modoElla';
+import { analizarRuta, redondearCOP, rutaGeoDesdeEntidad } from '@/core/lib/geo';
 
 // Error controlado para devolver un status HTTP concreto desde dentro de la transacción
 class ReservaError extends Error {
@@ -15,11 +16,12 @@ class ReservaError extends Error {
 export async function POST(request: Request) {
     try {
         const { userId, viajeId, paradaId } = await request.json();
-        if (!userId || !viajeId || !paradaId) {
+        if (!userId || !viajeId) {
             return NextResponse.json({ error: "Datos incompletos" }, { status: 400 });
         }
 
         const ds = await getDataSource();
+        let aporteCalculado = 0;
 
         await ds.transaction(async manager => {
             const reservaRepo = manager.getRepository(Reserva);
@@ -34,8 +36,26 @@ export async function POST(request: Request) {
 
             const viaje = await manager.getRepository(Viaje).findOne({
                 where: { id_vj: Number(viajeId) },
-                relations: ['rutaConductor', 'rutaConductor.conductor', 'rutaConductor.conductor.usuario'],
+                relations: [
+                    'estado',
+                    'rutaConductor', 'rutaConductor.conductor', 'rutaConductor.conductor.usuario',
+                    'rutaConductor.paradas', 'rutaConductor.universidad',
+                ],
             });
+
+            if (viaje?.estado?.nombre_estado && viaje.estado.nombre_estado !== 'Disponible') {
+                throw new ReservaError("Este viaje ya no está disponible para reservas", 400);
+            }
+
+            // --- Aporte dinámico según la parada elegida (calculado en el servidor) ---
+            const analisis = analizarRuta(rutaGeoDesdeEntidad(viaje?.rutaConductor));
+            if (paradaId) {
+                const parada = analisis.paradas.find(p => p.id === Number(paradaId));
+                if (!parada) throw new ReservaError("La parada seleccionada no pertenece a este viaje", 400);
+                aporteCalculado = parada.aporte;
+            } else {
+                aporteCalculado = redondearCOP(Number(viaje?.rutaConductor?.tarifa_rc) || 0);
+            }
 
             const usuario = await manager.getRepository(Usuario).findOne({ where: { id_user: Number(userId) } });
             if (!usuario) throw new ReservaError("Usuario no encontrado", 404);
@@ -55,7 +75,11 @@ export async function POST(request: Request) {
 
             // --- Reglas Modo Ella ---
             const usuarioEsMujer  = esMujer(usuario.genero_user);
-            const quiereModoElla  = !!usuario.modo_ella_user && usuarioEsMujer;
+            
+            const rawModoElla = usuario.modo_ella_user;
+            const isModoElla = rawModoElla === true || rawModoElla === 1 || String(rawModoElla) === '1' || String(rawModoElla) === 'true';
+            
+            const quiereModoElla  = isModoElla && usuarioEsMujer;
 
             // Viaje ya bloqueado como "solo mujeres": ningún hombre puede unirse
             if (viaje?.solo_mujeres_vj && !usuarioEsMujer) {
@@ -88,8 +112,9 @@ export async function POST(request: Request) {
             const nuevaReserva = reservaRepo.create({
                 viaje:   { id_vj:   Number(viajeId) }  as any,
                 usuario: { id_user: Number(userId) }    as any,
-                parada:  { id_pds:  Number(paradaId) }  as any,
                 estado:  estadoSolicitada,
+                aporte_res: aporteCalculado,
+                ...(paradaId ? { parada: { id_pds: Number(paradaId) } as any } : {})
             });
             await reservaRepo.save(nuevaReserva);
 
@@ -99,7 +124,7 @@ export async function POST(request: Request) {
             }
         });
 
-        return NextResponse.json({ message: "Reserva solicitada correctamente" }, { status: 201 });
+        return NextResponse.json({ message: "Reserva solicitada correctamente", aporte: aporteCalculado }, { status: 201 });
 
     } catch (error: any) {
         if (error instanceof ReservaError) {
@@ -119,14 +144,82 @@ export async function GET(request: Request) {
         const ds = await getDataSource();
         const reservas = await ds.getRepository(Reserva).find({
             where: { usuario: { id_user: Number(userId) } },
-            relations: ['viaje', 'viaje.rutaConductor', 'viaje.rutaConductor.universidad', 'viaje.estado', 'estado', 'parada'],
+            relations: [
+                'viaje', 'viaje.rutaConductor', 'viaje.rutaConductor.universidad',
+                'viaje.rutaConductor.conductor', 'viaje.rutaConductor.conductor.usuario',
+                'viaje.estado', 'estado', 'parada',
+            ],
             order: { id_res: 'DESC' }
         });
 
-        return NextResponse.json(reservas, { status: 200 });
+        // Solo datos públicos del conductor; se omite el trazado (pesado e innecesario aquí)
+        const seguras = reservas.map(r => {
+            const ruta: any = r.viaje?.rutaConductor;
+            const usuarioCond = ruta?.conductor?.usuario;
+            if (ruta) {
+                delete ruta.ruta_path_rc;
+                ruta.conductor = ruta.conductor ? {
+                    id_user: ruta.conductor.id_user,
+                    usuario: usuarioCond ? {
+                        nombre_user:     usuarioCond.nombre_user,
+                        primer_apellido: usuarioCond.primer_apellido,
+                        foto_perf:       usuarioCond.foto_perf,
+                    } : null,
+                } : null;
+            }
+            return r;
+        });
+
+        return NextResponse.json(seguras, { status: 200 });
 
     } catch (error: any) {
         console.error(" Error GET reservas:", error);
         return NextResponse.json({ error: "Error al obtener reservas" }, { status: 500 });
+    }
+}
+
+export async function PUT(request: Request) {
+    try {
+        const { reservaId, userId } = await request.json();
+        if (!reservaId || !userId) return NextResponse.json({ error: "Datos incompletos" }, { status: 400 });
+
+        const ds = await getDataSource();
+        
+        await ds.transaction(async manager => {
+            const reservaRepo = manager.getRepository(Reserva);
+            const estadoRepo = manager.getRepository(Estado);
+            const viajeRepo = manager.getRepository(Viaje);
+
+            const reserva = await reservaRepo.findOne({
+                where: { id_res: Number(reservaId), usuario: { id_user: Number(userId) } },
+                relations: ['estado', 'viaje']
+            });
+
+            if (!reserva) throw new ReservaError("Reserva no encontrada", 404);
+            
+            if (reserva.estado?.nombre_estado === 'Cancelada' || reserva.estado?.nombre_estado === 'Rechazada') {
+                throw new ReservaError("La reserva ya está cancelada o rechazada", 400);
+            }
+
+            const estadoCancelada = await estadoRepo.findOne({ where: { nombre_estado: 'Cancelada', categoria: 'RESERVA' } });
+            if (!estadoCancelada) throw new ReservaError("Estado Cancelada no encontrado", 500);
+
+            // Si estaba "Aceptada", devolver cupo
+            if (reserva.estado?.nombre_estado === 'Aceptada') {
+                await viajeRepo.increment({ id_vj: reserva.viaje?.id_vj }, 'cupos_disponibles_vj', 1);
+            }
+
+            reserva.estado = estadoCancelada;
+            await reservaRepo.save(reserva);
+        });
+
+        return NextResponse.json({ message: "Reserva cancelada correctamente" }, { status: 200 });
+
+    } catch (error: any) {
+        if (error instanceof ReservaError) {
+            return NextResponse.json({ error: error.message }, { status: error.status });
+        }
+        console.error(" Error PUT reserva:", error);
+        return NextResponse.json({ error: "Error al cancelar reserva" }, { status: 500 });
     }
 }

@@ -22,6 +22,10 @@ export async function GET(
             nombre:    `${r.usuario?.nombre_user} ${r.usuario?.primer_apellido}`,
             foto:      r.usuario?.foto_perf,
             parada:    r.parada?.punto_recogida_pds,
+            parada_orden: r.parada?.orden_pds ?? null,
+            parada_lat:   r.parada?.latitud_pds !== null && r.parada?.latitud_pds !== undefined ? Number(r.parada.latitud_pds) : null,
+            parada_lng:   r.parada?.longitud_pds !== null && r.parada?.longitud_pds !== undefined ? Number(r.parada.longitud_pds) : null,
+            aporte:    r.aporte_res !== null && r.aporte_res !== undefined ? Number(r.aporte_res) : null,
             estado:    r.estado?.nombre_estado,
         }));
 
