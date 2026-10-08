@@ -1,13 +1,17 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import UserNavbar from '@/presentation/components/UserNavbar';
-import useAuth from '@/core/hooks/useAuth';
+import Navbar from '@/presentation/components/Navbar';
 
 const LABELS = ['Muy malo', 'Malo', 'Regular', 'Bueno', '¡Excelente!'];
 const MAX_CHARS = 400;
 
 export default function ContactanosPage(): React.JSX.Element | null {
-  const { nombre, idRol, listo, cerrarSesion } = useAuth([2, 3, 4]);
+  const [nombre, setNombre] = useState<string>('');
+  const [idRol, setIdRol] = useState<number | null>(null);
+  const [isLogged, setIsLogged] = useState<boolean>(false);
+  const [listo, setListo] = useState<boolean>(false);
+
   const [nombreForm, setNombreForm] = useState<string>('');
   const [correo, setCorreo] = useState<string>('');
   const [mensaje, setMensaje] = useState<string>('');
@@ -15,6 +19,21 @@ export default function ContactanosPage(): React.JSX.Element | null {
   const [hovered, setHovered] = useState<number>(0);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [borderError, setBorderError] = useState<boolean>(false);
+
+  useEffect(() => {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      setNombre(localStorage.getItem('userName') || '');
+      setIdRol(parseInt(localStorage.getItem('userRol') || '0'));
+      setIsLogged(true);
+    }
+    setListo(true);
+  }, []);
+
+  function cerrarSesion() {
+    localStorage.clear();
+    window.location.href = '/login';
+  }
 
   function handleMensaje(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     if (e.target.value.length <= MAX_CHARS) setMensaje(e.target.value);
@@ -50,14 +69,18 @@ export default function ContactanosPage(): React.JSX.Element | null {
   if (!listo) return null;
 
   return (
-    <div style={{ background: '#f0f2f8', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <UserNavbar nombre={nombre} idRol={idRol} onCerrarSesion={cerrarSesion} />
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      {isLogged ? (
+        <UserNavbar nombre={nombre} idRol={idRol} onCerrarSesion={cerrarSesion} />
+      ) : (
+        <Navbar />
+      )}
 
       <section className="contact-section">
         <div className="contact-wrapper">
-          <div className="contact-header">
-            <h1>CONTÁCTANOS</h1>
-            <p>¿Tienes preguntas o sugerencias? Escríbenos.</p>
+          <div className="contact-header" style={{ marginBottom: '60px' }}>
+            <h1 style={{ fontFamily: 'var(--font-bebas)', fontSize: '4.5rem', color: '#0d0f1a', margin: 0, lineHeight: 1 }}>CONTÁCTANOS</h1>
+            <p style={{ fontSize: '1.2rem', color: '#5a5e7a', fontWeight: 600 }}>¿Tienes preguntas o sugerencias? Escríbenos.</p>
           </div>
 
           <div className="contact-grid">
@@ -77,7 +100,7 @@ export default function ContactanosPage(): React.JSX.Element | null {
                 </div>
               </div>
 
-              <div className="rating-box">
+              <div className="glass-panel" style={{ padding: '30px', borderRadius: '24px' }}>
                 <p className="rating-title"><i className="bi bi-star-fill"></i> Califica tu experiencia</p>
                 <div className="stars">
                   {[1,2,3,4,5].map(val => (
@@ -95,7 +118,7 @@ export default function ContactanosPage(): React.JSX.Element | null {
               </div>
             </div>
 
-            <div className="col-right">
+            <div className="glass-panel" style={{ padding: '40px', borderRadius: '24px' }}>
               {!submitted ? (
                 <div className="form-step">
                   <div className="form-field">

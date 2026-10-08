@@ -41,7 +41,7 @@ export default function DashboardMixto(): React.JSX.Element | null {
             background: 'linear-gradient(160deg, #1e1b4b 0%, #2d2a6e 40%, #1e1b4b 100%)',
             display: 'flex', flexDirection: 'column',
             alignItems: 'center', justifyContent: 'center',
-            fontFamily: "'Nunito', sans-serif",
+            fontFamily: "var(--font-nunito), sans-serif",
             padding: '40px 24px',
             position: 'relative',
             overflow: 'hidden'
@@ -68,7 +68,7 @@ export default function DashboardMixto(): React.JSX.Element | null {
                     style={{ height: '52px', marginBottom: '16px', display: 'block', margin: '0 auto 16px' }}
                 />
                 <div style={{
-                    fontFamily: "'Bebas Neue', sans-serif",
+                    fontFamily: "var(--font-bebas), sans-serif",
                     fontSize: '1.4rem', color: '#fff',
                     letterSpacing: '4px', marginBottom: '10px'
                 }}>
@@ -88,7 +88,7 @@ export default function DashboardMixto(): React.JSX.Element | null {
             {/* ── Título ── */}
             <div style={{ textAlign: 'center', marginBottom: '48px', position: 'relative', zIndex: 1 }}>
                 <h2 style={{
-                    fontFamily: "'Bebas Neue', sans-serif",
+                    fontFamily: "var(--font-bebas), sans-serif",
                     fontSize: 'clamp(2rem, 5vw, 3rem)',
                     color: '#fff', letterSpacing: '2px',
                     margin: '0 0 10px', lineHeight: 1.05
@@ -142,7 +142,7 @@ export default function DashboardMixto(): React.JSX.Element | null {
                     <div style={{ fontSize: '3.8rem', marginBottom: '18px' }}>🚗</div>
 
                     <h3 style={{
-                        fontFamily: "'Bebas Neue', sans-serif",
+                        fontFamily: "var(--font-bebas), sans-serif",
                         color: '#fff', margin: '0 0 10px',
                         fontSize: '1.6rem', letterSpacing: '1px'
                     }}>
@@ -218,7 +218,7 @@ export default function DashboardMixto(): React.JSX.Element | null {
                     <div style={{ fontSize: '3.8rem', marginBottom: '18px' }}>🎓</div>
 
                     <h3 style={{
-                        fontFamily: "'Bebas Neue', sans-serif",
+                        fontFamily: "var(--font-bebas), sans-serif",
                         color: '#fff', margin: '0 0 10px',
                         fontSize: '1.6rem', letterSpacing: '1px'
                     }}>

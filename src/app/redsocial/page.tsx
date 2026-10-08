@@ -97,7 +97,7 @@ export default function RedSocialPage(): React.JSX.Element | null {
     }
 
     return (
-        <div style={{ minHeight: '100vh', background: '#f0f2f8', fontFamily: "'Nunito', sans-serif" }}>
+        <div style={{ minHeight: '100vh', background: '#f0f2f8', fontFamily: "var(--font-nunito), sans-serif" }}>
 
             {/* ── Navbar simple ── */}
             <nav style={{
@@ -108,7 +108,7 @@ export default function RedSocialPage(): React.JSX.Element | null {
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <span style={{
-                        fontFamily: "'Bebas Neue', sans-serif",
+                        fontFamily: "var(--font-bebas), sans-serif",
                         fontSize: '1.6rem', color: '#fff', letterSpacing: '2px'
                     }}>
                         Kupo
@@ -182,7 +182,7 @@ export default function RedSocialPage(): React.JSX.Element | null {
                     </div>
 
                     <h1 style={{
-                        fontFamily: "'Bebas Neue', sans-serif",
+                        fontFamily: "var(--font-bebas), sans-serif",
                         fontSize: 'clamp(3rem, 7vw, 5rem)',
                         color: '#fff', lineHeight: 1.05,
                         letterSpacing: '2px', margin: '0 0 20px'
@@ -238,7 +238,7 @@ export default function RedSocialPage(): React.JSX.Element | null {
                     {stats.map((s, i) => (
                         <div key={i}>
                             <div style={{
-                                fontFamily: "'Bebas Neue', sans-serif",
+                                fontFamily: "var(--font-bebas), sans-serif",
                                 fontSize: '3rem', color: '#3b3fe8',
                                 letterSpacing: '1px', lineHeight: 1
                             }}>
@@ -268,7 +268,7 @@ export default function RedSocialPage(): React.JSX.Element | null {
                         Lo que dice la comunidad
                     </p>
                     <h2 style={{
-                        fontFamily: "'Bebas Neue', sans-serif",
+                        fontFamily: "var(--font-bebas), sans-serif",
                         fontSize: 'clamp(2rem, 5vw, 3.2rem)',
                         color: '#0d0f1a', letterSpacing: '2px', margin: '0 0 24px'
                     }}>
@@ -358,7 +358,7 @@ export default function RedSocialPage(): React.JSX.Element | null {
                                         ? 'linear-gradient(135deg, #3b3fe8, #5a5ef5)'
                                         : 'linear-gradient(135deg, #22c55e, #16a34a)',
                                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    fontFamily: "'Bebas Neue', sans-serif",
+                                    fontFamily: "var(--font-bebas), sans-serif",
                                     fontSize: '1.3rem', color: '#fff', flexShrink: 0
                                 }}>
                                     {t.avatar}
@@ -453,7 +453,7 @@ export default function RedSocialPage(): React.JSX.Element | null {
 
                 <div style={{ position: 'relative', zIndex: 1, maxWidth: '600px', margin: '0 auto' }}>
                     <h2 style={{
-                        fontFamily: "'Bebas Neue', sans-serif",
+                        fontFamily: "var(--font-bebas), sans-serif",
                         fontSize: 'clamp(2.4rem, 5vw, 3.8rem)',
                         color: '#fff', letterSpacing: '2px',
                         margin: '0 0 16px', lineHeight: 1.05
@@ -497,7 +497,7 @@ export default function RedSocialPage(): React.JSX.Element | null {
                 textAlign: 'center'
             }}>
                 <div style={{
-                    fontFamily: "'Bebas Neue', sans-serif",
+                    fontFamily: "var(--font-bebas), sans-serif",
                     fontSize: '1.4rem', color: '#fff',
                     letterSpacing: '3px', marginBottom: '8px'
                 }}>

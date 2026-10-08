@@ -17,7 +17,7 @@
 }
 
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--font-nunito), sans-serif;
   background: #fff;
   color: var(--text-main);
   overflow-x: hidden;
@@ -37,7 +37,7 @@ body {
   padding: 0 1rem;
 }
 .navbar-brand {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: var(--font-bebas), sans-serif;
   font-size: 1.6rem;
   color: #fff;
   letter-spacing: 2px;
@@ -116,7 +116,7 @@ body {
   animation: fadeSlideUp 0.6s ease both;
 }
 .hero-title {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: var(--font-bebas), sans-serif;
   font-size: clamp(3rem, 7vw, 5.5rem);
   line-height: 1.02;
   letter-spacing: 1px;
@@ -188,7 +188,7 @@ body {
 .why-section { padding: 100px 0 90px; background: #fff; }
 .why-container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
 .why-title {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: var(--font-bebas), sans-serif;
   font-size: clamp(2.2rem, 5vw, 3.4rem);
   letter-spacing: 1px;
   color: var(--dark);
@@ -231,7 +231,7 @@ body {
 
 footer { background: var(--dark); padding: 2rem 0; text-align: center; }
 footer .brand {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: var(--font-bebas), sans-serif;
   font-size: 1.5rem;
   letter-spacing: 3px;
   color: #fff;
@@ -395,7 +395,7 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
   pointer-events: none;
 }
 .panel-label {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: var(--font-bebas), sans-serif;
   font-size: 0.85rem;
   letter-spacing: 4px;
   margin-bottom: 8px;
@@ -404,7 +404,7 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
 .panel-conductor .panel-label  { color: #5a5ef5; }
 .panel-estudiante .panel-label { color: #2ecc8a; }
 .panel-title {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: var(--font-bebas), sans-serif;
   font-size: clamp(2.2rem, 4vw, 3.2rem);
   line-height: 1;
   color: #fff;
@@ -457,7 +457,7 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
   border-radius: 10px;
   padding: 13px 16px 13px 42px;
   color: #fff;
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--font-nunito), sans-serif;
   font-size: 0.9rem; font-weight: 600;
   transition: border-color 0.2s, background 0.2s, transform 0.2s;
   outline: none;
@@ -490,7 +490,7 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
 .btn-submit {
   width: 100%; padding: 13px;
   border-radius: 10px; border: none;
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--font-nunito), sans-serif;
   font-weight: 800; font-size: 0.9rem;
   letter-spacing: 1px; cursor: pointer;
   margin-top: 8px;
@@ -586,7 +586,7 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--font-nunito), sans-serif;
 }
 
 .fd-card {
@@ -622,7 +622,7 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
 .fd-icon-wrap svg { fill: #fff; width: 34px; height: 34px; }
 
 .fd-logo {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: var(--font-bebas), sans-serif;
   font-size: 38px;
   color: #fff;
   letter-spacing: 2px;
@@ -646,7 +646,7 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
 }
 
 .fd-title {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: var(--font-bebas), sans-serif;
   font-size: 24px;
   color: #534AB7;
   letter-spacing: 1px;
@@ -692,7 +692,7 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
   padding: 9px 12px;
   border: 1px solid #D3D1C7;
   border-radius: 8px;
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--font-nunito), sans-serif;
   font-size: 14px;
   color: #2C2C2A;
   background: #fff;
@@ -712,7 +712,7 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
   padding: 9px 10px;
   border: 1.5px solid #D3D1C7;
   border-radius: 8px;
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--font-nunito), sans-serif;
   font-size: 13px;
   font-weight: 600;
   color: #5F5E5A;
@@ -739,7 +739,7 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
   color: #fff;
   border: none;
   border-radius: 8px;
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--font-nunito), sans-serif;
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
@@ -1037,7 +1037,7 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
 }
 .pas-trips-card { animation-delay: 0.08s; }
 .pas-card-title {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: var(--font-bebas), sans-serif;
   font-size: 1.4rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -1055,7 +1055,7 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
 .btn-buscar {
   background: #4f46e5;
   color: #fff;
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--font-nunito), sans-serif;
   font-weight: 800;
   font-size: 0.9rem;
   border: none;
@@ -1076,7 +1076,7 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
   background: #fff;
   border: 1.5px solid rgba(0,0,0,0.08);
   color: #6b7280;
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--font-nunito), sans-serif;
   font-weight: 700;
   font-size: 0.78rem;
   padding: 6px 17px;
@@ -1117,7 +1117,7 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
 .trip-card:hover::before { opacity: 1; }
 
 .trip-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
-.trip-route { font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 1px; color: #0d0f1a; line-height: 1.25; }
+.trip-route { font-family: var(--font-bebas), sans-serif; font-size: 1.15rem; letter-spacing: 1px; color: #0d0f1a; line-height: 1.25; }
 .trip-arrow-icon { color: #4f46e5; margin: 0 5px; font-size: 0.9rem; }
 .cupos-badge { background: rgba(79,70,229,0.10); border: 1px solid rgba(79,70,229,0.22); color: #4f46e5; font-size: 0.71rem; font-weight: 800; padding: 4px 11px; border-radius: 50px; white-space: nowrap; }
 .cupos-badge.low { background: rgba(239,68,68,0.09); border-color: rgba(239,68,68,0.28); color: #dc2626; }
@@ -1127,25 +1127,25 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
 .meta-chip i { color: #4f46e5; font-size: 0.72rem; }
 
 .driver-row { display: flex; align-items: center; gap: 10px; padding-top: 13px; border-top: 1px solid rgba(0,0,0,0.08); }
-.driver-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #4f46e5, #818cf8); display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: white; flex-shrink: 0; }
+.driver-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #4f46e5, #818cf8); display: flex; align-items: center; justify-content: center; font-family: var(--font-bebas), sans-serif; font-size: 1rem; color: white; flex-shrink: 0; }
 .driver-name { font-weight: 700; font-size: 0.85rem; color: #0d0f1a; }
 .driver-stars { color: #f59e0b; font-size: 0.7rem; letter-spacing: 1px; }
 
-.btn-reservar { margin-top: 15px; width: 100%; background: #4f46e5; color: #fff; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.85rem; border: none; border-radius: 10px; padding: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 7px; transition: background .2s, transform .15s; }
+.btn-reservar { margin-top: 15px; width: 100%; background: #4f46e5; color: #fff; font-family: var(--font-nunito), sans-serif; font-weight: 800; font-size: 0.85rem; border: none; border-radius: 10px; padding: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 7px; transition: background .2s, transform .15s; }
 .btn-reservar:hover { background: #3730c4; transform: scale(1.02); }
 .btn-reservar.reserved { background: rgba(79,70,229,0.10); border: 1.5px solid #4f46e5; color: #4f46e5; }
 .btn-reservar:disabled { cursor: default; }
 
 .how-section { padding: 60px 0; background: #e4e6f2; border-top: 1px solid rgba(0,0,0,0.08); border-bottom: 1px solid rgba(0,0,0,0.08); }
-.section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem,5vw,3rem); letter-spacing: 2px; color: #0d0f1a; margin-bottom: 6px; }
+.section-title { font-family: var(--font-bebas), sans-serif; font-size: clamp(2rem,5vw,3rem); letter-spacing: 2px; color: #0d0f1a; margin-bottom: 6px; }
 .section-title span { color: #4f46e5; }
 .section-sub { color: #6b7280; font-size: 0.95rem; margin-bottom: 34px; }
 
 .cta-section { padding: 70px 0; text-align: center; }
-.cta-section h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem,5vw,3.5rem); color: #0d0f1a; letter-spacing: 2px; margin-bottom: 10px; }
+.cta-section h2 { font-family: var(--font-bebas), sans-serif; font-size: clamp(2rem,5vw,3.5rem); color: #0d0f1a; letter-spacing: 2px; margin-bottom: 10px; }
 .cta-section h2 span { color: #4f46e5; }
 .cta-section p { color: #6b7280; margin-bottom: 26px; }
-.btn-cta { display: inline-flex; align-items: center; gap: 8px; background: #4f46e5; color: #fff; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.95rem; padding: 14px 36px; border-radius: 50px; text-decoration: none; transition: background .2s, transform .2s; letter-spacing: 0.5px; }
+.btn-cta { display: inline-flex; align-items: center; gap: 8px; background: #4f46e5; color: #fff; font-family: var(--font-nunito), sans-serif; font-weight: 800; font-size: 0.95rem; padding: 14px 36px; border-radius: 50px; text-decoration: none; transition: background .2s, transform .2s; letter-spacing: 0.5px; }
 .btn-cta:hover { background: #3730c4; transform: scale(1.04); color: #fff; }
 
 .modal-overlay { position: fixed; inset: 0; background: rgba(13,15,26,0.5); backdrop-filter: blur(6px); z-index: 200; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .25s; }
@@ -1154,13 +1154,13 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
 .modal-overlay.open .modal-box { transform: scale(1); }
 .modal-close { position: absolute; top: 16px; right: 18px; background: none; border: none; color: #6b7280; font-size: 1.2rem; cursor: pointer; }
 .modal-icon { width: 60px; height: 60px; background: #4f46e5; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 1.7rem; margin: 0 auto 18px; }
-.modal-box h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 1px; color: #0d0f1a; text-align: center; margin-bottom: 6px; }
+.modal-box h3 { font-family: var(--font-bebas), sans-serif; font-size: 1.8rem; letter-spacing: 1px; color: #0d0f1a; text-align: center; margin-bottom: 6px; }
 .modal-sub { color: #6b7280; text-align: center; font-size: 0.87rem; margin-bottom: 22px; }
 .modal-detail { background: #eef0f7; border: 1px solid rgba(0,0,0,0.08); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
 .modal-row { display: flex; justify-content: space-between; font-size: 0.84rem; }
 .modal-row span:first-child { color: #6b7280; font-weight: 600; }
 .modal-row span:last-child  { color: #0d0f1a; font-weight: 800; }
-.btn-confirm { width: 100%; background: #4f46e5; color: #fff; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.93rem; border: none; border-radius: 10px; padding: 13px; cursor: pointer; transition: background .2s; }
+.btn-confirm { width: 100%; background: #4f46e5; color: #fff; font-family: var(--font-nunito), sans-serif; font-weight: 800; font-size: 0.93rem; border: none; border-radius: 10px; padding: 13px; cursor: pointer; transition: background .2s; }
 .btn-confirm:hover { background: #3730c4; }
 
 .toast-fd { position: fixed; bottom: 26px; right: 26px; background: #fff; border: 1.5px solid rgba(79,70,229,0.25); border-left: 4px solid #4f46e5; color: #1a1a2e; font-weight: 700; font-size: 0.87rem; padding: 13px 18px; border-radius: 12px; transform: translateY(80px); opacity: 0; transition: all .35s cubic-bezier(.34,1.56,.64,1); z-index: 300; max-width: 300px; box-shadow: 0 8px 24px rgba(0,0,0,0.10); }
@@ -1188,7 +1188,7 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
 .contact-wrapper { width: 100%; max-width: 960px; }
 .contact-header { text-align: center; margin-bottom: 48px; }
 .contact-header h1 {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: var(--font-bebas), sans-serif;
   font-size: clamp(2.6rem, 6vw, 4rem);
   color: #0d0f1a; letter-spacing: 2px; margin-bottom: 10px; line-height: 1;
 }
@@ -1223,7 +1223,7 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
 .form-field textarea {
   width: 100%; background: #f7f8fc; border: 1.5px solid #e2e4f0;
   border-radius: 10px; padding: 13px 16px; color: #0d0f1a;
-  font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 600;
+  font-family: var(--font-nunito), sans-serif; font-size: 0.9rem; font-weight: 600;
   outline: none; transition: border-color 0.2s, background 0.2s; resize: vertical;
 }
 .form-field input::placeholder,
@@ -1237,7 +1237,7 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
 
 .btn-enviar {
   width: 100%; padding: 14px; background: #3b3fe8; color: #fff;
-  border: none; border-radius: 10px; font-family: 'Nunito', sans-serif;
+  border: none; border-radius: 10px; font-family: var(--font-nunito), sans-serif;
   font-weight: 800; font-size: 0.88rem; letter-spacing: 1.5px; cursor: pointer;
   display: flex; align-items: center; justify-content: center; gap: 8px;
   transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
@@ -1258,7 +1258,7 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
   60%  { transform: scale(1.08); opacity: 1; box-shadow: 0 0 0 18px rgba(46,204,138,0); }
   100% { transform: scale(1); }
 }
-.success-box h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.7rem; color: #0d0f1a; letter-spacing: 1px; margin: 0; }
+.success-box h3 { font-family: var(--font-bebas), sans-serif; font-size: 1.7rem; color: #0d0f1a; letter-spacing: 1px; margin: 0; }
 .success-box p  { color: #5a5e7a; font-size: 0.88rem; font-weight: 600; margin: 0; line-height: 1.5; }
 .success-stars  { display: flex; gap: 5px; font-size: 1.4rem; justify-content: center; }
 
@@ -1306,7 +1306,7 @@ footer p { color: #6b7094; font-size: 0.82rem; margin: 0; }
   50%       { transform: translateY(-6px); }
 }
 .hero-abajo h1 {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: var(--font-bebas), sans-serif;
   font-weight: 900;
   font-size: clamp(2.8rem, 6vw, 4.5rem);
   color: #fff;

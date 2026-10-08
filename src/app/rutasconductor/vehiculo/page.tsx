@@ -111,7 +111,7 @@ export default function VehiculoPage(): React.JSX.Element | null {
     );
 
     return (
-        <div style={{ minHeight: '100vh', background: '#f0f2f8', fontFamily: "'Nunito', sans-serif" }}>
+        <div style={{ minHeight: '100vh', background: '#f0f2f8', fontFamily: "var(--font-nunito), sans-serif" }}>
             <UserNavbar nombre={nombre} idRol={idRol} onCerrarSesion={cerrarSesion} />
 
             <div style={{ maxWidth: '900px', margin: '0 auto', padding: '36px 24px' }}>
@@ -135,7 +135,7 @@ export default function VehiculoPage(): React.JSX.Element | null {
                         Panel de control
                     </p>
                     <h1 style={{
-                        fontFamily: "'Bebas Neue', sans-serif",
+                        fontFamily: "var(--font-bebas), sans-serif",
                         fontSize: '2.8rem', letterSpacing: '3px',
                         color: '#0d0f1a', margin: 0
                     }}>
@@ -318,7 +318,7 @@ export default function VehiculoPage(): React.JSX.Element | null {
                                                             border: '1.5px solid #e2e4f0',
                                                             background: '#fff',
                                                             color: '#0d0f1a',
-                                                            fontFamily: "'Nunito', sans-serif",
+                                                            fontFamily: "var(--font-nunito), sans-serif",
                                                             fontSize: '0.9rem', fontWeight: 600,
                                                             outline: 'none', boxSizing: 'border-box'
                                                         }}

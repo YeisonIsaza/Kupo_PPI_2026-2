@@ -195,12 +195,12 @@ export default function DashboardPasajero(): React.JSX.Element | null {
             titulo: 'Mis Reservas',
             descripcion: 'Ver el historial de tus reservas',
             icono: '📋',
-            ruta: '#'
+            ruta: '/rutaspasajero/reservas'
         },
     ];
 
     return (
-        <div style={{ minHeight: '100vh', background: '#f0f2f8', fontFamily: "'Nunito', sans-serif" }}>
+        <div style={{ minHeight: '100vh', fontFamily: "var(--font-nunito), sans-serif" }}>
             <UserNavbar nombre={nombre} idRol={idRol} onCerrarSesion={cerrarSesion} />
 
             <div style={{ maxWidth: '960px', margin: '0 auto', padding: '36px 24px' }}>
@@ -282,87 +282,67 @@ export default function DashboardPasajero(): React.JSX.Element | null {
                     </button>
                 </div>
 
-                {/* ── Grid de tarjetas ── */}
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(3, 1fr)',
-                    gap: '20px'
-                }}>
-                    {tarjetas.map((t, i) => (
+                {/* ── Grid de tarjetas Bento ── */}
+                <div className="bento-grid" style={{ padding: '0', maxWidth: '100%', marginTop: '30px' }}>
+                    {tarjetas.map((t, i) => {
+                        const span = i === 0 ? 'span 12' : 'span 6';
+                        return (
                         <div
                             key={t.id}
                             onClick={() => t.ruta !== '#' && router.push(t.ruta)}
+                            className="bento-item"
                             style={{
-                                background: t.ruta !== '#'
-                                    ? 'linear-gradient(135deg, #3b3fe8 0%, #5a5ef5 100%)'
-                                    : 'linear-gradient(135deg, #6b7280 0%, #9ca3af 100%)',
-                                borderRadius: '20px', padding: '32px 28px',
+                                gridColumn: span,
                                 cursor: t.ruta !== '#' ? 'pointer' : 'default',
-                                color: '#fff',
-                                transition: 'transform 0.2s, box-shadow 0.2s',
-                                boxShadow: t.ruta !== '#'
-                                    ? '0 8px 32px rgba(59,63,232,0.25)'
-                                    : '0 4px 16px rgba(0,0,0,0.1)',
-                                position: 'relative', overflow: 'hidden',
-                                opacity: t.ruta === '#' ? 0.7 : 1
-                            }}
-                            onMouseEnter={e => {
-                                if (t.ruta !== '#') {
-                                    e.currentTarget.style.transform = 'translateY(-4px)';
-                                    e.currentTarget.style.boxShadow = '0 16px 48px rgba(59,63,232,0.35)';
-                                }
-                            }}
-                            onMouseLeave={e => {
-                                e.currentTarget.style.transform = 'translateY(0)';
-                                e.currentTarget.style.boxShadow = t.ruta !== '#'
-                                    ? '0 8px 32px rgba(59,63,232,0.25)'
-                                    : '0 4px 16px rgba(0,0,0,0.1)';
+                                opacity: t.ruta === '#' ? 0.8 : 1,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center'
                             }}
                         >
-                            {/* Círculo decorativo */}
-                            <div style={{
-                                position: 'absolute', top: '-30px', right: '-30px',
-                                width: '120px', height: '120px', borderRadius: '50%',
-                                background: 'rgba(255,255,255,0.08)', pointerEvents: 'none'
-                            }} />
-
-                            <div style={{ fontSize: '2.4rem', marginBottom: '14px' }}>{t.icono}</div>
-                            <h2 style={{
-                                margin: '0 0 8px', fontSize: '1.25rem',
-                                fontWeight: 900, color: '#fff', letterSpacing: '0.5px'
-                            }}>
-                                {t.titulo}
-                            </h2>
-                            <p style={{
-                                margin: '0 0 20px', color: 'rgba(255,255,255,0.8)',
-                                fontSize: '0.88rem', lineHeight: 1.5, fontWeight: 600
-                            }}>
-                                {t.descripcion}
-                            </p>
+                            <i className="bento-icon">{t.icono}</i>
+                            <h3 style={{ fontSize: '2.4rem', color: '#0d0f1a', margin: '0 0 10px', position: 'relative', zIndex: 2 }}>{t.titulo}</h3>
+                            <p style={{ color: '#5a5e7a', fontSize: '1.1rem', margin: '0 0 20px', position: 'relative', zIndex: 2 }}>{t.descripcion}</p>
 
                             {t.ruta !== '#' ? (
                                 <div style={{
-                                    display: 'inline-flex', alignItems: 'center', gap: '6px',
-                                    background: 'rgba(255,255,255,0.2)',
-                                    border: '1.5px solid rgba(255,255,255,0.4)',
-                                    color: '#fff', fontWeight: 800, fontSize: '0.82rem',
-                                    padding: '8px 18px', borderRadius: '99px', letterSpacing: '0.5px'
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '6px',
+                                    background: 'linear-gradient(135deg, #4f46e5, #818cf8)',
+                                    color: '#fff',
+                                    fontWeight: 800,
+                                    fontSize: '0.9rem',
+                                    padding: '10px 24px',
+                                    borderRadius: '50px',
+                                    letterSpacing: '0.5px',
+                                    width: 'fit-content',
+                                    position: 'relative',
+                                    zIndex: 2,
+                                    boxShadow: '0 8px 20px rgba(79,70,229,0.3)'
                                 }}>
-                                    Ir ahora →
+                                    Entrar <i className="bi bi-arrow-right"></i>
                                 </div>
                             ) : (
                                 <div style={{
-                                    display: 'inline-flex', alignItems: 'center', gap: '6px',
-                                    background: 'rgba(255,255,255,0.1)',
-                                    border: '1.5px solid rgba(255,255,255,0.2)',
-                                    color: 'rgba(255,255,255,0.6)', fontWeight: 700,
-                                    fontSize: '0.82rem', padding: '8px 18px', borderRadius: '99px'
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '6px',
+                                    background: 'rgba(0,0,0,0.05)',
+                                    color: 'rgba(0,0,0,0.4)',
+                                    fontWeight: 700,
+                                    fontSize: '0.9rem',
+                                    padding: '10px 24px',
+                                    borderRadius: '50px',
+                                    width: 'fit-content',
+                                    position: 'relative',
+                                    zIndex: 2
                                 }}>
                                     Próximamente
                                 </div>
                             )}
                         </div>
-                    ))}
+                    )})}
                 </div>
             </div>
 
@@ -384,8 +364,9 @@ export default function DashboardPasajero(): React.JSX.Element | null {
                 position: 'fixed', top: 0,
                 right: perfilAbierto ? 0 : '-440px',
                 width: '420px', height: '100vh',
-                background: 'white',
-                boxShadow: '-8px 0 40px rgba(13,15,26,0.15)',
+                background: 'rgba(255, 255, 255, 0.8)',
+                backdropFilter: 'blur(20px)',
+                boxShadow: '-8px 0 40px rgba(13,15,26,0.05)',
                 zIndex: 300, transition: 'right 0.3s ease',
                 overflowY: 'auto', padding: '28px'
             }}>
@@ -605,7 +586,7 @@ export default function DashboardPasajero(): React.JSX.Element | null {
                                     style={{
                                         width: '100%', padding: '10px 14px',
                                         borderRadius: '10px', border: '1.5px solid #e2e4f0',
-                                        fontFamily: "'Nunito', sans-serif",
+                                        fontFamily: "var(--font-nunito), sans-serif",
                                         fontSize: '0.9rem', fontWeight: 600,
                                         outline: 'none', boxSizing: 'border-box'
                                     }}
@@ -628,7 +609,7 @@ export default function DashboardPasajero(): React.JSX.Element | null {
                                 style={{
                                     width: '100%', padding: '10px 14px',
                                     borderRadius: '10px', border: '1.5px solid #e2e4f0',
-                                    fontFamily: "'Nunito', sans-serif",
+                                    fontFamily: "var(--font-nunito), sans-serif",
                                     fontSize: '0.9rem', fontWeight: 600,
                                     outline: 'none', boxSizing: 'border-box'
                                 }}
@@ -693,7 +674,7 @@ export default function DashboardPasajero(): React.JSX.Element | null {
                                     style={{
                                         width: '100%', padding: '11px 14px',
                                         borderRadius: '10px', border: '1.5px solid #e2e4f0',
-                                        fontFamily: "'Nunito', sans-serif", fontSize: '0.9rem',
+                                        fontFamily: "var(--font-nunito), sans-serif", fontSize: '0.9rem',
                                         outline: 'none', boxSizing: 'border-box'
                                     }}
                                     onFocus={e => e.target.style.borderColor = '#3b3fe8'}
@@ -722,7 +703,7 @@ export default function DashboardPasajero(): React.JSX.Element | null {
                                     style={{
                                         width: '100%', padding: '11px 14px',
                                         borderRadius: '10px', border: '1.5px solid #e2e4f0',
-                                        fontFamily: "'Nunito', sans-serif", fontSize: '0.9rem',
+                                        fontFamily: "var(--font-nunito), sans-serif", fontSize: '0.9rem',
                                         outline: 'none', boxSizing: 'border-box'
                                     }}
                                     onFocus={e => e.target.style.borderColor = '#3b3fe8'}

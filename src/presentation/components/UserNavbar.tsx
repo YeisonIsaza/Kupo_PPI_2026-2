@@ -1,10 +1,16 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 interface UserNavbarProps { nombre: string; idRol: number | null; onCerrarSesion: () => void; }
 export default function UserNavbar({ nombre, idRol, onCerrarSesion }: UserNavbarProps): React.JSX.Element | null {
     const router = useRouter();
+    const [modo, setModo] = useState<string | null>(null);
+
+    useEffect(() => {
+        setModo(localStorage.getItem('modoMixto'));
+    }, []);
 
     const menuConductor = [
         { label: 'Inicio',       href: '/dashboard/conductor' },
@@ -20,18 +26,20 @@ export default function UserNavbar({ nombre, idRol, onCerrarSesion }: UserNavbar
 
     const menuMixto = [
         { label: 'Inicio',       href: '/dashboard/mixto' },
-        { label: 'Mis Rutas',    href: '/rutasconductor' },
-        { label: 'Buscar Viaje', href: '/rutaspasajero' },
         { label: 'Contactanos',  href: '/contactanos' },
     ];
 
-    const menu = idRol === 2 ? menuConductor
-               : idRol === 4 ? menuMixto
-               : menuPasajero;
+    let menu = menuPasajero;
+    if (idRol === 2) {
+        menu = menuConductor;
+    } else if (idRol === 4) {
+        if (modo === 'conductor') menu = menuConductor;
+        else if (modo === 'pasajero') menu = menuPasajero;
+        else menu = menuMixto;
+    }
 
     return (
-        <nav style={{
-            background: '#1e1b4b',
+        <nav className="glass-nav" style={{
             padding: '0 40px',
             display: 'flex',
             alignItems: 'center',
@@ -55,7 +63,7 @@ export default function UserNavbar({ nombre, idRol, onCerrarSesion }: UserNavbar
                 />
                 <span style={{
                     color: '#fff',
-                    fontFamily: "'Bebas Neue', sans-serif",
+                    fontFamily: "var(--font-bebas), sans-serif",
                     fontSize: '1.6rem',               // ← antes 1.1rem
                     letterSpacing: '2px'
                 }}>

@@ -1,19 +1,10 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import Navbar from '../presentation/components/Navbar';
 import Footer from '../presentation/components/Footer';
 
-
-const textos: Record<string, string> = {
-  conductor: 'En Kupo conectamos a estudiantes de Medellín para que el transporte no sea un obstáculo en tu carrera. Ofrece tus rutas, genera ingresos y ayuda a otros estudiantes a llegar a tiempo.',
-  pasajero:  'En Kupo conectamos a estudiantes de Medellín para que el transporte no sea un obstáculo en tu carrera. Encuentra rutas seguras desde tu sector hasta las principales universidades.',
-};
-
 export default function HomePage(): React.JSX.Element | null {
-  const [tab, setTab] = useState('conductor');
-
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => {
@@ -29,62 +20,82 @@ export default function HomePage(): React.JSX.Element | null {
       <Navbar />
 
       {/* Hero */}
-      <section className="hero">
-        <div className="hero-container">
-          <div className="hero-left">
-            <div className="badge-pill">
-              <i className="bi bi-car-front-fill"></i> LLEGA VOLANDO
-            </div>
-            <h1 className="hero-title">
-              TU TRANSPORTE<br />
-              <span>FÁCIL Y RÁPIDO,</span><br />
-              CON KUPO!
-            </h1>
-            <div className="hero-tabs">
-              <button
-                className={`tab-btn ${tab === 'conductor' ? 'active' : ''}`}
-                onClick={() => setTab('conductor')}>
-                CONDUCTOR
-              </button>
-              <button
-                className={`tab-btn ${tab === 'pasajero' ? 'active' : ''}`}
-                onClick={() => setTab('pasajero')}>
-                PASAJERO
-              </button>
-            </div>
-            <p className="hero-desc">{textos[tab]}</p>
-            <Link href="#" className="btn-primary-cta">
-              VER MIS VIAJES <i className="bi bi-arrow-right"></i>
-            </Link>
-          </div>
-          <div className="hero-right">
-            <div className="hero-car">
-              <Image src="/img/car.png" alt="Auto Kupo" width={580} height={400} priority />
-            </div>
-          </div>
+      <section className="hero-kupo">
+        <div className="hero-badge-kupo">
+          LA NUEVA ERA DEL TRANSPORTE UNIVERSITARIO
+        </div>
+        <h1 className="hero-title-kupo">
+          MUÉVETE INTELIGENTE.<br />
+          <span>MUÉVETE KUPO.</span>
+        </h1>
+        
+        <p style={{ fontSize: '1.2rem', color: '#5a5e7a', maxWidth: '600px', marginBottom: '40px', lineHeight: 1.6, fontWeight: 600 }}>
+          Olvida el estrés de llegar tarde. Conecta con conductores y pasajeros de tu universidad, ahorra dinero y viaja seguro todos los días.
+        </p>
+
+        <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <Link href="/registro" style={{
+            background: 'linear-gradient(135deg, #4f46e5, #818cf8)',
+            color: 'white',
+            padding: '16px 40px',
+            borderRadius: '50px',
+            fontFamily: 'var(--font-nunito)',
+            fontWeight: 800,
+            fontSize: '1.1rem',
+            textDecoration: 'none',
+            boxShadow: '0 10px 30px rgba(79, 70, 229, 0.3)',
+            transition: 'transform 0.2s'
+          }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'} 
+             onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
+            Comenzar Ahora
+          </Link>
+          <Link href="/login" style={{
+            background: 'rgba(255, 255, 255, 0.7)',
+            backdropFilter: 'blur(10px)',
+            color: '#4f46e5',
+            border: '2px solid rgba(79, 70, 229, 0.2)',
+            padding: '14px 40px',
+            borderRadius: '50px',
+            fontFamily: 'var(--font-nunito)',
+            fontWeight: 800,
+            fontSize: '1.1rem',
+            textDecoration: 'none',
+            transition: 'transform 0.2s, background 0.2s'
+          }} onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.background = 'white'; }} 
+             onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.background = 'rgba(255, 255, 255, 0.7)'; }}>
+            Iniciar Sesión
+          </Link>
         </div>
       </section>
 
-      {/* Why Section */}
-      <section className="why-section">
-        <div className="why-container">
-          <h2 className="why-title reveal">¿POR QUÉ <span>KUPO</span>?</h2>
-          <div className="features-grid">
-            {[
-              { href: '/seguridad',   icon: 'bi-shield-fill',     title: 'Seguridad',   desc: 'Viaja con conductores verificados y rutas conocidas.' },
-              { href: '/puntualidad', icon: 'bi-clock-fill',      title: 'Puntualidad', desc: 'Horarios fijos que se ajustan a tu jornada universitaria.' },
-              { href: '/comunidad',   icon: 'bi-people-fill',     title: 'Comunidad',   desc: 'Conecta con otros estudiantes de tu sector.' },
-              { href: '/economia',    icon: 'bi-car-front-fill',  title: 'Economía',    desc: 'Comparte gastos y ahorra en tu transporte diario.' },
-            ].map(f => (
-              <Link key={f.href} href={f.href} className="feature-link reveal">
-                <div className="feature-card">
-                  <div className="feature-icon"><i className={`bi ${f.icon}`}></i></div>
-                  <h5>{f.title}</h5>
-                  <p>{f.desc}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
+      {/* Bento Grid Features */}
+      <section style={{ position: 'relative', zIndex: 10 }}>
+        <div className="bento-grid">
+          
+          <Link href="/seguridad" className="bento-item bento-1 reveal">
+            <h3>Seguridad Verificada</h3>
+            <p>Conductores y pasajeros autenticados con su carnet universitario. Viaja tranquilo sabiendo con quién compartes el trayecto.</p>
+            <i className="bi bi-shield-check bento-icon"></i>
+          </Link>
+
+          <Link href="/economia" className="bento-item bento-2 reveal" style={{ background: 'linear-gradient(135deg, #4f46e5 0%, #3730a3 100%)' }}>
+            <h3 style={{ color: 'white' }}>Economía</h3>
+            <p style={{ color: 'rgba(255,255,255,0.8)' }}>Ahorra dinero dividiendo los gastos de gasolina en cada viaje.</p>
+            <i className="bi bi-wallet2 bento-icon" style={{ color: 'rgba(255,255,255,0.1)' }}></i>
+          </Link>
+
+          <Link href="/puntualidad" className="bento-item bento-3 reveal">
+            <h3>Cero Retrasos</h3>
+            <p>Sincroniza tus horarios de clase con las rutas disponibles y llega siempre a tiempo.</p>
+            <i className="bi bi-clock-history bento-icon"></i>
+          </Link>
+
+          <Link href="/comunidad" className="bento-item bento-4 reveal">
+            <h3>Tu Comunidad</h3>
+            <p>Conoce estudiantes de tu misma zona, amplía tu red de contactos y haz que el viaje a la U sea mucho más divertido.</p>
+            <i className="bi bi-people-fill bento-icon"></i>
+          </Link>
+
         </div>
       </section>
 
